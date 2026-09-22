@@ -8,8 +8,8 @@ Este repositório documental centraliza todas as especificações técnicas, mé
 
 ```
 docs/
-├── 00_proposta_e_arquitetura/
-│   ├── PROPOSTA_TECNICA_E_ARQUITETURAL_ATUALIZADA.md
+├── 00_plano_e_arquitetura/
+│   ├── PLANO_TECNICO_E_ARQUITETURAL_ATUALIZADO.md
 │   └── Proposta_Original_Calculadoras_Medicas.pdf
 ├── 01_especificacoes_clinicas/
 │   ├── MATRIZ_TAXONOMIA_20_MODULOS.md
@@ -42,9 +42,9 @@ docs/
 
 ## Sumário dos Documentos
 
-### 1. Proposta Técnica, Arquitetura e Planejamento (`00_proposta_e_arquitetura/`)
-- [`PROPOSTA_TECNICA_E_ARQUITETURAL_ATUALIZADA.md`](file:///home/melki/projects/workspace/projects/scoreboard-app/docs/00_proposta_e_arquitetura/PROPOSTA_TECNICA_E_ARQUITETURAL_ATUALIZADA.md): Documento mestre de referência técnica contendo a visão do CDSS, enquadramento regulatório SaMD (RDC ANVISA 657/2022, CFM e LGPD), DDL PostgreSQL/Supabase, os 3 motores de cálculo, regras físicas de bomba de infusão contínua (BIC), FrontCraft Master v2.0 e o plano de implementação detalhado em 4 fases.
-- [`Proposta_Original_Calculadoras_Medicas.pdf`](file:///home/melki/projects/workspace/projects/scoreboard-app/docs/00_proposta_e_arquitetura/Proposta_Original_Calculadoras_Medicas.pdf): Arquivo PDF original com a especificação técnica e modelagem de banco de dados.
+### 1. Plano Diretor, Arquitetura e Planejamento (`00_plano_e_arquitetura/`)
+- [`PLANO_TECNICO_E_ARQUITETURAL_ATUALIZADO.md`](file:///home/melki/projects/workspace/projects/scoreboard-app/docs/00_plano_e_arquitetura/PLANO_TECNICO_E_ARQUITETURAL_ATUALIZADO.md): Documento mestre de referência técnica contendo a visão do CDSS, enquadramento regulatório SaMD (RDC ANVISA 657/2022, CFM e LGPD), DDL PostgreSQL/Supabase, os 3 motores de cálculo, regras físicas de bomba de infusão contínua (BIC), FrontCraft Master v2.0 e o plano de implementação detalhado em 4 fases.
+- [`Proposta_Original_Calculadoras_Medicas.pdf`](file:///home/melki/projects/workspace/projects/scoreboard-app/docs/00_plano_e_arquitetura/Proposta_Original_Calculadoras_Medicas.pdf): Arquivo PDF original com a especificação técnica e modelagem de banco de dados inicial.
 
 ### 2. Especificações Clínicas e Dossiês Médicos (`01_especificacoes_clinicas/`)
 - [`MATRIZ_TAXONOMIA_20_MODULOS.md`](file:///home/melki/projects/workspace/projects/scoreboard-app/docs/01_especificacoes_clinicas/MATRIZ_TAXONOMIA_20_MODULOS.md): Síntese sistemática em Markdown de todos os 20 módulos dos 9 blocos com pontos de corte críticos, condutas farmacológicas/não farmacológicas e equações.

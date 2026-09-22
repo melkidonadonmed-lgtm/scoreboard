@@ -1,4 +1,4 @@
-# Proposta Técnica e Arquitetural: App de Calculadoras Médicas e Suporte à Decisão Clínica (CDSS)
+# Plano Diretor, Técnico e Arquitetural: App de Calculadoras Médicas e Suporte à Decisão Clínica (CDSS)
 
 > **Aviso Legal e Regulatório:** Este software enquadra-se como Ferramenta de Apoio e Suporte à Decisão Clínica informada (*Clinical Decision Support System - CDSS*), em estrita conformidade com a **RDC ANVISA 657/2022** e resoluções do **Conselho Federal de Medicina (CFM)**. As informações e cálculos têm caráter exclusivamente educacional e de auxílio assistencial, não substituindo o exame físico presencial, o raciocínio diagnóstico e o julgamento individualizado do profissional médico com registro ativo.
 
@@ -226,10 +226,10 @@ Gera texto puro padronizado com data, escore, variáveis, desfecho, prescrição
   - Módulo 08: AVC Isquêmico, Hemorrágico e Neurotrauma (NIHSS, ABCD2, ICH Score, Fisher, Hunt-Hess, ASPECTS, EDSS)
 - **Bloco 4: Pneumologia**
   - Módulo 09: Pneumonia Adquirida na Comunidade (CURB-65, CRB-65, PSI/PORT, SMART-COP)
-  - Módulo 10: DPOC e Asma (GOLD ABCD, Índice BODE, mMRC, Wood-Downes)
+  - Módulo 10: DPOC e Asma (GOLD ABE, Índice BODE, mMRC, Wood-Downes)
 - **Bloco 5: Cirurgia Geral e Trauma**
   - Módulo 11: Abdome Agudo e Apendicite (Alvarado, RIPASA, Critérios de Tokyo)
-  - Módulo 12: Trauma e Ressuscitação Volêmica (RTS, ISS, TRISS, Fórmula de Parkland)
+  - Módulo 12: Trauma e Ressuscitação Volêmica (RTS, ISS, TRISS, Diretriz ABA Moderna / Fórmula de Parkland)
   - Módulo 13: Risco Cirúrgico Pré-Operatório (Classificação ASA, Goldman, RCRI de Lee, Caprini)
 - **Bloco 6: Nefrologia e Meio Interno**
   - Módulo 14: Injúria Renal Aguda e Doença Renal Crônica (KDIGO/AKIN, RIFLE, CKD-EPI 2021, Cockcroft-Gault)
@@ -267,8 +267,8 @@ flowchart LR
 ### Fase 1: Setup do PWA Mobile-First e Ingestão do Catálogo de Dados (`docs/`)
 - Inicialização do projeto Vite + React 18 + TypeScript + Tailwind CSS em `projects/scoreboard-app/`.
 - Configuração dos tokens táteis do FrontCraft Master v2.0 (`tailwind.config.js` e `index.css`).
-- Desenvolvimento do script extrator `scripts/ingest_clinical_data.py` para processar as especificações de `docs/01_especificacoes_clinicas/` e gerar `src/data/clinical_scores.json`.
-- Criação dos schemas Zod em `src/types/clinical_schema.ts`.
+- Desenvolvimento do script extrator `scripts/ingest_catalog.py` para processar as especificações de `docs/01_especificacoes_clinicas/` e gerar os catálogos modulares em `src/data/blocks/block_01.json` até `block_09.json` com lazy-loading.
+- Criação dos schemas Zod em `src/types/clinical.ts`.
 
 ### Fase 2: Motor de Cálculo Matemático e Componentes de Desvio Fisiológico
 - Implementação de `calculationEngine.ts` cobrindo modelos aditivos, contínuos e árvores decisórias.
@@ -293,7 +293,7 @@ flowchart LR
 
 | Diretório | Finalidade | Arquivos Chave |
 | :--- | :--- | :--- |
-| `docs/00_proposta_e_arquitetura/` | Especificação técnica mestre e plano | `PROPOSTA_TECNICA_E_ARQUITETURAL_ATUALIZADA.md`, `Proposta_Original_Calculadoras_Medicas.pdf` |
+| `docs/00_plano_e_arquitetura/` | Especificação técnica mestre e plano diretor | `PLANO_TECNICO_E_ARQUITETURAL_ATUALIZADO.md`, `Proposta_Original_Calculadoras_Medicas.pdf` |
 | `docs/01_especificacoes_clinicas/` | Guias clínicos monográficos e dossiês (20 módulos) | `Bloco_01` a `Bloco_09` (.pdf e .docx), `MATRIZ_TAXONOMIA_20_MODULOS.md` |
 | `docs/02_design_system_ui/` | Estúdio e tokens táteis FrontCraft Master v2.0 | `frontcraft_master_v2_0_estudio_reativo.html`, `especificacao_design_system_tokens.md` |
 | `docs/03_protocolos_prescricao_bic/` | Diretrizes de infusão contínua e conduta médica | `protocolo_mestre_prescricao_e_bic.md`, `diretriz_geral_preceptor_uti.md` |
