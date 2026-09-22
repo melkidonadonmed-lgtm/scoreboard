@@ -23,10 +23,11 @@ describe('Block 03 Clinical Tools Schema & Data Integrity Validation', () => {
       expect(parsedBlock03.version).toBeDefined();
     });
 
-    it('should contain exactly 18 clinical tools matching the monographic inventory', () => {
-      expect(calculators).toHaveLength(18);
+    it('should contain all clinical tools matching the monographic inventory (>= 18 tools, currently 39)', () => {
+      expect(calculators.length).toBeGreaterThanOrEqual(18);
+      expect(calculators).toHaveLength(39);
 
-      const expectedToolIds = [
+      const expectedLegacyToolIds = [
         'calc_rotterdam',
         'calc_marshall',
         'calc_asia_ais',
@@ -48,7 +49,9 @@ describe('Block 03 Clinical Tools Schema & Data Integrity Validation', () => {
       ];
 
       const actualIds = calculators.map((c) => c.id);
-      expect(actualIds).toEqual(expectedToolIds);
+      for (const id of expectedLegacyToolIds) {
+        expect(actualIds).toContain(id);
+      }
     });
 
     it('should validate every individual clinical tool with ClinicalToolSchema / CalculatorSchema', () => {

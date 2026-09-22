@@ -32,13 +32,13 @@ describe('Milestone 2 Contract & Schema Verification', () => {
       expect(parsedManifest.length).toBeGreaterThanOrEqual(19);
     });
 
-    it('should have lightweight manifest size (~30KB-80KB)', () => {
+    it('should have lightweight manifest size (~30KB-140KB)', () => {
       const manifestPath = path.resolve(__dirname, '../../src/data/manifest.json');
       const stats = fs.statSync(manifestPath);
       const sizeKb = stats.size / 1024;
-      // Should be lightweight (between 20KB and 100KB for multi-block manifest)
+      // Should be lightweight (between 20KB and 140KB for multi-block manifest)
       expect(sizeKb).toBeGreaterThanOrEqual(20);
-      expect(sizeKb).toBeLessThanOrEqual(100);
+      expect(sizeKb).toBeLessThanOrEqual(140);
     });
 
     it('should provide extensive Brazilian clinical search synonyms for all tools', () => {
@@ -291,16 +291,17 @@ describe('Milestone 2 Contract & Schema Verification', () => {
       expect(parseResult.success).toBe(true);
     });
 
-    it('should validate all 18 individual Block 03 calculators with CalculatorSchema', () => {
+    it('should validate all individual Block 03 calculators with CalculatorSchema (>= 18 tools, currently 39)', () => {
       for (const calc of parsedBlock03.calculators) {
         const result = CalculatorSchema.safeParse(calc);
         expect(result.success).toBe(true);
       }
     });
 
-    it('should contain all 18 neuro calculators with complete zero-truncation dossiers', () => {
+    it('should contain all neuro calculators with complete zero-truncation dossiers (>= 18 tools, currently 39)', () => {
       expect(parsedBlock03.blockId).toBe('block_03');
-      expect(parsedBlock03.calculators).toHaveLength(18);
+      expect(parsedBlock03.calculators.length).toBeGreaterThanOrEqual(18);
+      expect(parsedBlock03.calculators).toHaveLength(39);
 
       const manifestIds = new Set(parsedManifest.map((m) => m.id));
       const blockIds = parsedBlock03.calculators.map((c) => c.id);

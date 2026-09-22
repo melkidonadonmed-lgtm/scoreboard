@@ -21,17 +21,44 @@ Monographically exhaustive clinical tools with zero truncation:
 18. EDSS (Kurtzke Disability Scale 0.0 to 10.0 in 0.5 increments)
 """
 
-from calculators.block03_neuro.neurotrauma import (
+from calculators.block03_neuro.module_a_trauma import (
     get_rotterdam,
     get_marshall,
+    get_glasgow_p,
+    get_edema,
+    get_crash_tbi,
+    get_impact_tbi,
     get_asia_ais,
 )
-from calculators.block03_neuro.hsa_mav import (
+from calculators.block03_neuro.module_b_vascular import (
     get_hunt_hess,
     get_wfns,
     get_fisher_classic,
     get_fisher_modified,
+    get_vasograde,
     get_spetzler_martin,
+    get_lawton_young,
+    get_zabramski,
+    get_phases_score,
+    get_uiats,
+    get_cognard_borden,
+)
+from calculators.block03_neuro.module_c_spine import (
+    get_tlics,
+    get_slics,
+    get_anderson_dalonzo,
+    get_sins,
+    get_noms_bilsky,
+    get_sagittal_balance,
+    get_mjoa_nurick,
+)
+from calculators.block03_neuro.module_d_oncology import (
+    get_knosp,
+    get_samii_koos,
+    get_ds_gpa,
+    get_kps,
+    get_kiefer,
+    get_evans_desh,
 )
 from calculators.block03_neuro.stroke import (
     get_nihss,
@@ -41,7 +68,6 @@ from calculators.block03_neuro.stroke import (
 )
 from calculators.block03_neuro.functional_cognitive import (
     get_mrs,
-    get_kps,
     get_meem_mmse,
     get_moca,
     get_hoehn_yahr,
@@ -49,22 +75,54 @@ from calculators.block03_neuro.functional_cognitive import (
 )
 
 def get_block_03_calculators():
-    """Returns all 18 clinical calculators for Block 03 with block metadata attached."""
+    """Returns all 39 clinical calculators for Block 03 with block metadata attached."""
     calculators = [
+        # Module A: Neurotrauma & Neurointensivismo (6 tools)
         get_rotterdam(),
         get_marshall(),
+        get_edema(),
+        get_crash_tbi(),
+        get_impact_tbi(),
         get_asia_ais(),
+
+        # Module B: Doenças Neurovasculares & Hemorragias (11 tools)
         get_hunt_hess(),
         get_wfns(),
         get_fisher_classic(),
         get_fisher_modified(),
+        get_vasograde(),
         get_spetzler_martin(),
+        get_lawton_young(),
+        get_zabramski(),
+        get_phases_score(),
+        get_uiats(),
+        get_cognard_borden(),
+
+        # Module C: Coluna & Medula Espinhal (7 tools)
+        get_tlics(),
+        get_slics(),
+        get_anderson_dalonzo(),
+        get_sins(),
+        get_noms_bilsky(),
+        get_sagittal_balance(),
+        get_mjoa_nurick(),
+
+        # Module D: Neuro-Oncologia e Hidrodinâmica Cerebral (6 tools)
+        get_knosp(),
+        get_samii_koos(),
+        get_ds_gpa(),
+        get_kps(),
+        get_kiefer(),
+        get_evans_desh(),
+
+        # AVC & Neurovascular Agudo (4 tools)
         get_nihss(),
         get_aspects(),
         get_ich_score(),
         get_abcd2(),
+
+        # Avaliação Funcional, Cognitiva e Neurodegenerativa (5 tools)
         get_mrs(),
-        get_kps(),
         get_meem_mmse(),
         get_moca(),
         get_hoehn_yahr(),

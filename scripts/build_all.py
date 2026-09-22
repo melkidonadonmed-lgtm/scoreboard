@@ -3,8 +3,8 @@
 Assemble Block 01, Block 03 JSONs and Unified Manifest JSON for Scoreboard App.
 Outputs:
 - src/data/blocks/block_01.json (19 calculators)
-- src/data/blocks/block_03.json (18 calculators)
-- src/data/manifest.json (37 lightweight index items)
+- src/data/blocks/block_03.json (39 calculators)
+- src/data/manifest.json (58 lightweight index items)
 """
 
 import json
@@ -121,21 +121,21 @@ def main():
     }
 
     # -------------------------------------------------------------------------
-    # 2. COMPILE BLOCK 03 CALCULATORS (18 Tools)
+    # 2. COMPILE BLOCK 03 CALCULATORS (39 Tools)
     # -------------------------------------------------------------------------
     block_03_calculators = get_block_03_calculators()
     for calc in block_03_calculators:
         validate_calculator_structure(calc)
 
     print(f"Block 03 calculators compiled: {len(block_03_calculators)}")
-    assert len(block_03_calculators) == 18, f"Expected 18 calculators in Block 03, got {len(block_03_calculators)}"
+    assert len(block_03_calculators) == 39, f"Expected 39 calculators in Block 03, got {len(block_03_calculators)}"
 
     block_03_data = {
         "blockId": "block_03",
         "blockName": "Neurologia e Neurocirurgia",
         "version": "1.0.0",
         "categorySlug": "bloco-03-neurologia-neurocirurgia",
-        "description": "Dossiês monográficos completos dos 18 escores clínicos e cirúrgicos de neurologia, neurocirurgia e neurotrauma com parâmetros exaustivos, estratificações prognósticas, condutas farmacológicas rigorosas e diretrizes de intervenção.",
+        "description": "Dossiês monográficos completos dos 39 escores clínicos e cirúrgicos de neurologia, neurocirurgia e neurotrauma com parâmetros exaustivos, estratificações prognósticas, condutas farmacológicas rigorosas e diretrizes de intervenção.",
         "calculators": block_03_calculators
     }
 
@@ -371,6 +371,127 @@ def main():
             "pulsoterapia", "metilprednisolona", "ocrelizumabe", "natalizumabe", "dmt", "neda",
             "cid g35",
             "esclerose em placas", "esclerose de placas"
+        ],
+
+        # Module A (New Trauma Tools)
+        "calc_edema": [
+            "edema", "edema score", "edema cerebral", "avc maligno", "avci extenso", "acm maligno",
+            "craniectomia descompressiva", "midline shift", "desvio de linha media", "cisternas apagadas",
+            "herniacao uncal", "ong 2017", "avc isquemico grave", "infarto maligno", "cid i63"
+        ],
+        "calc_crash_tbi": [
+            "crash", "crash tbi", "mrc crash", "trauma cranioencefalico", "tce grave",
+            "mortalidade 14 dias", "prognostico tce", "desfecho desfavoravel", "lancet 2008",
+            "contusao hemorragica", "neurotrauma", "salina 3", "contraindicacao corticoide", "cid s06"
+        ],
+        "calc_impact_tbi": [
+            "impact", "impact tbi", "escore impact", "trauma craniano", "tce moderado grave",
+            "mortalidade 6 meses", "steyerberg", "marshall tc", "hipoxemia", "hipotensao trauma",
+            "glicemia tce", "hemoglobina", "traumatismo encefalico", "cid s06.9"
+        ],
+
+        # Module B (New Vascular Tools)
+        "calc_vasograde": [
+            "vasograde", "escore vasograde", "vasoespasmo hsa", "isquemia cerebral tardia", "dci",
+            "hemorragia subaracnoidea", "wfns fisher", "vasograde verde amarelo vermelho", "nimodipino",
+            "doppler transcraniano", "cid i60"
+        ],
+        "calc_lawton_young": [
+            "lawton young", "lawton-young", "mav suplementar", "spetzler suplementado", "idade mav",
+            "sangramento previo", "nidus difuso", "malformacao arteriovenosa", "ressecabilidade mav",
+            "microcirurgia vascular", "risco cirurgico mav", "cid q28.2"
+        ],
+        "calc_zabramski": [
+            "zabramski", "cavernoma", "malformacao cavernosa", "angioma cavernoso", "t1 t2 gradiente eco",
+            "swi ressonancia", "hemossiderina", "hemorragia cavernoma", "epilepsia cavernoma",
+            "tipo 1 tipo 2 tipo 3 tipo 4", "popcorn lesion", "cid d18.0"
+        ],
+        "calc_phases_score": [
+            "phases", "phases score", "aneurisma incidental", "risco de ruptura aneurisma",
+            "aneurisma nao roto", "populacao hipertensao", "tamanho do aneurisma", "arteria comunicante",
+            "artéria basilar", "sangramento subaracnoideo previo", "greving 2014", "cid i67.1"
+        ],
+        "calc_uiats": [
+            "uiats", "unruptured intracranial aneurysm", "aneurisma nao roto decisao",
+            "tratamento aneurisma", "conservador vs cirurgia", "clipagem embolizacao",
+            "morbi-mortalidade", "expectativa de vida", "score uiats", "etminan 2015",
+            "aneurisma cerebral", "cid i67.1"
+        ],
+        "calc_cognard_borden": [
+            "cognard", "borden", "fistula dural", "favd", "fistula arteriovenosa dural",
+            "drenagem venosa cortical", "refluxo venoso cortical", "risco hemorragico favd",
+            "zumbido pulsatil", "trombose de seio dural", "embolizacao transarterial", "cid i67.8"
+        ],
+
+        # Module C (New Spine Tools)
+        "calc_tlics": [
+            "tlics", "toracolombar", "trauma toracolombar", "fratura de coluna", "fratura toracolombar",
+            "complexo ligamentar posterior", "plc", "burst fratura", "explosao", "deficit neurologico",
+            "artrodese de coluna", "vacarro", "cirurgia de coluna", "cid s32.0"
+        ],
+        "calc_slics": [
+            "slics", "coluna cervical", "trauma cervical subaxial", "fratura cervical", "c3 c7",
+            "facetas deslocadas", "subluxacao facetaria", "disco ligamentar", "lesao medular cervical",
+            "cirurgia cervical", "descompressao anterior", "vacarro cervical", "cid s12.0", "cid s14.1"
+        ],
+        "calc_anderson_dalonzo": [
+            "anderson d'alonzo", "anderson dalonzo", "odontoide", "fratura do dente do odontoide",
+            "processo odontoide", "c2 odontoide", "tipo i tipo ii tipo iii", "parafuso de odontoide",
+            "halo veste", "artrodese c1 c2", "pseudoartrose odontoide", "trauma cervical alto", "cid s12.1"
+        ],
+        "calc_sins": [
+            "sins", "spine instability neoplastic score", "metastase na coluna", "instabilidade na coluna",
+            "fratura patologica", "dor mecanica na coluna", "colapso vertebral", "lise vertebral",
+            "cifoplastia", "artrodese percutanea", "estabilidade espinhal", "fisher 2010", "cid c79.5"
+        ],
+        "calc_noms_bilsky": [
+            "noms", "noms framework", "bilsky", "compressao medular metastatica", "escc",
+            "neurologico oncologico mecanico sistemico", "escore de bilsky", "cirurgia de separacao",
+            "separation surgery", "sbrt coluna", "metastase espinhal", "cirurgia minimamente invasiva", "cid c79.5"
+        ],
+        "calc_sagittal_balance": [
+            "balanco sagital", "balanço sagital", "alinhamento sagital", "incidencia pelvica",
+            "inclinacao pelvica", "versao pelvica", "lordose lombar", "eixo vertical sagital",
+            "sva", "pi ll mismatch", "deformidade de coluna", "cifose", "escoliose do adulto",
+            "osteotomia pso", "cid m40.0"
+        ],
+        "calc_mjoa_nurick": [
+            "mjoa", "nurick", "mielopatia cervical espondilotica", "mielopatia cervical",
+            "cervical spondylotic myelopathy", "compressao medular cervical", "clonus", "babinski",
+            "sinal de hoffmann", "perda de destreza", "marcha espastica", "laminoplastia",
+            "corpectomia", "cid m50.0"
+        ],
+
+        # Module D (New Oncology & Hydrodynamics Tools)
+        "calc_knosp": [
+            "knosp", "classificacao de knosp", "adenoma de hipofise", "macroadenoma",
+            "seio cavernoso", "invasao seio cavernoso", "arteria carotida interna",
+            "cirurgia transesfenoidal", "eets", "radiocirurgia hipofise", "prolactinoma",
+            "apoplexia hipofisaria", "cid d35.2"
+        ],
+        "calc_samii_koos": [
+            "koos", "samii", "schwannoma vestibular", "neurinoma do acustico",
+            "angulo pontocerebelar", "conduto auditivo interno", "nervo facial",
+            "house-brackmann", "cirurgia retrosigmoidea", "fossa posterior",
+            "hidrocefalia obstrutiva", "gamma knife schwannoma", "cid d33.3"
+        ],
+        "calc_ds_gpa": [
+            "ds-gpa", "ds gpa", "graded prognostic assessment", "metastase cerebral",
+            "metastases encefalicas", "sobrevida metastase cerebral", "rpa classe",
+            "radiocirurgia srs", "wbrt holocraniana", "kps oncologia", "lung molgpa",
+            "cirurgia metastase", "cid c79.3"
+        ],
+        "calc_kiefer": [
+            "kiefer", "escala de kiefer", "hpn", "hidrocefalia de pressao normal",
+            "triade de hakim adams", "apraxia de marcha", "incontinencia urinaria",
+            "tap test", "puncao lombar evacuadora", "derivacao ventriculoperitoneal",
+            "dvp valvula regulavel", "valvula programavel", "cid g91.2"
+        ],
+        "calc_evans_desh": [
+            "evans", "indice de evans", "desh", "sinais de desh",
+            "hidrocefalia comunicante", "ventriculomegalia", "angulo corpo caloso",
+            "colapso do vertex", "edema transependimario", "tap test hpn",
+            "atrofia ex vacuo", "diagnostico hpn", "cid g91.2"
         ]
     }
 
@@ -380,7 +501,7 @@ def main():
     }
 
     # -------------------------------------------------------------------------
-    # 4. CONSTRUCT UNIFIED MANIFEST (37 Tools)
+    # 4. CONSTRUCT UNIFIED MANIFEST (58 Tools)
     # -------------------------------------------------------------------------
     all_calculators = block_01_calculators + block_03_calculators
     manifest_items = []
@@ -392,7 +513,7 @@ def main():
         manifest_items.append(item)
 
     print(f"Total manifest items compiled: {len(manifest_items)}")
-    assert len(manifest_items) == 37, f"Expected 37 items in manifest, got {len(manifest_items)}"
+    assert len(manifest_items) == 58, f"Expected 58 items in manifest, got {len(manifest_items)}"
 
     # -------------------------------------------------------------------------
     # 5. WRITE JSON ARTIFACTS

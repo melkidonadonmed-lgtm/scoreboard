@@ -202,3 +202,47 @@ export const CalculationResultSchema = z.object({
 });
 
 export type CalculationResult = z.infer<typeof CalculationResultSchema>;
+
+// ==========================================
+// 7. INPUT TYPES PARA MOTORES ESPECIALIZADOS
+// ==========================================
+
+export interface SagittalBalanceInputs {
+  pi?: number;
+  pt?: number;
+  ss?: number;
+  ll?: number;
+  sva?: number;
+  [key: string]: any;
+}
+
+export interface NomsInputs {
+  neurologic?: '0' | '1a' | '1b' | '1c' | '2' | '3' | string;
+  oncologic?: 'radiosensitive' | 'radioresistant' | string;
+  mechanical?: number | 'stable' | 'potentially_unstable' | 'unstable' | string;
+  systemic?: number | 'eligible' | 'ineligible' | boolean | string;
+  [key: string]: any;
+}
+
+export interface LawtonYoungInputs {
+  spetzlerMartin?: number;
+  sm_size?: '<3' | '3-6' | '>6' | number;
+  sm_eloquence?: boolean | number;
+  sm_drainage?: boolean | number;
+  age?: number | '<20' | '20-40' | '>40';
+  ruptured?: boolean;
+  unruptured?: boolean;
+  compactness?: 'compact' | 'diffuse' | boolean;
+  [key: string]: any;
+}
+
+export interface PhasesInputs {
+  population?: 'finland' | 'japan' | 'other' | string;
+  hypertension?: boolean | string;
+  age?: number | boolean;
+  size?: number | string;
+  earlierSah?: boolean | string;
+  site?: 'ica' | 'mca' | 'posterior' | string;
+  [key: string]: any;
+}
+

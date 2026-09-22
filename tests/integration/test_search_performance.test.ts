@@ -65,14 +65,14 @@ function executeSearch(query: string, index: IndexedItem[] = indexedManifest): {
 
 describe('Multi-Block Search Performance & Brazilian Clinical Synonyms Benchmark', () => {
   describe('1. Manifest Inventory & Structure Verification', () => {
-    it('contains all 37 clinical tools across Block 01 and Block 03', () => {
-      expect(manifest.length).toBe(37);
+    it('contains all 58 clinical tools across Block 01 and Block 03', () => {
+      expect(manifest.length).toBe(58);
 
       const block01Items = manifest.filter((m) => m.blockFile === 'block_01.json');
       const block03Items = manifest.filter((m) => m.blockFile === 'block_03.json');
 
       expect(block01Items.length).toBe(19);
-      expect(block03Items.length).toBe(18);
+      expect(block03Items.length).toBe(39);
     });
 
     it('ensures every tool has comprehensive search tokens and synonyms', () => {

@@ -1,10 +1,22 @@
 import {
   type Calculator,
+  type ClinicalTool,
   type RiskTier,
   type CalculationResult,
   type ParameterGroup,
-  type ParameterOption
+  type ParameterOption,
+  type SagittalBalanceInputs,
+  type NomsInputs,
+  type LawtonYoungInputs,
+  type PhasesInputs
 } from '../types/clinical';
+
+export type {
+  SagittalBalanceInputs,
+  NomsInputs,
+  LawtonYoungInputs,
+  PhasesInputs
+};
 
 export const SSC_2021_QSOFA_WARNING =
   'O Surviving Sepsis Campaign (SSC 2021) desaconselha formalmente o uso isolado do qSOFA como ferramenta única de triagem ou exclusão de sepse, devido à sua sensibilidade insuficiente (< 60%). Pacientes sépticos graves podem apresentar qSOFA de 0 ou 1 ponto. Recomenda-se a triagem multimodal associando critérios de SIRS, NEWS ou MEWS, e o cálculo obrigatório do SOFA completo diante de qualquer suspeita clínica persistente.';
@@ -34,6 +46,44 @@ export function calculateScore(
   // Branching decision specific to Glasgow-P: GCS (3-15) - Pupil Score (0-2)
   if (calc.id === 'calc_glasgow_p' || calc.slug === 'glasgow-p') {
     return calculateGlasgowPFromCalculator(calc, inputs);
+  }
+
+  // Delegated handlers for specialized neurosurgical and spine engines
+  if (
+    calc.id === 'calc_sagittal_balance' ||
+    calc.slug === 'balanco-sagital' ||
+    calc.slug === 'sagittal-balance' ||
+    calc.id === 'calc_spinopelvic_balance'
+  ) {
+    return calculateSagittalBalance(calc, inputs);
+  }
+
+  if (
+    calc.id === 'calc_noms' ||
+    calc.id === 'calc_noms_bilsky' ||
+    calc.slug === 'noms' ||
+    calc.slug === 'noms-bilsky' ||
+    calc.slug === 'noms-framework'
+  ) {
+    return calculateNomsFramework(calc, inputs);
+  }
+
+  if (
+    calc.id === 'calc_lawton_young' ||
+    calc.slug === 'lawton-young' ||
+    calc.slug === 'spetzler-martin-suplementar' ||
+    calc.id === 'calc_spetzler_martin_suplementar'
+  ) {
+    return calculateLawtonYoung(calc, inputs);
+  }
+
+  if (
+    calc.id === 'calc_phases' ||
+    calc.id === 'calc_phases_score' ||
+    calc.slug === 'phases' ||
+    calc.slug === 'phases-score'
+  ) {
+    return calculatePhasesScore(calc, inputs);
   }
 
   // Process parameter groups
@@ -863,3 +913,1041 @@ export function calculateBisap(inputs: BisapCriteria): BisapResult {
     }
   };
 }
+
+// ============================================================================
+// 3. NEUROSURGERY & SPINE SPECIALIZED CALCULATION ENGINES
+// ============================================================================
+
+/**
+ * Helper to resolve numeric parameters from inputs supporting multiple synonyms and option names.
+ */
+function extractNumeric(inputs: Record<string, any>, keys: string[], fallback: number): number {
+  for (const k of keys) {
+    const val = inputs[k];
+    if (val !== undefined && val !== null && val !== '') {
+      const num = typeof val === 'number' ? val : parseFloat(val);
+      if (!isNaN(num)) return num;
+    }
+  }
+  return fallback;
+}
+
+// ----------------------------------------------------------------------------
+// H. Sagittal Balance & Spinopelvic Parameters (Balanço Sagital / SRS-Schwab)
+// ----------------------------------------------------------------------------
+
+export interface SagittalBalanceDetails {
+  pi: number;
+  pt: number;
+  ss: number;
+  ll: number;
+  sva: number;
+  geometricSum: number;
+  geometricDiff: number;
+  isGeometricConsistent: boolean;
+  mismatchPiLl: number;
+  targetLordosisMin: number;
+  targetLordosisMax: number;
+  targetLordosisIdeal: number;
+  schwabMismatchModifier: 'Schwab 0' | 'Schwab +' | 'Schwab ++';
+  schwabPtModifier: 'Normal' | 'Moderate' | 'Severe retroversion';
+  schwabSvaModifier: 'Normal' | 'Moderate' | 'Severe';
+  osteotomyRecommendation: string;
+}
+
+export function calculateSagittalBalance(inputs: Record<string, any>): CalculationResult;
+export function calculateSagittalBalance(calc: ClinicalTool, inputs: Record<string, any>): CalculationResult;
+export function calculateSagittalBalance(
+  calcOrInputs: ClinicalTool | Record<string, any>,
+  maybeInputs?: Record<string, any>
+): CalculationResult {
+  let calc: ClinicalTool | undefined;
+  let inputs: Record<string, any>;
+
+  if (maybeInputs !== undefined) {
+    calc = calcOrInputs as ClinicalTool;
+    inputs = maybeInputs;
+  } else if (
+    calcOrInputs &&
+    typeof calcOrInputs === 'object' &&
+    'parameterGroups' in calcOrInputs
+  ) {
+    calc = calcOrInputs as ClinicalTool;
+    inputs = {};
+  } else {
+    calc = undefined;
+    inputs = (calcOrInputs as Record<string, any>) || {};
+  }
+
+  // Extract continuous spinopelvic parameters
+  const pi = extractNumeric(inputs, ['pi', 'PI', 'pelvic_incidence', 'pelvicIncidence', 'input_pi', 'grp_sagittal_pi'], 53);
+  const pt = extractNumeric(inputs, ['pt', 'PT', 'pelvic_tilt', 'pelvicTilt', 'input_pt', 'grp_sagittal_pt'], 13);
+  const ss = extractNumeric(inputs, ['ss', 'SS', 'sacral_slope', 'sacralSlope', 'input_ss', 'grp_sagittal_ss'], 40);
+  const ll = extractNumeric(inputs, ['ll', 'LL', 'lumbar_lordosis', 'lumbarLordosis', 'input_ll', 'grp_sagittal_ll'], 53);
+  const sva = extractNumeric(inputs, ['sva', 'SVA', 'sagittal_vertical_axis', 'sagittalVerticalAxis', 'input_sva', 'grp_sagittal_sva'], 20);
+
+  // Geometric identity: PI = PT + SS (Warn if |PI - (PT + SS)| > 3°)
+  const geometricSum = pt + ss;
+  const geometricDiff = Math.abs(pi - geometricSum);
+  const isGeometricConsistent = Math.round(geometricDiff * 10) / 10 <= 3.0;
+
+  const warnings: string[] = [];
+  if (!isGeometricConsistent) {
+    warnings.push(
+      `Inconsistência geométrica espinopélvica: |PI - (PT + SS)| = ${geometricDiff.toFixed(1)}° > 3°. Pela identidade de Duval-Beaupère (PI = PT + SS), a incidência pélvica deve equivaler à soma da versão pélvica com a inclinação sacral. Recomenda-se recalibração da demarcação radiográfica do platô de S1 ou do centro das cabeças femorais.`
+    );
+  }
+
+  // Spinopelvic mismatch: PI - LL
+  const mismatchPiLl = Math.round((pi - ll) * 10) / 10;
+
+  // Target Lumbar Lordosis: LL_target = PI ± 9°
+  const targetLordosisMin = Math.round((pi - 9) * 10) / 10;
+  const targetLordosisMax = Math.round((pi + 9) * 10) / 10;
+  const targetLordosisIdeal = Math.round((pi + 5) * 10) / 10;
+
+  // SRS-Schwab Deformity Modifiers
+  // PI - LL modifier: < 10° (Schwab 0), 10-20° (Schwab +), > 20° (Schwab ++)
+  let schwabMismatchModifier: 'Schwab 0' | 'Schwab +' | 'Schwab ++';
+  if (mismatchPiLl < 10) {
+    schwabMismatchModifier = 'Schwab 0';
+  } else if (mismatchPiLl <= 20) {
+    schwabMismatchModifier = 'Schwab +';
+  } else {
+    schwabMismatchModifier = 'Schwab ++';
+  }
+
+  // PT modifier: < 20° (Normal), 20-30° (Moderate), > 30° (Severe retroversion)
+  let schwabPtModifier: 'Normal' | 'Moderate' | 'Severe retroversion';
+  if (pt < 20) {
+    schwabPtModifier = 'Normal';
+  } else if (pt <= 30) {
+    schwabPtModifier = 'Moderate';
+  } else {
+    schwabPtModifier = 'Severe retroversion';
+  }
+
+  // SVA modifier: < 40mm (Normal), 40-95mm (Moderate), > 95mm (Severe)
+  let schwabSvaModifier: 'Normal' | 'Moderate' | 'Severe';
+  if (sva < 40) {
+    schwabSvaModifier = 'Normal';
+  } else if (sva <= 95) {
+    schwabSvaModifier = 'Moderate';
+  } else {
+    schwabSvaModifier = 'Severe';
+  }
+
+  // Surgical Osteotomy Recommendations (SPO / Schwab II, PSO / Schwab III, VCR)
+  let osteotomyRecommendation = '';
+  let activeSeverity: 'low' | 'intermediate' | 'high' | 'critical';
+  let tierId: string;
+  let tierLabel: string;
+  let tierColor: string;
+  let statisticalOutcome: string;
+
+  const isSevere = mismatchPiLl > 20 || pt > 30 || sva > 95;
+  const isModerate = !isSevere && (mismatchPiLl >= 10 || pt >= 20 || sva >= 40);
+
+  if (isSevere) {
+    activeSeverity = 'critical';
+    tierId = 'tier_sagittal_severe';
+    tierLabel = 'Deformidade Sagital Grave (SRS-Schwab ++) - Indicação de Osteotomia de Três Colunas';
+    tierColor = '#dc2626';
+    osteotomyRecommendation =
+      'Deformidade sagital rígida grave (SRS-Schwab ++). Indicação de Osteotomia de Subtração Pedicular (PSO / Schwab Grau III) em L3 ou L4 (ganho de 30° a 35° de lordose focal angular) associada a cages lordóticos anteriores/oblíquos (ALIF/OLIF de 15°-20°) ou Vertebrectomia / Ressecção de Coluna Vertebral (VCR / Schwab Grau VI) para cifose angular rígida severa multiapical.';
+    statisticalOutcome =
+      'Desalinhamento sagital severo associado a incapacidade funcional grave (ODI > 40-50), dor lombar incapacitante, fadiga postural e elevado risco de pseudoartrose/falha mecânica de material caso realizada artrodese sem restauração da lordose.';
+  } else if (isModerate) {
+    activeSeverity = 'intermediate';
+    tierId = 'tier_sagittal_moderate';
+    tierLabel = 'Desbalanço Sagital Moderado (SRS-Schwab +) - Indicação de Osteotomias de Smith-Petersen';
+    tierColor = '#f59e0b';
+    osteotomyRecommendation =
+      'Desbalanço sagital moderado (SRS-Schwab +). Correção moderada necessária (~10° a 15° de lordose adicional). Indicação de Osteotomias de Smith-Petersen (SPO / Schwab Grau II) em múltiplos níveis (~5° a 10° por nível) associadas a cages intersomáticos anteriores com hiperlordose (ALIF ou OLIF de 15° a 20°).';
+    statisticalOutcome =
+      'Desbalanço compensado por retroversão pélvica e flexão de joelhos. Alto risco de progressão de deformidade e sobrecarga degenerativa em níveis adjacentes sem correção cirúrgica equilibrada.';
+  } else {
+    activeSeverity = 'low';
+    tierId = 'tier_sagittal_normal';
+    tierLabel = 'Balanço Sagital Preservado (SRS-Schwab 0) - Artrodese In Situ sem Osteotomia Maior';
+    tierColor = '#10b981';
+    osteotomyRecommendation =
+      'Balanço sagital preservado (SRS-Schwab 0). Artrodese in situ sem necessidade de osteotomias desrotacionais ou angulares maiores. Manter alinhamento fisiológico com lordose anatômica.';
+    statisticalOutcome =
+      'Alinhamento espinopélvico e sagital fisiológico. Risco biomecânico mínimo de falha de ancoragem ou doença de nível adjacente.';
+  }
+
+  // Active Risk Tier resolution
+  let activeRiskTier: RiskTier;
+  if (calc?.riskTiers && calc.riskTiers.length > 0) {
+    const matched = calc.riskTiers.find((t) => t.severityLevel === activeSeverity) ??
+      calc.riskTiers.find((t) => mismatchPiLl >= t.minScore && mismatchPiLl <= t.maxScore) ??
+      calc.riskTiers[0];
+    activeRiskTier = {
+      ...matched,
+      statisticalOutcome: `${matched.statisticalOutcome} ${statisticalOutcome}`,
+      nonPharmacologicalActions: [
+        {
+          id: 'action_sagittal_osteotomy',
+          recommendationTitle: 'Recomendação de Osteotomia e Correção Sagital',
+          dispositionTarget: isSevere ? 'Centro Cirúrgico / UTI de Coluna' : 'Centro Cirúrgico / Enfermaria Especializada',
+          monitoringPlan: 'Radiografia panorâmica total da coluna (espinografia perfil) pré e pós-operatória com mensuração dos ângulos de Cobb, SVA e parâmetros pélvicos.',
+          interventionalProcedure: osteotomyRecommendation
+        },
+        ...matched.nonPharmacologicalActions
+      ]
+    };
+  } else {
+    activeRiskTier = {
+      id: tierId,
+      label: tierLabel,
+      severityLevel: activeSeverity,
+      minScore: isSevere ? 21 : isModerate ? 10 : -50,
+      maxScore: isSevere ? 100 : isModerate ? 20 : 9.9,
+      statisticalOutcome,
+      colorHex: tierColor,
+      pharmacologicalActions: [
+        {
+          id: 'rx_sagittal_analgesia',
+          drugName: 'Cefazolina Sódica (Profilaxia Cirúrgica de Coluna)',
+          dosage: '2 g IV na indução (3 g se peso > 120 kg), repique de 1 g a cada 4 horas intraoperatórias',
+          route: 'Intravenosa',
+          frequency: 'Dose única pré-incisão com repiques'
+        }
+      ],
+      nonPharmacologicalActions: [
+        {
+          id: 'action_sagittal_osteotomy',
+          recommendationTitle: 'Recomendação de Osteotomia e Correção Sagital',
+          dispositionTarget: isSevere ? 'Centro Cirúrgico / UTI de Coluna' : 'Centro Cirúrgico / Enfermaria Especializada',
+          monitoringPlan: 'Espinografia perfil pós-operatória imediata para cálculo de SVA e lordose residual.',
+          interventionalProcedure: osteotomyRecommendation
+        }
+      ]
+    };
+  }
+
+  // Radar values mapping
+  const radarValues: Record<string, number> = {};
+  if (calc?.radarAxes) {
+    for (const axis of calc.radarAxes) {
+      radarValues[axis.id] = 0;
+    }
+  }
+  radarValues['axis_pi_ll'] = Math.min(1, Math.max(0, mismatchPiLl / 30));
+  radarValues['axis_pt'] = Math.min(1, Math.max(0, (pt - 10) / 30));
+  radarValues['axis_sva'] = Math.min(1, Math.max(0, sva / 120));
+  radarValues['axis_sagittal_deformity'] = isSevere ? 1.0 : isModerate ? 0.6 : 0.1;
+
+  const rawScore = mismatchPiLl;
+  const scoreFormatted = `${mismatchPiLl >= 0 ? '+' : ''}${mismatchPiLl.toFixed(1)}° (${schwabMismatchModifier}, PT: ${schwabPtModifier}, SVA: ${schwabSvaModifier}; Alvo: ${targetLordosisMin}° a ${targetLordosisMax}°, ideal: ${targetLordosisIdeal}°)`;
+
+  if (calc?.clinicalWarning && !warnings.includes(calc.clinicalWarning)) {
+    warnings.push(calc.clinicalWarning);
+  }
+
+  return {
+    score: rawScore,
+    rawScore,
+    scoreFormatted,
+    activeRiskTier,
+    radarValues,
+    radarPoints: radarValues,
+    clinicalWarning: calc?.clinicalWarning,
+    warnings: warnings.length > 0 ? warnings : undefined
+  };
+}
+
+// ----------------------------------------------------------------------------
+// I. NOMS Decision Framework & Bilsky Scale for Spine Metastases
+// ----------------------------------------------------------------------------
+
+export function calculateNomsFramework(inputs: Record<string, any>): CalculationResult;
+export function calculateNomsFramework(calc: ClinicalTool, inputs: Record<string, any>): CalculationResult;
+export function calculateNomsFramework(
+  calcOrInputs: ClinicalTool | Record<string, any>,
+  maybeInputs?: Record<string, any>
+): CalculationResult {
+  let calc: ClinicalTool | undefined;
+  let inputs: Record<string, any>;
+
+  if (maybeInputs !== undefined) {
+    calc = calcOrInputs as ClinicalTool;
+    inputs = maybeInputs;
+  } else if (
+    calcOrInputs &&
+    typeof calcOrInputs === 'object' &&
+    'parameterGroups' in calcOrInputs
+  ) {
+    calc = calcOrInputs as ClinicalTool;
+    inputs = {};
+  } else {
+    calc = undefined;
+    inputs = (calcOrInputs as Record<string, any>) || {};
+  }
+
+  // 1. Neurologic: Bilsky ESCC (0, 1a, 1b, 1c, 2, 3)
+  let bilskyStr = '0';
+  const neuroVal = inputs.neurologic ?? inputs.bilsky ?? inputs.escc ?? inputs.grp_noms_neurologic ?? inputs.bilskyGrade;
+  if (typeof neuroVal === 'string') {
+    const match = neuroVal.match(/(0|1a|1b|1c|2|3)/i);
+    if (match) bilskyStr = match[1].toLowerCase();
+  } else if (typeof neuroVal === 'number') {
+    bilskyStr = neuroVal.toString();
+  } else {
+    for (const b of ['3', '2', '1c', '1b', '1a', '0']) {
+      if (inputs[`opt_bilsky_${b}`] || inputs[`bilsky_${b}`]) {
+        bilskyStr = b;
+        break;
+      }
+    }
+  }
+
+  const isHighGradeBilsky = bilskyStr === '2' || bilskyStr === '3';
+
+  // 2. Oncologic: Histological Radiosensitivity (Radiosensitive vs Radioresistant)
+  let isRadiosensitive = false;
+  const oncoVal = inputs.oncologic ?? inputs.radiosensitivity ?? inputs.histology ?? inputs.grp_noms_oncologic;
+  if (typeof oncoVal === 'string') {
+    const lower = oncoVal.toLowerCase();
+    if (
+      lower.includes('sens') ||
+      lower.includes('mieloma') ||
+      lower.includes('myeloma') ||
+      lower.includes('linfoma') ||
+      lower.includes('lymphoma') ||
+      lower.includes('pequenas') ||
+      lower.includes('small') ||
+      lower.includes('seminoma')
+    ) {
+      isRadiosensitive = true;
+    }
+  } else if (typeof oncoVal === 'boolean') {
+    isRadiosensitive = oncoVal;
+  } else {
+    if (inputs.opt_radiosensitive || inputs.radiosensitive === true) {
+      isRadiosensitive = true;
+    }
+  }
+
+  // 3. Mechanical: SINS (0-6 Stable, 7-12 Potentially Unstable, 13-18 Unstable)
+  let mechanicalCategory: 'stable' | 'potentially_unstable' | 'unstable' = 'stable';
+  const mechVal = inputs.mechanical ?? inputs.sins ?? inputs.sins_score ?? inputs.grp_noms_mechanical;
+  if (typeof mechVal === 'number') {
+    if (mechVal >= 13) mechanicalCategory = 'unstable';
+    else if (mechVal >= 7) mechanicalCategory = 'potentially_unstable';
+    else mechanicalCategory = 'stable';
+  } else if (typeof mechVal === 'string') {
+    const lower = mechVal.toLowerCase();
+    if (lower.includes('unstable') || lower.includes('instab')) mechanicalCategory = 'unstable';
+    else if (lower.includes('poten')) mechanicalCategory = 'potentially_unstable';
+    else mechanicalCategory = 'stable';
+  } else {
+    if (inputs.opt_sins_unstable || inputs.unstable === true) mechanicalCategory = 'unstable';
+    else if (inputs.opt_sins_potentially_unstable) mechanicalCategory = 'potentially_unstable';
+  }
+
+  // 4. Systemic: KPS (>= 70% vs < 70% or terminal)
+  let isSystemicEligible = true;
+  const sysVal = inputs.systemic ?? inputs.kps ?? inputs.kps_score ?? inputs.grp_noms_systemic ?? inputs.eligibility;
+  if (typeof sysVal === 'number') {
+    isSystemicEligible = sysVal >= 70;
+  } else if (typeof sysVal === 'boolean') {
+    isSystemicEligible = sysVal;
+  } else if (typeof sysVal === 'string') {
+    const lower = sysVal.toLowerCase();
+    if (lower.includes('ineligible') || lower.includes('terminal') || lower.includes('hospice') || lower.includes('desfavoravel')) {
+      isSystemicEligible = false;
+    }
+  } else {
+    if (inputs.opt_kps_lt70 || inputs.ineligible === true || inputs.terminal === true) {
+      isSystemicEligible = false;
+    }
+  }
+
+  // Multidimensional Decision Matrix Adjudication
+  let pathwayName: 'Separation Surgery + SBRT' | 'cEBRT alone' | 'Percutaneous Stabilization' | 'Palliative Hospice';
+  let pathwayTitle: string;
+  let severityLevel: 'low' | 'intermediate' | 'high' | 'critical';
+  let tierId: string;
+  let tierColor: string;
+  let recommendation: string;
+  let statisticalOutcome: string;
+  let rawScore: number;
+
+  if (!isSystemicEligible) {
+    pathwayName = 'Palliative Hospice';
+    pathwayTitle = 'Cuidados Paliativos / Radioterapia de Curso Curto (Palliative Hospice)';
+    severityLevel = 'low';
+    tierId = 'tier_noms_palliative';
+    tierColor = '#6b7280';
+    rawScore = 1;
+    recommendation =
+      'Paciente com status de performance fragilizado (KPS < 70% ou doença terminal). Cirurgia descompressiva e reconstrução instrumentada aberta estão formalmente contraindicadas pela elevada taxa de mortalidade perioperatória e sobrevida restrita (< 2-3 meses). Indicação de Radioterapia Paliativa em Fração Única (8 Gy) ou hipofracionada (20 Gy em 5 frações) para alívio álgico, associada a Dexametasona oral/SC e plano de hospice humanizado.';
+    statisticalOutcome =
+      'Sobrevida estimada inferior a 3 meses. Prioridade absoluta para conforto, alívio de dor e prevenção de sofrimento, evitando futilidade cirúrgica.';
+  } else if (isHighGradeBilsky && !isRadiosensitive) {
+    pathwayName = 'Separation Surgery + SBRT';
+    pathwayTitle = 'Cirurgia de Separação + SBRT Pós-Operatória (Separation Surgery + SBRT)';
+    severityLevel = 'critical';
+    tierId = 'tier_noms_separation_sbrt';
+    tierColor = '#dc2626';
+    rawScore = 4;
+    recommendation =
+      'Indicação Cirúrgica Mandatória de Cirurgia de Separação ("Separation Surgery") com laminectomia e descompressão circunferencial de 2 a 3 mm ao redor do saco dural e medula espinhal, associada à Artrodese Posterior Instrumentada com Parafusos Pediculares. Após cicatrização da ferida operatória (2 a 4 semanas), realizar SBRT hipofracionada (18 a 24 Gy em 1 a 3 frações). A radioterapia convencional exclusiva é contraindicada por taxa de falha tumoral > 80% em tumores radiorresistentes.';
+    statisticalOutcome =
+      'A Cirurgia de Separação seguida de SBRT atinge taxa de controle local superior a 85-90% em 1 ano com preservação e recuperação neurológica sustentada.';
+  } else if (isHighGradeBilsky && isRadiosensitive) {
+    if (mechanicalCategory === 'unstable') {
+      pathwayName = 'cEBRT alone';
+      pathwayTitle = 'Radioterapia Convencional de Urgência + Estabilização Cirúrgica (cEBRT + Stabilization)';
+      severityLevel = 'high';
+      tierId = 'tier_noms_cebrt_stabilization';
+      tierColor = '#ef4444';
+      rawScore = 3;
+      recommendation =
+        'Indicação de Radioterapia Externa Convencional de Urgência (cEBRT: 30 Gy em 10 frações) associada a Dexametasona em altas doses (10 a 16 mg IV bolus seguido de 4 mg 6/6h) para descompressão tumoral rápida. Pela instabilidade mecânica presente (SINS >= 13), é mandatória a Estabilização Cirúrgica Instrumentada (aberta ou percutânea) concomitante para prevenção de colapso estrutural catastrófico.';
+      statisticalOutcome =
+        'Excelente descompressão celular pela alta radiossensibilidade tumoral, porém a irradiação não repara o suporte mecânico destruído.';
+    } else {
+      pathwayName = 'cEBRT alone';
+      pathwayTitle = 'Radioterapia Externa Convencional Exclusiva (cEBRT alone)';
+      severityLevel = 'intermediate';
+      tierId = 'tier_noms_cebrt_alone';
+      tierColor = '#f59e0b';
+      rawScore = 2;
+      recommendation =
+        'Tumor de alta radiossensibilidade celular (Mieloma Múltiplo, Linfoma, Seminoma) com coluna estável. Indicação de Radioterapia Externa Convencional de Urgência (cEBRT: 30 Gy em 10 frações) combinada com corticoterapia em altas doses. Descompressão cirúrgica aberta dispensada em virtude da rápida resposta tumoral.';
+      statisticalOutcome =
+        'Taxa de resposta de descompressão medular superior a 80-90% sem a morbidade de cirurgia aberta de grande porte.';
+    }
+  } else if (mechanicalCategory === 'unstable' || mechanicalCategory === 'potentially_unstable') {
+    pathwayName = 'Percutaneous Stabilization';
+    pathwayTitle = 'Estabilização Percutânea / Cifoplastia ± SBRT (Percutaneous Stabilization)';
+    severityLevel = mechanicalCategory === 'unstable' ? 'high' : 'intermediate';
+    tierId = 'tier_noms_percutaneous';
+    tierColor = '#f97316';
+    rawScore = 3;
+    recommendation =
+      'Presença de instabilidade mecânica tumoral (SINS 7-12 com dor mecânica ou SINS >= 13) sem compressão medular crítica (Bilsky baixo grau 0 a 1c). Indicação de Estabilização Percutânea com Parafusos Pediculares ou Cifoplastia com Balão / Vertebroplastia associada à irradiação conformacional (SBRT para tumores radiorresistentes ou cEBRT para radiossensíveis).';
+    statisticalOutcome =
+      'Alívio álgico imediato (> 85% de resposta para dor ao suporte de carga) e prevenção de colapso vertebral induzido por radiação.';
+  } else {
+    // Low grade Bilsky, stable mechanical
+    if (!isRadiosensitive) {
+      pathwayName = 'Percutaneous Stabilization';
+      pathwayTitle = 'SBRT Primária Isolada (Primary SBRT)';
+      severityLevel = 'intermediate';
+      tierId = 'tier_noms_primary_sbrt';
+      tierColor = '#3b82f6';
+      rawScore = 2;
+      recommendation =
+        'Ausência de compressão medular de alto grau e coluna mecanicamente estável em tumor radiorresistente. Indicação de SBRT Primária Isolada (24 a 30 Gy em 3 a 5 frações) com excelente controle local (> 90%) sem necessidade de abordagem cirúrgica.';
+      statisticalOutcome =
+        'Controle local de 90-95% em 1 a 2 anos com mínima toxicidade tecidual.';
+    } else {
+      pathwayName = 'cEBRT alone';
+      pathwayTitle = 'Radioterapia Convencional Eletiva (cEBRT alone)';
+      severityLevel = 'low';
+      tierId = 'tier_noms_cebrt_elective';
+      tierColor = '#10b981';
+      rawScore = 2;
+      recommendation =
+        'Tumor radiossensível estável sem compressão medular. Indicação de Radioterapia Convencional Eletiva (20 a 30 Gy) e continuidade do tratamento sistêmico quimioterápico / imunoterápico.';
+      statisticalOutcome =
+        'Excelente prognóstico funcional com controle oncológico pleno.';
+    }
+  }
+
+  // Active risk tier
+  let activeRiskTier: RiskTier;
+  if (calc?.riskTiers && calc.riskTiers.length > 0) {
+    const matched = calc.riskTiers.find((t) => t.severityLevel === severityLevel) ?? calc.riskTiers[0];
+    activeRiskTier = {
+      ...matched,
+      label: `${matched.label}: ${pathwayTitle}`,
+      statisticalOutcome: `${matched.statisticalOutcome} ${statisticalOutcome}`,
+      nonPharmacologicalActions: [
+        {
+          id: 'action_noms_pathway',
+          recommendationTitle: pathwayTitle,
+          dispositionTarget: severityLevel === 'critical' || severityLevel === 'high' ? 'Centro Cirúrgico / UTI Neuro-Oncológica' : 'Radioterapia / Ambulatório de Oncologia',
+          monitoringPlan: 'RM de neuroeixo seriada e vigilância motora rigorosa.',
+          interventionalProcedure: recommendation
+        },
+        ...matched.nonPharmacologicalActions
+      ]
+    };
+  } else {
+    activeRiskTier = {
+      id: tierId,
+      label: pathwayTitle,
+      severityLevel,
+      minScore: 1,
+      maxScore: 4,
+      statisticalOutcome,
+      colorHex: tierColor,
+      pharmacologicalActions: [
+        {
+          id: 'rx_noms_dexamethasone',
+          drugName: 'Dexametasona (Controle de Edema Medular)',
+          dosage: isHighGradeBilsky ? '10 a 16 mg IV em bolus, seguido de 4 mg IV/VO a cada 6 horas' : '4 mg VO 12/12h com desmame em 7-14 dias',
+          route: 'Intravenosa / Oral',
+          frequency: '4/4h a 12/12h conforme gravidade'
+        }
+      ],
+      nonPharmacologicalActions: [
+        {
+          id: 'action_noms_pathway',
+          recommendationTitle: pathwayTitle,
+          dispositionTarget: severityLevel === 'critical' ? 'Centro Cirúrgico / UTI Neurocrítica' : 'Radioterapia / Oncologia',
+          monitoringPlan: 'Avaliação motora seriada dos dermátomos e miótomos.',
+          interventionalProcedure: recommendation
+        }
+      ]
+    };
+  }
+
+  const radarValues: Record<string, number> = {};
+  if (calc?.radarAxes) {
+    for (const axis of calc.radarAxes) {
+      radarValues[axis.id] = 0;
+    }
+  }
+  radarValues['axis_noms_neuro'] = bilskyStr === '3' ? 1.0 : bilskyStr === '2' ? 0.8 : bilskyStr === '1c' ? 0.6 : bilskyStr === '1b' ? 0.4 : bilskyStr === '1a' ? 0.2 : 0;
+  radarValues['axis_noms_onco'] = isRadiosensitive ? 0.2 : 0.9;
+  radarValues['axis_noms_mech'] = mechanicalCategory === 'unstable' ? 1.0 : mechanicalCategory === 'potentially_unstable' ? 0.6 : 0.1;
+  radarValues['axis_noms_sys'] = isSystemicEligible ? 0.1 : 0.9;
+
+  const scoreFormatted = `${pathwayName} (Bilsky ${bilskyStr} / ${isRadiosensitive ? 'Sensível' : 'Resistente'} / SINS ${mechanicalCategory})`;
+
+  return {
+    score: rawScore,
+    rawScore,
+    scoreFormatted,
+    activeRiskTier,
+    radarValues,
+    radarPoints: radarValues,
+    clinicalWarning: calc?.clinicalWarning,
+    warnings: calc?.clinicalWarning ? [calc.clinicalWarning] : undefined
+  };
+}
+
+// ----------------------------------------------------------------------------
+// J. Lawton-Young Supplementary AVM Grading System
+// ----------------------------------------------------------------------------
+
+export function calculateLawtonYoung(inputs: Record<string, any>): CalculationResult;
+export function calculateLawtonYoung(calc: ClinicalTool, inputs: Record<string, any>): CalculationResult;
+export function calculateLawtonYoung(
+  calcOrInputs: ClinicalTool | Record<string, any>,
+  maybeInputs?: Record<string, any>
+): CalculationResult {
+  let calc: ClinicalTool | undefined;
+  let inputs: Record<string, any>;
+
+  if (maybeInputs !== undefined) {
+    calc = calcOrInputs as ClinicalTool;
+    inputs = maybeInputs;
+  } else if (
+    calcOrInputs &&
+    typeof calcOrInputs === 'object' &&
+    'parameterGroups' in calcOrInputs
+  ) {
+    calc = calcOrInputs as ClinicalTool;
+    inputs = {};
+  } else {
+    calc = undefined;
+    inputs = (calcOrInputs as Record<string, any>) || {};
+  }
+
+  // 1. Spetzler-Martin Base Score (1 to 5)
+  let smScore = 1;
+  const directSm = inputs.spetzlerMartin ?? inputs.smScore ?? inputs.spetzler_martin ?? inputs.sm;
+  if (typeof directSm === 'number' && directSm >= 1 && directSm <= 5) {
+    smScore = Math.round(directSm);
+  } else {
+    let sizePts = 1;
+    const sizeVal = inputs.sm_size ?? inputs.size ?? inputs.grp_sm_size;
+    if (typeof sizeVal === 'number') {
+      if (sizeVal > 6) sizePts = 3;
+      else if (sizeVal >= 3) sizePts = 2;
+      else sizePts = 1;
+    } else if (typeof sizeVal === 'string') {
+      if (sizeVal.includes('>6') || sizeVal.includes('large') || sizeVal.includes('grande')) sizePts = 3;
+      else if (sizeVal.includes('3-6') || sizeVal.includes('medium') || sizeVal.includes('medio')) sizePts = 2;
+      else sizePts = 1;
+    } else {
+      if (inputs.opt_sm_size_large) sizePts = 3;
+      else if (inputs.opt_sm_size_medium) sizePts = 2;
+      else if (inputs.opt_sm_size_small) sizePts = 1;
+    }
+
+    let eloqPts = 0;
+    const eloqVal = inputs.sm_eloquence ?? inputs.eloquence ?? inputs.grp_sm_eloquence;
+    if (typeof eloqVal === 'boolean') {
+      eloqPts = eloqVal ? 1 : 0;
+    } else if (typeof eloqVal === 'number') {
+      eloqPts = eloqVal > 0 ? 1 : 0;
+    } else if (typeof eloqVal === 'string') {
+      eloqPts = eloqVal.toLowerCase().includes('eloq') && !eloqVal.toLowerCase().includes('nao') ? 1 : 0;
+    } else {
+      if (inputs.opt_sm_eloq_yes) eloqPts = 1;
+    }
+
+    let drainPts = 0;
+    const drainVal = inputs.sm_drainage ?? inputs.drainage ?? inputs.deep_drainage ?? inputs.grp_sm_drainage;
+    if (typeof drainVal === 'boolean') {
+      drainPts = drainVal ? 1 : 0;
+    } else if (typeof drainVal === 'number') {
+      drainPts = drainVal > 0 ? 1 : 0;
+    } else if (typeof drainVal === 'string') {
+      drainPts = drainVal.toLowerCase().includes('profund') || drainVal.toLowerCase().includes('deep') ? 1 : 0;
+    } else {
+      if (inputs.opt_sm_drain_deep) drainPts = 1;
+    }
+
+    smScore = Math.max(1, Math.min(5, sizePts + eloqPts + drainPts));
+  }
+
+  // 2. Supplementary Lawton-Young Score (1 to 5)
+  // Age: < 20 (1 pt), 20-40 (2 pts), > 40 (3 pts)
+  let agePts = 2;
+  const ageVal = inputs.age ?? inputs.lawton_age ?? inputs.grp_lawton_age;
+  if (typeof ageVal === 'number') {
+    if (ageVal > 40) agePts = 3;
+    else if (ageVal >= 20) agePts = 2;
+    else agePts = 1;
+  } else if (typeof ageVal === 'string') {
+    if (ageVal.includes('>40') || ageVal.includes('gt40')) agePts = 3;
+    else if (ageVal.includes('20-40') || ageVal.includes('20_40')) agePts = 2;
+    else if (ageVal.includes('<20') || ageVal.includes('lt20')) agePts = 1;
+  } else {
+    if (inputs.opt_lawton_age_gt40) agePts = 3;
+    else if (inputs.opt_lawton_age_20_40) agePts = 2;
+    else if (inputs.opt_lawton_age_lt20) agePts = 1;
+  }
+
+  // Bleeding status: Ruptured / previous bleed (0 pts), Unruptured (1 pt)
+  let bleedPts = 0;
+  const bleedVal = inputs.unruptured ?? inputs.ruptured ?? inputs.bleed ?? inputs.bleeding ?? inputs.lawton_bleed ?? inputs.grp_lawton_bleed;
+  if (typeof bleedVal === 'boolean') {
+    if (inputs.unruptured !== undefined) {
+      bleedPts = inputs.unruptured ? 1 : 0;
+    } else {
+      bleedPts = bleedVal ? 0 : 1;
+    }
+  } else if (typeof bleedVal === 'string') {
+    const lower = bleedVal.toLowerCase();
+    if (lower.includes('unruptured') || lower.includes('nao_roto') || lower.includes('sem_sangramento')) {
+      bleedPts = 1;
+    } else {
+      bleedPts = 0;
+    }
+  } else {
+    if (inputs.opt_lawton_bleed_no || inputs.opt_lawton_unruptured) bleedPts = 1;
+    else if (inputs.opt_lawton_bleed_yes || inputs.opt_lawton_ruptured) bleedPts = 0;
+  }
+
+  // Nidus compactness: Compact (0 pts), Diffuse (1 pt)
+  let compactPts = 0;
+  const compactVal = inputs.compactness ?? inputs.nidus ?? inputs.diffuse ?? inputs.lawton_compactness ?? inputs.grp_lawton_compactness;
+  if (typeof compactVal === 'boolean') {
+    compactPts = compactVal ? 1 : 0;
+  } else if (typeof compactVal === 'string') {
+    const lower = compactVal.toLowerCase();
+    if (lower.includes('diffuse') || lower.includes('difuso')) compactPts = 1;
+    else compactPts = 0;
+  } else {
+    if (inputs.opt_lawton_diffuse) compactPts = 1;
+    else if (inputs.opt_lawton_compact) compactPts = 0;
+  }
+
+  const lyScore = agePts + bleedPts + compactPts; // 1 to 5
+  const rawScore = smScore + lyScore; // 2 to 10
+
+  // Risk Tiers:
+  // 2 to 4: Low surgical risk
+  // 5 to 6: Intermediate / multimodal
+  // 7 to 10: Prohibitive / ARUBA conservative
+  let severityLevel: 'low' | 'intermediate' | 'high' | 'critical';
+  let tierId: string;
+  let tierLabel: string;
+  let tierColor: string;
+  let statisticalOutcome: string;
+  let recommendation: string;
+
+  if (rawScore <= 4) {
+    severityLevel = 'low';
+    tierId = 'tier_lawton_low';
+    tierLabel = 'Baixa Complexidade Cirúrgica / Baixo Risco (2 a 4 pontos)';
+    tierColor = '#10b981';
+    statisticalOutcome =
+      'Taxa de déficit neurológico permanente pós-operatório < 3% a 5%. Taxa de cura e obliteração microcirúrgica completa imediata > 95% a 98%.';
+    recommendation =
+      'Indicação Cirúrgica Mandatória / Eletiva de Ressecção Microcirúrgica Primária Completa. A cirurgia precoce elimina o risco vital de sangramento futuro com excelente segurança anatômica.';
+  } else if (rawScore <= 6) {
+    severityLevel = 'intermediate';
+    tierId = 'tier_lawton_intermediate';
+    tierLabel = 'Complexidade Cirúrgica Intermediária / Caso Limítrofe (5 a 6 pontos)';
+    tierColor = '#f59e0b';
+    statisticalOutcome =
+      'Taxa de novos déficits permanentes pós-operatórios de 10% a 25%. Risco moderado de complicações isquêmicas ou hemorrágicas.';
+    recommendation =
+      'Caso Limítrofe / Manejo Multimodal Individualizado: Embolização superseletiva pré-operatória estagiada com agentes líquidos não absorvíveis (Onyx ou Squid) para oclusão de pedículos profundos seguida de microcirurgia OU Radiocirurgia Estereotática (SRS: 18 a 22 Gy) se nidus < 3 cm.';
+  } else {
+    severityLevel = 'critical';
+    tierId = 'tier_lawton_high';
+    tierLabel = 'Alta Complexidade / Risco Cirúrgico Proibitivo (7 a 10 pontos)';
+    tierColor = '#dc2626';
+    statisticalOutcome =
+      'Risco de morbidade cirúrgica permanente incapacitante superior a 35% a 50% (> 35% a 50%). A morbimortalidade procedimental excede expressivamente o risco da história natural da malformação.';
+    recommendation =
+      'Tratamento Conservador Seguro / Manejo Clínico Expectante (Diretrizes do Ensaio Clínico ARUBA). Microcirurgia aberta formalmente contraindicada pela alta taxa de déficits permanentes, exceto para evacuação emergencial de hematoma com risco de morte.';
+  }
+
+  // Active risk tier
+  let activeRiskTier: RiskTier;
+  if (calc?.riskTiers && calc.riskTiers.length > 0) {
+    const matched = calc.riskTiers.find((t) => t.severityLevel === severityLevel) ??
+      calc.riskTiers.find((t) => rawScore >= t.minScore && rawScore <= t.maxScore) ??
+      calc.riskTiers[0];
+    activeRiskTier = {
+      ...matched,
+      statisticalOutcome: `${matched.statisticalOutcome} ${statisticalOutcome}`,
+      nonPharmacologicalActions: [
+        {
+          id: 'action_lawton_plan',
+          recommendationTitle: tierLabel,
+          dispositionTarget: severityLevel === 'critical' ? 'Ambulatório de Neurovascular / Tratamento Conservador' : 'Centro Cirúrgico Neurovascular / UTI',
+          monitoringPlan: 'Angiografia digital de controle pós-operatória precoce (< 24h) e controle rigoroso de PA.',
+          interventionalProcedure: recommendation
+        },
+        ...matched.nonPharmacologicalActions
+      ]
+    };
+  } else {
+    activeRiskTier = {
+      id: tierId,
+      label: tierLabel,
+      severityLevel,
+      minScore: rawScore <= 4 ? 2 : rawScore <= 6 ? 5 : 7,
+      maxScore: rawScore <= 4 ? 4 : rawScore <= 6 ? 6 : 10,
+      statisticalOutcome,
+      colorHex: tierColor,
+      pharmacologicalActions: [
+        {
+          id: 'rx_lawton_nppb',
+          drugName: 'Nitroprussiato de Sódio / Esmolol em BIC (Protocolo Anti-Hiperemia NPPB)',
+          dosage: 'Titular para manter PAS estritamente < 120 mmHg no pós-operatório imediato',
+          route: 'Intravenosa em BIC contínua',
+          frequency: 'Contínua em UTI Neurocrítica',
+          contraindications: 'Proibida hipertensão induzida pós-ressecção pelo risco catastrófico de sangramento por perda de autorregulação (NPPB).'
+        }
+      ],
+      nonPharmacologicalActions: [
+        {
+          id: 'action_lawton_plan',
+          recommendationTitle: tierLabel,
+          dispositionTarget: severityLevel === 'critical' ? 'Ambulatório Neurovascular (Conduta ARUBA)' : 'Centro Cirúrgico Neurovascular',
+          monitoringPlan: 'Angiografia cerebral digital de 6 vasos e controle em UTI.',
+          interventionalProcedure: recommendation
+        }
+      ]
+    };
+  }
+
+  const radarValues: Record<string, number> = {};
+  if (calc?.radarAxes) {
+    for (const axis of calc.radarAxes) {
+      radarValues[axis.id] = 0;
+    }
+  }
+  radarValues['axis_mav_size'] = Math.min(1, Math.max(0, (smScore - 1) / 4));
+  radarValues['axis_mav_eloquence'] = smScore >= 3 ? 0.7 : 0.2;
+  radarValues['axis_mav_surgical_risk'] = Math.min(1, Math.max(0, (rawScore - 2) / 8));
+
+  const scoreFormatted = `${rawScore} pontos (SM ${smScore} + LY ${lyScore})`;
+
+  return {
+    score: rawScore,
+    rawScore,
+    scoreFormatted,
+    activeRiskTier,
+    radarValues,
+    radarPoints: radarValues,
+    clinicalWarning: calc?.clinicalWarning,
+    warnings: calc?.clinicalWarning ? [calc.clinicalWarning] : undefined
+  };
+}
+
+// ----------------------------------------------------------------------------
+// K. PHASES Rupture Risk Score for Unruptured Intracranial Aneurysms
+// ----------------------------------------------------------------------------
+
+const PHASES_5_YEAR_RISK_MAP: Record<number, number> = {
+  0: 0.4,
+  1: 0.4,
+  2: 0.7,
+  3: 0.7,
+  4: 0.9,
+  5: 1.3,
+  6: 1.7,
+  7: 2.4,
+  8: 3.2,
+  9: 4.3,
+  10: 5.3,
+  11: 7.2,
+  12: 9.8,
+  13: 13.0,
+  14: 15.3
+};
+
+export function calculatePhasesScore(inputs: Record<string, any>): CalculationResult;
+export function calculatePhasesScore(calc: ClinicalTool, inputs: Record<string, any>): CalculationResult;
+export function calculatePhasesScore(
+  calcOrInputs: ClinicalTool | Record<string, any>,
+  maybeInputs?: Record<string, any>
+): CalculationResult {
+  let calc: ClinicalTool | undefined;
+  let inputs: Record<string, any>;
+
+  if (maybeInputs !== undefined) {
+    calc = calcOrInputs as ClinicalTool;
+    inputs = maybeInputs;
+  } else if (
+    calcOrInputs &&
+    typeof calcOrInputs === 'object' &&
+    'parameterGroups' in calcOrInputs
+  ) {
+    calc = calcOrInputs as ClinicalTool;
+    inputs = {};
+  } else {
+    calc = undefined;
+    inputs = (calcOrInputs as Record<string, any>) || {};
+  }
+
+  // 1. Population (P): Other (0), Japan (3), Finland (5)
+  let p = 0;
+  const popVal = inputs.population ?? inputs.grp_phases_pop ?? inputs.pop;
+  if (typeof popVal === 'string') {
+    const lower = popVal.toLowerCase();
+    if (lower.includes('finland') || lower.includes('finlandia')) p = 5;
+    else if (lower.includes('japan') || lower.includes('japao')) p = 3;
+    else p = 0;
+  } else {
+    if (inputs.opt_phases_pop_finland) p = 5;
+    else if (inputs.opt_phases_pop_japan) p = 3;
+  }
+
+  // 2. Hypertension (H): No (0), Yes (1)
+  let h = 0;
+  const htnVal = inputs.hypertension ?? inputs.htn ?? inputs.grp_phases_htn;
+  if (typeof htnVal === 'boolean') {
+    h = htnVal ? 1 : 0;
+  } else if (typeof htnVal === 'string') {
+    const lower = htnVal.toLowerCase();
+    h = lower === 'yes' || lower === 'sim' || lower.includes('present') ? 1 : 0;
+  } else {
+    if (inputs.opt_phases_htn_yes) h = 1;
+  }
+
+  // 3. Age >= 70 (A): < 70 (0), >= 70 (1)
+  let a = 0;
+  const ageVal = inputs.age ?? inputs.ageGte70 ?? inputs.grp_phases_age;
+  if (typeof ageVal === 'number') {
+    a = ageVal >= 70 ? 1 : 0;
+  } else if (typeof ageVal === 'boolean') {
+    a = ageVal ? 1 : 0;
+  } else if (typeof ageVal === 'string') {
+    a = ageVal.includes('70') && (ageVal.includes('>=') || ageVal.includes('gte') || ageVal.includes('>')) ? 1 : 0;
+  } else {
+    if (inputs.opt_phases_age_gte70) a = 1;
+  }
+
+  // 4. Size (S): < 7.0mm (0), 7.0-9.9mm (3), 10.0-19.9mm (6), >= 20.0mm (10)
+  let s = 0;
+  const sizeVal = inputs.size ?? inputs.aneurysmSize ?? inputs.grp_phases_size;
+  if (typeof sizeVal === 'number') {
+    if (sizeVal >= 20.0) s = 10;
+    else if (sizeVal >= 10.0) s = 6;
+    else if (sizeVal >= 7.0) s = 3;
+    else s = 0;
+  } else if (typeof sizeVal === 'string') {
+    const lower = sizeVal.toLowerCase();
+    if (lower.includes('20') || lower.includes('giant') || lower.includes('gigante')) s = 10;
+    else if (lower.includes('10') || lower.includes('10-19') || lower.includes('10_19')) s = 6;
+    else if (lower.includes('7') || lower.includes('7-9') || lower.includes('7_9')) s = 3;
+    else s = 0;
+  } else {
+    if (inputs.opt_phases_size_gte20) s = 10;
+    else if (inputs.opt_phases_size_10_19) s = 6;
+    else if (inputs.opt_phases_size_7_9) s = 3;
+  }
+
+  // 5. Earlier SAH (E): No (0), Yes (1)
+  let e = 0;
+  const sahVal = inputs.earlierSah ?? inputs.earlier_sah ?? inputs.previousSah ?? inputs.grp_phases_earlier_sah;
+  if (typeof sahVal === 'boolean') {
+    e = sahVal ? 1 : 0;
+  } else if (typeof sahVal === 'string') {
+    const lower = sahVal.toLowerCase();
+    e = lower === 'yes' || lower === 'sim' || lower.includes('present') ? 1 : 0;
+  } else {
+    if (inputs.opt_phases_earlier_sah_yes) e = 1;
+  }
+
+  // 6. Site (S): ICA (0), MCA (2), ACoA/PCoA/Posterior (4)
+  let sitePts = 0;
+  const siteVal = inputs.site ?? inputs.location ?? inputs.grp_phases_site;
+  if (typeof siteVal === 'string') {
+    const lower = siteVal.toLowerCase();
+    if (
+      lower.includes('post') ||
+      lower.includes('basilar') ||
+      lower.includes('vertebral') ||
+      lower.includes('pica') ||
+      lower.includes('pca') ||
+      lower.includes('acoa') ||
+      lower.includes('pcoa') ||
+      lower.includes('comunicante')
+    ) {
+      sitePts = 4;
+    } else if (lower.includes('mca') || lower.includes('acm') || lower.includes('media')) {
+      sitePts = 2;
+    } else {
+      sitePts = 0; // ICA
+    }
+  } else {
+    if (inputs.opt_phases_site_acoa_pcoa_post) sitePts = 4;
+    else if (inputs.opt_phases_site_mca) sitePts = 2;
+    else if (inputs.opt_phases_site_ica) sitePts = 0;
+  }
+
+  const rawScore = p + h + a + s + e + sitePts; // 0 to 22
+
+  // 5-year aneurysm rupture probability
+  let riskFormatted: string;
+  let riskPercent: number;
+  if (rawScore >= 15) {
+    riskPercent = 17.8;
+    riskFormatted = '> 17.8%';
+  } else if (PHASES_5_YEAR_RISK_MAP[rawScore] !== undefined) {
+    riskPercent = PHASES_5_YEAR_RISK_MAP[rawScore];
+    riskFormatted = `${riskPercent.toFixed(1)}%`;
+  } else {
+    riskPercent = 0.4;
+    riskFormatted = '0.4%';
+  }
+
+  // Risk Cutoffs:
+  // <= 3: Conservative Safe (0.4% - 0.7%)
+  // 4 - 7: Borderline / Shared decision (0.9% - 4.3%)
+  // >= 8: Mandatory Surgical / Interventional (>= 5.3% to > 17.8%)
+  let severityLevel: 'low' | 'intermediate' | 'high' | 'critical';
+  let tierId: string;
+  let tierLabel: string;
+  let tierColor: string;
+  let statisticalOutcome: string;
+  let recommendation: string;
+
+  if (rawScore <= 3) {
+    severityLevel = 'low';
+    tierId = 'tier_phases_low';
+    tierLabel = 'Baixo Risco de Ruptura (0 a 3 pontos) - Tratamento Conservador Seguro';
+    tierColor = '#10b981';
+    statisticalOutcome = `Probabilidade estimada de ruptura em 5 anos de ${riskFormatted} (risco anualizado < 0,1% a 0,15%/ano). O risco cumulativo de morbimortalidade de qualquer procedimento invasivo supera o risco da história natural do aneurisma.`;
+    recommendation =
+      'Tratamento Conservador Seguro de Escolha. Cessação mandatória do tabagismo, controle pressórico rigoroso com anti-hipertensivos (meta PAS < 130 mmHg) e vigilância por neuroimagem vascular não invasiva (Angio-TC ou Angio-RM sem contraste) aos 12 meses; se estabilidade dimensional, a cada 2 a 3 anos.';
+  } else if (rawScore <= 7) {
+    severityLevel = 'intermediate';
+    tierId = 'tier_phases_intermediate';
+    tierLabel = 'Risco Intermediário (4 a 7 pontos) - Caso Limítrofe / Decisão Compartilhada';
+    tierColor = '#f59e0b';
+    statisticalOutcome = `Probabilidade estimada de ruptura em 5 anos de ${riskFormatted}.`;
+    recommendation =
+      'Caso Limítrofe / Tomada de Decisão Compartilhada. Avaliar aspectos morfológicos angiorradiológicos de alto risco: presença de irregularidades de parede (daughter sacs, multilobulação), Aspect Ratio (profundidade/colo > 1,6), idade biológica, história familiar de HSA e expectativa de vida. Considerar intervenção preventiva em pacientes jovens com colo favorável.';
+  } else {
+    severityLevel = 'critical';
+    tierId = 'tier_phases_high';
+    tierLabel = 'Alto a Muito Alto Risco de Ruptura (8 a 22 pontos) - Indicação Cirúrgica Mandatória';
+    tierColor = '#dc2626';
+    statisticalOutcome = `Probabilidade estimada de ruptura em 5 anos de ${riskFormatted} (elevadíssimo risco cumulativo com taxa de mortalidade ou dependência grave superior a 60-70% caso ocorra rotura).`;
+    recommendation =
+      'Indicação Cirúrgica Mandatória / Tratamento Intervencionista Eletivo Ativo. Avaliação anatômica para Clipagem Microcirúrgica Aberta (de escolha para aneurismas de bifurcação da ACM e colos largos com ramos emergentes) versus Oclusão Endovascular com micromolas destacáveis ou Stent Diversor de Fluxo (Flow Diverter) com dupla antiagregação prévia.';
+  }
+
+  // Active risk tier
+  let activeRiskTier: RiskTier;
+  if (calc?.riskTiers && calc.riskTiers.length > 0) {
+    const matched = calc.riskTiers.find((t) => t.severityLevel === severityLevel) ??
+      calc.riskTiers.find((t) => rawScore >= t.minScore && rawScore <= t.maxScore) ??
+      calc.riskTiers[0];
+    activeRiskTier = {
+      ...matched,
+      statisticalOutcome: `${matched.statisticalOutcome} ${statisticalOutcome}`,
+      nonPharmacologicalActions: [
+        {
+          id: 'action_phases_treatment',
+          recommendationTitle: tierLabel,
+          dispositionTarget: severityLevel === 'critical' ? 'Centro Cirúrgico / Hemodinâmica Neurointervencionista' : 'Ambulatório de Neurocirurgia Vascular',
+          monitoringPlan: 'Angio-TC / Angio-RM vascular cerebral seriada.',
+          interventionalProcedure: recommendation
+        },
+        ...matched.nonPharmacologicalActions
+      ]
+    };
+  } else {
+    activeRiskTier = {
+      id: tierId,
+      label: tierLabel,
+      severityLevel,
+      minScore: rawScore <= 3 ? 0 : rawScore <= 7 ? 4 : 8,
+      maxScore: rawScore <= 3 ? 3 : rawScore <= 7 ? 7 : 22,
+      statisticalOutcome,
+      colorHex: tierColor,
+      pharmacologicalActions: [
+        {
+          id: 'rx_phases_bp_control',
+          drugName: 'Enalapril / Losartana (Controle Pressórico Estrito)',
+          dosage: 'Titular para PAS < 130 mmHg e PAD < 80 mmHg',
+          route: 'Oral',
+          frequency: 'Uso contínuo diário'
+        }
+      ],
+      nonPharmacologicalActions: [
+        {
+          id: 'action_phases_treatment',
+          recommendationTitle: tierLabel,
+          dispositionTarget: severityLevel === 'critical' ? 'Centro Cirúrgico / Hemodinâmica Intervencionista' : 'Ambulatório de Neurocirurgia Vascular',
+          monitoringPlan: 'Neuroimagem vascular sem contraste periódica.',
+          interventionalProcedure: recommendation
+        }
+      ]
+    };
+  }
+
+  const radarValues: Record<string, number> = {};
+  if (calc?.radarAxes) {
+    for (const axis of calc.radarAxes) {
+      radarValues[axis.id] = 0;
+    }
+  }
+  radarValues['axis_aneurysm_size'] = Math.min(1, Math.max(0, s / 10));
+  radarValues['axis_aneurysm_site'] = sitePts / 4;
+  radarValues['axis_rupture_risk'] = Math.min(1, Math.max(0, riskPercent / 20));
+
+  const scoreFormatted = `${rawScore} pontos (Risco 5 anos: ${riskFormatted})`;
+
+  return {
+    score: rawScore,
+    rawScore,
+    scoreFormatted,
+    activeRiskTier,
+    radarValues,
+    radarPoints: radarValues,
+    clinicalWarning: calc?.clinicalWarning,
+    warnings: calc?.clinicalWarning ? [calc.clinicalWarning] : undefined
+  };
+}
+
