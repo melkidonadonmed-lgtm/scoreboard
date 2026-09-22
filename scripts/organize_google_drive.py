@@ -18,97 +18,92 @@ DRIVE_API_BASE = "https://www.googleapis.com/drive/v3"
 MAPPING = {
     # 00 - Arquitetura
     "App Calculadoras Médicas - Especificação Técnica e Modelagem de Banco de Dados.pdf": {
-        "folder": "00_Plano_Diretor_e_Arquitetura",
+        "folder": "00_Plano_e_Arquitetura",
         "new_name": "Proposta_Original_Calculadoras_Medicas.pdf"
     },
     # 01 - Especificações Clínicas
     "__REVISÃO SISTEMÁTICA E EXHAUSTIVA DE ESCORES PROGNÓSTICOS E CALCULADORAS CLÍNICAS NA.pdf": {
-        "folder": "01_Especificacoes_Clinicas_98_Dossies",
+        "folder": "01_Especificacoes_Clinicas",
         "new_name": "Bloco_01_Emergencia_Choque_UTI.pdf"
     },
     "Revisão Sistemática de Escores Cardiológicos.pdf": {
-        "folder": "01_Especificacoes_Clinicas_98_Dossies",
+        "folder": "01_Especificacoes_Clinicas",
         "new_name": "Bloco_02_Cardiologia_Hemodinamica.pdf"
     },
     "--- ### 16. EDSS (_Expanded Disability Status Scale_ - Esclerose Múltipla) #### 1. Identificação.pdf": {
-        "folder": "01_Especificacoes_Clinicas_98_Dossies",
+        "folder": "01_Especificacoes_Clinicas",
         "new_name": "Bloco_03_Neurologia_Neurocirurgia.pdf"
     },
     "Chats com anexos (1).docx": {
-        "folder": "01_Especificacoes_Clinicas_98_Dossies",
+        "folder": "01_Especificacoes_Clinicas",
         "new_name": "Bloco_03_Anexo_Dossie_Neurologia.docx"
     },
     "Guia Clínico de Escores Pneumológicos.pdf": {
-        "folder": "01_Especificacoes_Clinicas_98_Dossies",
+        "folder": "01_Especificacoes_Clinicas",
         "new_name": "Bloco_04_Pneumologia.pdf"
     },
     "Guia Clínico de Escores Cirúrgicos e Trauma.pdf": {
-        "folder": "01_Especificacoes_Clinicas_98_Dossies",
+        "folder": "01_Especificacoes_Clinicas",
         "new_name": "Bloco_05_Cirurgia_Geral_Trauma.pdf"
     },
     "Revisão Sistemática de Escores Nefrológicos.pdf": {
-        "folder": "01_Especificacoes_Clinicas_98_Dossies",
+        "folder": "01_Especificacoes_Clinicas",
         "new_name": "Bloco_06_Nefrologia_Meio_Interno.pdf"
     },
     "Chats com anexos.docx": {
-        "folder": "01_Especificacoes_Clinicas_98_Dossies",
+        "folder": "01_Especificacoes_Clinicas",
         "new_name": "Bloco_06_Anexo_Dossie_Nefrologia.docx"
     },
     "Revisão Sistemática de Escores em Hepatologia e Gastroenterologia.pdf": {
-        "folder": "01_Especificacoes_Clinicas_98_Dossies",
+        "folder": "01_Especificacoes_Clinicas",
         "new_name": "Bloco_07_Hepatologia_Gastroenterologia.pdf"
     },
     "Guia Clínico de Escores Pediátricos.pdf": {
-        "folder": "01_Especificacoes_Clinicas_98_Dossies",
+        "folder": "01_Especificacoes_Clinicas",
         "new_name": "Bloco_08_Pediatria_Neonatologia.pdf"
     },
     "Revisão de Escores em Hematologia.pdf": {
-        "folder": "01_Especificacoes_Clinicas_98_Dossies",
+        "folder": "01_Especificacoes_Clinicas",
         "new_name": "Bloco_09_Hematologia_Reumatologia.pdf"
     },
     # 02 - Design System
     "frontcraft_master_v2_0_est_dio_reativo_de_design_system.html": {
-        "folder": "02_Design_System_FrontCraft_UI",
+        "folder": "02_Design_System_UI",
         "new_name": "frontcraft_master_v2_0_estudio_reativo.html"
     },
     "guia_e_laboratorio_front_end_master.html": {
-        "folder": "02_Design_System_FrontCraft_UI",
+        "folder": "02_Design_System_UI",
         "new_name": "guia_e_laboratorio_front_end_master.html"
     },
     "guia_visual_de_frontend_gerador_de_prompts.tsx": {
-        "folder": "02_Design_System_FrontCraft_UI",
+        "folder": "02_Design_System_UI",
         "new_name": "guia_visual_de_frontend_gerador_de_prompts.tsx"
     },
     "gemini-code-1790054955496.ts": {
-        "folder": "02_Design_System_FrontCraft_UI",
-        "new_name": "wcag_contrast_engine.ts"
+        "folder": "02_Design_System_UI",
+        "new_name": "componente_tokens_frontcraft.ts"
     },
     "gemini-code-1790054965786.md": {
-        "folder": "02_Design_System_FrontCraft_UI",
+        "folder": "02_Design_System_UI",
         "new_name": "especificacao_design_system_tokens.md"
     },
     # 03 - Protocolos BIC
     "gemini-code-1790030040094.md": {
-        "folder": "03_Protocolos_Prescricao_e_BIC",
+        "folder": "03_Protocolos_Prescricao_BIC",
         "new_name": "protocolo_mestre_prescricao_e_bic.md"
-    },
-    # 04 - Inventário
-    "gemini-code-1789963111869.md": {
-        "folder": "04_Inventario_e_Indices",
-        "new_name": "antigravity_core_engine_spec.md"
     }
 }
 
 DUPLICATES_TO_TRASH = [
-    "frontcraft_master_v2_0_est_dio_reativo_de_design_system (1).html"
+    "frontcraft_master_v2_0_est_dio_reativo_de_design_system (1).html",
+    "gemini-code-1789963111869.md"
 ]
 
 SUBFOLDERS = [
-    "00_Plano_Diretor_e_Arquitetura",
-    "01_Especificacoes_Clinicas_98_Dossies",
-    "02_Design_System_FrontCraft_UI",
-    "03_Protocolos_Prescricao_e_BIC",
-    "04_Inventario_e_Indices"
+    "00_Plano_e_Arquitetura",
+    "01_Especificacoes_Clinicas",
+    "02_Design_System_UI",
+    "03_Protocolos_Prescricao_BIC"
 ]
 
 def get_access_token():

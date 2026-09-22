@@ -3,11 +3,11 @@
 Este repositório documental centraliza todas as especificações técnicas, médicas, regulatórias, de design e de engenharia do **Scoreboard App** (CDSS Mobile-First PWA).
 
 > [!NOTE]
-> Para instruções de organização e mapeamento dos arquivos originais do Google Drive, consulte o [Guia Mestre de Organização do Google Drive](file:///home/melki/projects/workspace/projects/scoreboard-app/docs/ORGANIZACAO_GOOGLE_DRIVE.md).
+> Para o mapeamento dos arquivos brutos da pasta do Google Drive, consulte o [Guia de Organização do Google Drive](file:///home/melki/projects/workspace/projects/scoreboard-app/docs/ORGANIZACAO_GOOGLE_DRIVE.md).
 
 ---
 
-## 🏛️ Estrutura de Pastas Padronizada
+## 🏛️ Estrutura de Pastas Padronizada (4 Módulos Centrais)
 
 ```
 docs/
@@ -36,9 +36,9 @@ docs/
 ├── 03_protocolos_prescricao_bic/      # Diretrizes de Prescrição Hospitalar e Guia de BIC
 │   ├── protocolo_mestre_prescricao_e_bic.md
 │   └── diretriz_geral_preceptor_uti.md
-├── _bruto_original/                   # Arquivos originais exportados do Google Drive
-│   └── README.md                      # Inventário e rastreabilidade dos 20 arquivos brutos
-├── ORGANIZACAO_GOOGLE_DRIVE.md        # Mapeamento De/Para e organização da pasta do Drive
+├── _bruto_original/                   # Arquivos brutos originais do Google Drive
+│   └── README.md                      # Inventário e rastreabilidade dos arquivos brutos
+├── ORGANIZACAO_GOOGLE_DRIVE.md        # Guia De/Para da pasta do Google Drive
 └── INDEX.md                           # Este índice geral
 ```
 
@@ -72,6 +72,3 @@ docs/
 ### 4. Protocolos de Prescrição e Guia de BIC (`03_protocolos_prescricao_bic/`)
 - [`protocolo_mestre_prescricao_e_bic.md`](file:///home/melki/projects/workspace/projects/scoreboard-app/docs/03_protocolos_prescricao_bic/protocolo_mestre_prescricao_e_bic.md): Estrutura mestre de prescrição médica hospitalar e memórias de cálculo de vazão em bomba de infusão.
 - [`diretriz_geral_preceptor_uti.md`](file:///home/melki/projects/workspace/projects/scoreboard-app/docs/03_protocolos_prescricao_bic/diretriz_geral_preceptor_uti.md): Protocolos clínicos oficiais AMIB de drogas vasoativas (Noradrenalina, Vasopressina, Dobutamina, Nitroglicerina), diluições em SG 5% e modelos de minuta SOAP/SBAR.
-
-### 5. Rastreabilidade com o Google Drive (`ORGANIZACAO_GOOGLE_DRIVE.md`)
-- Mapeamento detalhado dos 20 arquivos brutos exportados do Google Drive ([Pasta `1H6Mhm9sCHv9r6x38EnE12bDXC0bQK77Z`](https://drive.google.com/drive/folders/1H6Mhm9sCHv9r6x38EnE12bDXC0bQK77Z)), eliminando duplicações e nomes truncados com correspondência 1:1 na pasta `docs/`.
