@@ -35,4 +35,6 @@ credentials.json
 *.swp
 *.bak
 .idea/
-.vscode/
+# Arquivos gerados para distribuição do Google Drive
+docs/dist_google_drive/
+*.zip
