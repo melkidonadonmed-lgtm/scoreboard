@@ -439,8 +439,8 @@ def get_anderson_dalonzo():
                     },
                     {
                         "id": "opt_od_type2_c",
-                        "label": "Tipo II (Grauer IIC): Base do Odontoide com Traço Reverso ou Cominuição (2 pts)",
-                        "pointValue": 2,
+                        "label": "Tipo II (Grauer IIC): Base do Odontoide com Traço Reverso ou Cominuição (3 pts)",
+                        "pointValue": 3,
                         "isNormalBaseline": False,
                         "radarNormalizedValue": 1.0,
                         "sortOrder": 3,
@@ -448,8 +448,8 @@ def get_anderson_dalonzo():
                     },
                     {
                         "id": "opt_od_type3",
-                        "label": "Tipo III: Fratura com Extensão para o Corpo Esponjoso de C2 (3 pts)",
-                        "pointValue": 3,
+                        "label": "Tipo III: Fratura com Extensão para o Corpo Esponjoso de C2 (1 pt)",
+                        "pointValue": 1,
                         "isNormalBaseline": True,
                         "radarNormalizedValue": 0.2,
                         "sortOrder": 4,

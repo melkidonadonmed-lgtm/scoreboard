@@ -6017,8 +6017,8 @@
             },
             {
               "id": "opt_od_type2_c",
-              "label": "Tipo II (Grauer IIC): Base do Odontoide com Traço Reverso ou Cominuição (2 pts)",
-              "pointValue": 2,
+              "label": "Tipo II (Grauer IIC): Base do Odontoide com Traço Reverso ou Cominuição (3 pts)",
+              "pointValue": 3,
               "isNormalBaseline": false,
               "radarNormalizedValue": 1.0,
               "sortOrder": 3,
@@ -6026,8 +6026,8 @@
             },
             {
               "id": "opt_od_type3",
-              "label": "Tipo III: Fratura com Extensão para o Corpo Esponjoso de C2 (3 pts)",
-              "pointValue": 3,
+              "label": "Tipo III: Fratura com Extensão para o Corpo Esponjoso de C2 (1 pt)",
+              "pointValue": 1,
               "isNormalBaseline": true,
               "radarNormalizedValue": 0.2,
               "sortOrder": 4,

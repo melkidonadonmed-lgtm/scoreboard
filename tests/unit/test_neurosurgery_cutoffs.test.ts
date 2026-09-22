@@ -25,7 +25,8 @@ import {
   calculateSagittalBalance,
   calculateNomsFramework,
   calculateLawtonYoung,
-  calculatePhasesScore
+  calculatePhasesScore,
+  calculateVasograde
 } from '@/engines/calculationEngine';
 import {
   type Calculator,
@@ -293,6 +294,7 @@ describe('Neurosurgical Decision Thresholds & Surgical Cutoffs Suite', () => {
 
     it('verifies clinical rule: Grauer IIC reverse oblique contraindicates anterior screw and mandates Harms-Goel posterior fixation', () => {
       const opt2c = anderson.parameterGroups[0].options.find((o) => o.id === 'opt_od_type2_c')!;
+      expect(opt2c.pointValue).toBe(3);
       expect(opt2c.label).toContain('Grauer IIC');
       expect(opt2c.description).toContain('Contraindica parafuso anterior; exige fixação posterior C1-C2 de Harms');
 
@@ -306,16 +308,29 @@ describe('Neurosurgical Decision Thresholds & Surgical Cutoffs Suite', () => {
       const harmsTier = anderson.riskTiers.find((t) => t.id === 'tier_od_harms')!;
       expect(harmsTier.label).toContain('Tipo IIC / Falha de Parafuso: Indicação de Artrodese Posterior C1-C2 de Harms-Goel');
       expect(harmsTier.nonPharmacologicalActions[0].interventionalProcedure).toContain('massa lateral de C1 e parafusos pediculares/ístmicos de C2');
+
+      // Runtime execution: Grauer IIC produces 3 points and matches tier_od_harms
+      const resIIC = calculateScore(anderson, { grp_anderson_type: 'opt_od_type2_c' });
+      expect(resIIC.rawScore).toBe(3);
+      expect(resIIC.activeRiskTier.id).toBe('tier_od_harms');
+      expect(resIIC.activeRiskTier.severityLevel).toBe('critical');
     });
 
     it('verifies Type III: C2 Cancellous Body Extension has high spontaneous union rate (>85-95%)', () => {
       const opt3 = anderson.parameterGroups[0].options.find((o) => o.id === 'opt_od_type3')!;
+      expect(opt3.pointValue).toBe(1);
       expect(opt3.label).toContain('Tipo III: Fratura com Extensão para o Corpo Esponjoso de C2');
       expect(opt3.description).toContain('Alta taxa de união consolidada (85-95%)');
       expect(opt3.isNormalBaseline).toBe(true);
 
       const consTier = anderson.riskTiers.find((t) => t.id === 'tier_od_cons')!;
       expect(consTier.label).toContain('Tipos I e III');
+
+      // Runtime execution: Type III produces 1 point and matches tier_od_cons
+      const resType3 = calculateScore(anderson, { grp_anderson_type: 'opt_od_type3' });
+      expect(resType3.rawScore).toBe(1);
+      expect(resType3.activeRiskTier.id).toBe('tier_od_cons');
+      expect(resType3.activeRiskTier.severityLevel).toBe('low');
     });
   });
 
@@ -507,6 +522,25 @@ describe('Neurosurgical Decision Thresholds & Surgical Cutoffs Suite', () => {
       expect(res.activeRiskTier.nonPharmacologicalActions[0].interventionalProcedure).toContain(
         'Radioterapia Paliativa em Fração Única (8 Gy)'
       );
+    });
+
+    it('validates Profile 5: Primary SBRT (Low-grade Bilsky 0/1 + Radioresistant + Mechanically Stable Spine SINS <= 6)', () => {
+      const res = calculateNomsFramework({
+        bilsky: '1a',
+        radiosensitivity: 'radioresistant',
+        sins: 4,
+        kps: 90
+      });
+
+      expect(res.rawScore).toBe(2);
+      expect(res.scoreFormatted).toContain('Primary SBRT');
+      expect(res.activeRiskTier.id).toBe('tier_noms_primary_sbrt');
+      expect(res.activeRiskTier.severityLevel).toBe('intermediate');
+      expect(res.activeRiskTier.label).toContain('SBRT Primária Isolada');
+      expect(res.radarValues['axis_noms_syst']).toBeDefined();
+      expect(res.radarValues['axis_noms_syst']).toBeGreaterThan(0);
+      expect(res.radarValues['axis_noms_sys']).toBeDefined();
+      expect(res.radarValues['axis_noms_sys']).toBeGreaterThan(0);
     });
   });
 
@@ -922,6 +956,42 @@ describe('Neurosurgical Decision Thresholds & Surgical Cutoffs Suite', () => {
       expect(vasograde.clinicalWarning).toContain('TERMINANTEMENTE PROIBIDA');
       expect(vasograde.clinicalWarning).toContain('colapso cardiovascular');
       expect(vasograde.clinicalWarning).toContain('hipertensão com Noradrenalina está proscrita antes da oclusão definitiva');
+    });
+
+    it('validates dedicated bivariate resolver for { wfns, modified_fisher } across all risk tiers', () => {
+      // 1. Green: WFNS 1 + Fisher 2
+      const green = calculateVasograde({ wfns: 1, modified_fisher: 2 });
+      expect(green.rawScore).toBe(1);
+      expect(green.activeRiskTier.id).toBe('tier_vaso_green');
+      expect(green.activeRiskTier.severityLevel).toBe('low');
+
+      // 2. Yellow: WFNS 2 + Fisher 4
+      const yellow1 = calculateVasograde({ wfns: 2, modified_fisher: 4 });
+      expect(yellow1.rawScore).toBe(2);
+      expect(yellow1.activeRiskTier.id).toBe('tier_vaso_yellow');
+      expect(yellow1.activeRiskTier.severityLevel).toBe('intermediate');
+
+      // 3. Yellow: WFNS 3 + Fisher 1
+      const yellow2 = calculateVasograde({ wfns: 3, modified_fisher: 1 });
+      expect(yellow2.rawScore).toBe(2);
+      expect(yellow2.activeRiskTier.id).toBe('tier_vaso_yellow');
+
+      // 4. Red: WFNS 3 + Fisher 3
+      const red1 = calculateVasograde({ wfns: 3, modified_fisher: 3 });
+      expect(red1.rawScore).toBe(3);
+      expect(red1.activeRiskTier.id).toBe('tier_vaso_red');
+      expect(red1.activeRiskTier.severityLevel).toBe('critical');
+
+      // 5. Red: WFNS 5 + Fisher 4
+      const red2 = calculateVasograde({ wfns: 5, modified_fisher: 4 });
+      expect(red2.rawScore).toBe(3);
+      expect(red2.activeRiskTier.id).toBe('tier_vaso_red');
+      expect(red2.activeRiskTier.severityLevel).toBe('critical');
+
+      // 6. Delegation via calculateScore
+      const delegatedRed = calculateScore(vasograde, { wfns: 4, modified_fisher: 0 });
+      expect(delegatedRed.rawScore).toBe(3);
+      expect(delegatedRed.activeRiskTier.id).toBe('tier_vaso_red');
     });
   });
 

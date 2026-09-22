@@ -86,6 +86,14 @@ export function calculateScore(
     return calculatePhasesScore(calc, inputs);
   }
 
+  if (
+    calc.id === 'calc_vasograde' ||
+    calc.slug === 'vasograde' ||
+    calc.slug === 'vasograde-dci'
+  ) {
+    return calculateVasograde(calc, inputs);
+  }
+
   // Process parameter groups
   for (const group of calc.parameterGroups) {
     const selectedOption = resolveSelectedOption(group, inputs);
@@ -1134,9 +1142,16 @@ export function calculateSagittalBalance(
       radarValues[axis.id] = 0;
     }
   }
-  radarValues['axis_pi_ll'] = Math.min(1, Math.max(0, mismatchPiLl / 30));
-  radarValues['axis_pt'] = Math.min(1, Math.max(0, (pt - 10) / 30));
-  radarValues['axis_sva'] = Math.min(1, Math.max(0, sva / 120));
+  const normPiLl = Math.min(1, Math.max(0, mismatchPiLl / 30));
+  const normPt = Math.min(1, Math.max(0, (pt - 10) / 30));
+  const normSva = Math.min(1, Math.max(0, sva / 120));
+
+  radarValues['axis_pi_ll'] = normPiLl;
+  radarValues['axis_sb_pi_ll'] = normPiLl;
+  radarValues['axis_pt'] = normPt;
+  radarValues['axis_sb_pt'] = normPt;
+  radarValues['axis_sva'] = normSva;
+  radarValues['axis_sb_sva'] = normSva;
   radarValues['axis_sagittal_deformity'] = isSevere ? 1.0 : isModerate ? 0.6 : 0.1;
 
   const rawScore = mismatchPiLl;
@@ -1266,7 +1281,7 @@ export function calculateNomsFramework(
   }
 
   // Multidimensional Decision Matrix Adjudication
-  let pathwayName: 'Separation Surgery + SBRT' | 'cEBRT alone' | 'Percutaneous Stabilization' | 'Palliative Hospice';
+  let pathwayName: 'Separation Surgery + SBRT' | 'cEBRT alone' | 'Percutaneous Stabilization' | 'Palliative Hospice' | 'Primary SBRT';
   let pathwayTitle: string;
   let severityLevel: 'low' | 'intermediate' | 'high' | 'critical';
   let tierId: string;
@@ -1335,7 +1350,7 @@ export function calculateNomsFramework(
   } else {
     // Low grade Bilsky, stable mechanical
     if (!isRadiosensitive) {
-      pathwayName = 'Percutaneous Stabilization';
+      pathwayName = 'Primary SBRT';
       pathwayTitle = 'SBRT Primária Isolada (Primary SBRT)';
       severityLevel = 'intermediate';
       tierId = 'tier_noms_primary_sbrt';
@@ -1418,6 +1433,7 @@ export function calculateNomsFramework(
   radarValues['axis_noms_onco'] = isRadiosensitive ? 0.2 : 0.9;
   radarValues['axis_noms_mech'] = mechanicalCategory === 'unstable' ? 1.0 : mechanicalCategory === 'potentially_unstable' ? 0.6 : 0.1;
   radarValues['axis_noms_sys'] = isSystemicEligible ? 0.1 : 0.9;
+  radarValues['axis_noms_syst'] = isSystemicEligible ? 0.1 : 0.9;
 
   const scoreFormatted = `${pathwayName} (Bilsky ${bilskyStr} / ${isRadiosensitive ? 'Sensível' : 'Resistente'} / SINS ${mechanicalCategory})`;
 
@@ -1463,9 +1479,12 @@ export function calculateLawtonYoung(
 
   // 1. Spetzler-Martin Base Score (1 to 5)
   let smScore = 1;
-  const directSm = inputs.spetzlerMartin ?? inputs.smScore ?? inputs.spetzler_martin ?? inputs.sm;
+  const directSm = inputs.spetzlerMartin ?? inputs.smScore ?? inputs.spetzler_martin ?? inputs.sm ?? inputs.grp_ly_sm;
   if (typeof directSm === 'number' && directSm >= 1 && directSm <= 5) {
     smScore = Math.round(directSm);
+  } else if (typeof directSm === 'string') {
+    const match = directSm.match(/[1-5]/);
+    if (match) smScore = parseInt(match[0], 10);
   } else {
     let sizePts = 1;
     const sizeVal = inputs.sm_size ?? inputs.size ?? inputs.grp_sm_size;
@@ -1513,7 +1532,7 @@ export function calculateLawtonYoung(
   // 2. Supplementary Lawton-Young Score (1 to 5)
   // Age: < 20 (1 pt), 20-40 (2 pts), > 40 (3 pts)
   let agePts = 2;
-  const ageVal = inputs.age ?? inputs.lawton_age ?? inputs.grp_lawton_age;
+  const ageVal = inputs.age ?? inputs.lawton_age ?? inputs.grp_lawton_age ?? inputs.grp_ly_age;
   if (typeof ageVal === 'number') {
     if (ageVal > 40) agePts = 3;
     else if (ageVal >= 20) agePts = 2;
@@ -1523,14 +1542,14 @@ export function calculateLawtonYoung(
     else if (ageVal.includes('20-40') || ageVal.includes('20_40')) agePts = 2;
     else if (ageVal.includes('<20') || ageVal.includes('lt20')) agePts = 1;
   } else {
-    if (inputs.opt_lawton_age_gt40) agePts = 3;
-    else if (inputs.opt_lawton_age_20_40) agePts = 2;
-    else if (inputs.opt_lawton_age_lt20) agePts = 1;
+    if (inputs.opt_lawton_age_gt40 || inputs.opt_ly_age_gt40) agePts = 3;
+    else if (inputs.opt_lawton_age_20_40 || inputs.opt_ly_age_20_40) agePts = 2;
+    else if (inputs.opt_lawton_age_lt20 || inputs.opt_ly_age_lt20) agePts = 1;
   }
 
   // Bleeding status: Ruptured / previous bleed (0 pts), Unruptured (1 pt)
   let bleedPts = 0;
-  const bleedVal = inputs.unruptured ?? inputs.ruptured ?? inputs.bleed ?? inputs.bleeding ?? inputs.lawton_bleed ?? inputs.grp_lawton_bleed;
+  const bleedVal = inputs.unruptured ?? inputs.ruptured ?? inputs.bleed ?? inputs.bleeding ?? inputs.lawton_bleed ?? inputs.grp_lawton_bleed ?? inputs.grp_ly_bleed ?? inputs.grp_ly_rupture;
   if (typeof bleedVal === 'boolean') {
     if (inputs.unruptured !== undefined) {
       bleedPts = inputs.unruptured ? 1 : 0;
@@ -1539,28 +1558,28 @@ export function calculateLawtonYoung(
     }
   } else if (typeof bleedVal === 'string') {
     const lower = bleedVal.toLowerCase();
-    if (lower.includes('unruptured') || lower.includes('nao_roto') || lower.includes('sem_sangramento')) {
+    if (lower.includes('unruptured') || lower.includes('nao_roto') || lower.includes('sem_sangramento') || lower.includes('bleed_no') || lower.includes('rup_no')) {
       bleedPts = 1;
     } else {
       bleedPts = 0;
     }
   } else {
-    if (inputs.opt_lawton_bleed_no || inputs.opt_lawton_unruptured) bleedPts = 1;
-    else if (inputs.opt_lawton_bleed_yes || inputs.opt_lawton_ruptured) bleedPts = 0;
+    if (inputs.opt_lawton_bleed_no || inputs.opt_lawton_unruptured || inputs.opt_ly_bleed_no) bleedPts = 1;
+    else if (inputs.opt_lawton_bleed_yes || inputs.opt_lawton_ruptured || inputs.opt_ly_bleed_yes) bleedPts = 0;
   }
 
   // Nidus compactness: Compact (0 pts), Diffuse (1 pt)
   let compactPts = 0;
-  const compactVal = inputs.compactness ?? inputs.nidus ?? inputs.diffuse ?? inputs.lawton_compactness ?? inputs.grp_lawton_compactness;
+  const compactVal = inputs.compactness ?? inputs.nidus ?? inputs.diffuse ?? inputs.lawton_compactness ?? inputs.grp_lawton_compactness ?? inputs.grp_ly_compact ?? inputs.grp_ly_compactness;
   if (typeof compactVal === 'boolean') {
     compactPts = compactVal ? 1 : 0;
   } else if (typeof compactVal === 'string') {
     const lower = compactVal.toLowerCase();
-    if (lower.includes('diffuse') || lower.includes('difuso')) compactPts = 1;
+    if (lower.includes('diffuse') || lower.includes('difuso') || lower.includes('compact_no') || lower.includes('comp_diffuse')) compactPts = 1;
     else compactPts = 0;
   } else {
-    if (inputs.opt_lawton_diffuse) compactPts = 1;
-    else if (inputs.opt_lawton_compact) compactPts = 0;
+    if (inputs.opt_lawton_diffuse || inputs.opt_ly_compact_no) compactPts = 1;
+    else if (inputs.opt_lawton_compact || inputs.opt_ly_compact_yes) compactPts = 0;
   }
 
   const lyScore = agePts + bleedPts + compactPts; // 1 to 5
@@ -1667,6 +1686,11 @@ export function calculateLawtonYoung(
   radarValues['axis_mav_eloquence'] = smScore >= 3 ? 0.7 : 0.2;
   radarValues['axis_mav_surgical_risk'] = Math.min(1, Math.max(0, (rawScore - 2) / 8));
 
+  radarValues['axis_ly_sm'] = Math.min(1, Math.max(0, (smScore - 1) / 4));
+  radarValues['axis_ly_age'] = Math.min(1, Math.max(0, (agePts - 1) / 2));
+  radarValues['axis_ly_rupture'] = bleedPts;
+  radarValues['axis_ly_compact'] = compactPts;
+
   const scoreFormatted = `${rawScore} pontos (SM ${smScore} + LY ${lyScore})`;
 
   return {
@@ -1747,7 +1771,7 @@ export function calculatePhasesScore(
     h = htnVal ? 1 : 0;
   } else if (typeof htnVal === 'string') {
     const lower = htnVal.toLowerCase();
-    h = lower === 'yes' || lower === 'sim' || lower.includes('present') ? 1 : 0;
+    h = lower.includes('yes') || lower.includes('sim') || lower.includes('present') || lower.includes('htn_yes') ? 1 : 0;
   } else {
     if (inputs.opt_phases_htn_yes) h = 1;
   }
@@ -1792,7 +1816,7 @@ export function calculatePhasesScore(
     e = sahVal ? 1 : 0;
   } else if (typeof sahVal === 'string') {
     const lower = sahVal.toLowerCase();
-    e = lower === 'yes' || lower === 'sim' || lower.includes('present') ? 1 : 0;
+    e = (lower.includes('yes') || lower.includes('sim') || lower.includes('present') || lower.includes('sah_yes')) && !lower.includes('no') && !lower.includes('nao') ? 1 : 0;
   } else {
     if (inputs.opt_phases_earlier_sah_yes) e = 1;
   }
@@ -1937,6 +1961,11 @@ export function calculatePhasesScore(
   radarValues['axis_aneurysm_site'] = sitePts / 4;
   radarValues['axis_rupture_risk'] = Math.min(1, Math.max(0, riskPercent / 20));
 
+  radarValues['axis_ph_morphology'] = Math.min(1, Math.max(0, s / 10));
+  radarValues['axis_ph_site'] = sitePts / 4;
+  radarValues['axis_ph_demographic'] = Math.min(1, (p + a) / 5);
+  radarValues['axis_ph_clinical'] = Math.min(1, (h + e) / 2);
+
   const scoreFormatted = `${rawScore} pontos (Risco 5 anos: ${riskFormatted})`;
 
   return {
@@ -1950,4 +1979,227 @@ export function calculatePhasesScore(
     warnings: calc?.clinicalWarning ? [calc.clinicalWarning] : undefined
   };
 }
+
+// ============================================================================
+// 6. VASOGRADE BIVARIATE RESOLVER (WFNS x MODIFIED FISHER)
+// ============================================================================
+
+export interface VasogradeInputs {
+  wfns?: number | string;
+  wfnsGrade?: number | string;
+  wfns_grade?: number | string;
+  modified_fisher?: number | string;
+  modifiedFisher?: number | string;
+  fisher?: number | string;
+  grp_vasograde_category?: string;
+  vasograde_category?: string;
+  [key: string]: any;
+}
+
+/**
+ * Calculates Vasograde DCI Risk Stratification (Stroke 2014, de Oliveira Manoel et al.).
+ * Accepts bivariate inputs { wfns, modified_fisher } or categorical inputs { grp_vasograde_category }.
+ *
+ * Matrix logic:
+ * - Vasograde-Green (1 pt): WFNS 1-2 + Modified Fisher 0-2 (or 1-2)
+ * - Vasograde-Amber/Yellow (2 pts): (WFNS 1-2 + Modified Fisher 3-4) OR (WFNS 3 + Modified Fisher 0-2)
+ * - Vasograde-Red (3 pts): (WFNS 3 + Modified Fisher 3-4) OR (WFNS 4-5 with any Modified Fisher)
+ */
+export function calculateVasograde(inputs: Record<string, any>): CalculationResult;
+export function calculateVasograde(calc: ClinicalTool, inputs: Record<string, any>): CalculationResult;
+export function calculateVasograde(
+  calcOrInputs: ClinicalTool | Record<string, any>,
+  maybeInputs?: Record<string, any>
+): CalculationResult {
+  let calc: ClinicalTool | undefined;
+  let inputs: Record<string, any>;
+
+  if (
+    calcOrInputs &&
+    typeof calcOrInputs === 'object' &&
+    'parameterGroups' in calcOrInputs &&
+    maybeInputs !== undefined
+  ) {
+    calc = calcOrInputs as ClinicalTool;
+    inputs = maybeInputs;
+  } else if (
+    calcOrInputs &&
+    typeof calcOrInputs === 'object' &&
+    'parameterGroups' in calcOrInputs
+  ) {
+    calc = calcOrInputs as ClinicalTool;
+    inputs = {};
+  } else {
+    calc = undefined;
+    inputs = (calcOrInputs as Record<string, any>) || {};
+  }
+
+  // 1. Direct Option / Category parsing
+  let categoryChoice: 'green' | 'yellow' | 'red' | undefined;
+
+  const directCat = inputs.grp_vasograde_category ?? inputs.vasograde_category ?? inputs.category ?? inputs.vasograde;
+  if (typeof directCat === 'string') {
+    const lower = directCat.toLowerCase();
+    if (lower.includes('green') || lower.includes('verde')) {
+      categoryChoice = 'green';
+    } else if (lower.includes('yellow') || lower.includes('amarelo') || lower.includes('amber')) {
+      categoryChoice = 'yellow';
+    } else if (lower.includes('red') || lower.includes('vermelho')) {
+      categoryChoice = 'red';
+    }
+  }
+
+  if (!categoryChoice) {
+    if (inputs.opt_vaso_red) categoryChoice = 'red';
+    else if (inputs.opt_vaso_yellow || inputs.opt_vaso_amber) categoryChoice = 'yellow';
+    else if (inputs.opt_vaso_green) categoryChoice = 'green';
+  }
+
+  // 2. Bivariate input parsing: WFNS (1-5) and Modified Fisher (0-4)
+  let wfnsVal: number | undefined;
+  let fisherVal: number | undefined;
+
+  const rawWfns = inputs.wfns ?? inputs.wfnsGrade ?? inputs.wfns_grade ?? inputs.wfnsScore ?? inputs.wfns_score ?? inputs.grp_wfns ?? inputs.grp_wfns_grade;
+  if (typeof rawWfns === 'number') {
+    wfnsVal = Math.round(rawWfns);
+  } else if (typeof rawWfns === 'string') {
+    const match = rawWfns.match(/[1-5]/);
+    if (match) wfnsVal = parseInt(match[0], 10);
+  }
+
+  const rawFisher = inputs.modified_fisher ?? inputs.modifiedFisher ?? inputs.mod_fisher ?? inputs.modFisher ?? inputs.fisher ?? inputs.modified_fisher_grade ?? inputs.grp_fisher_mod ?? inputs.grp_modified_fisher;
+  if (typeof rawFisher === 'number') {
+    fisherVal = Math.round(rawFisher);
+  } else if (typeof rawFisher === 'string') {
+    const match = rawFisher.match(/[0-4]/);
+    if (match) fisherVal = parseInt(match[0], 10);
+  }
+
+  // If bivariate values provided (and category not explicitly chosen via option ID)
+  if (!categoryChoice && (wfnsVal !== undefined || fisherVal !== undefined)) {
+    const w = wfnsVal ?? 1;
+    const f = fisherVal ?? 0;
+
+    if (w >= 4) {
+      categoryChoice = 'red';
+    } else if (w === 3) {
+      categoryChoice = f >= 3 ? 'red' : 'yellow';
+    } else {
+      // w is 1 or 2
+      categoryChoice = f >= 3 ? 'yellow' : 'green';
+    }
+  }
+
+  // Default fallback if no valid inputs: green
+  if (!categoryChoice) {
+    categoryChoice = 'green';
+  }
+
+  let rawScore: number;
+  let severityLevel: 'low' | 'intermediate' | 'high' | 'critical';
+  let tierId: string;
+  let tierLabel: string;
+  let colorHex: string;
+  let statisticalOutcome: string;
+  let scoreFormatted: string;
+
+  if (categoryChoice === 'red') {
+    rawScore = 3;
+    severityLevel = 'critical';
+    tierId = 'tier_vaso_red';
+    tierLabel = 'Vasograde-Red: Alto Risco de DCI e Mau Prognóstico';
+    colorHex = '#ef4444';
+    statisticalOutcome = 'Incidência de Isquemia Cerebral Tardia (DCI) de 40% a 50% e elevada mortalidade hospitalar (> 50-70%).';
+    scoreFormatted = wfnsVal !== undefined && fisherVal !== undefined
+      ? `Vasograde-Red (WFNS ${wfnsVal}, Fisher Mod ${fisherVal})`
+      : 'Vasograde-Red: Alto Risco de DCI e Mau Prognóstico';
+  } else if (categoryChoice === 'yellow') {
+    rawScore = 2;
+    severityLevel = 'intermediate';
+    tierId = 'tier_vaso_yellow';
+    tierLabel = 'Vasograde-Yellow: Risco Intermediário de DCI';
+    colorHex = '#f59e0b';
+    statisticalOutcome = 'Incidência estimada de Isquemia Cerebral Tardia (DCI) de aproximadamente 30% a 35%. Alta taxa de vasoespasmo angiográfico.';
+    scoreFormatted = wfnsVal !== undefined && fisherVal !== undefined
+      ? `Vasograde-Yellow (WFNS ${wfnsVal}, Fisher Mod ${fisherVal})`
+      : 'Vasograde-Yellow: Risco Intermediário de DCI';
+  } else {
+    rawScore = 1;
+    severityLevel = 'low';
+    tierId = 'tier_vaso_green';
+    tierLabel = 'Vasograde-Green: Baixo Risco de DCI';
+    colorHex = '#10b981';
+    statisticalOutcome = 'Incidência estimada de Isquemia Cerebral Tardia (DCI) de aproximadamente 15% a 20%. Mortalidade intra-hospitalar baixa (< 10%).';
+    scoreFormatted = wfnsVal !== undefined && fisherVal !== undefined
+      ? `Vasograde-Green (WFNS ${wfnsVal}, Fisher Mod ${fisherVal})`
+      : 'Vasograde-Green: Baixo Risco de DCI';
+  }
+
+  let activeRiskTier: RiskTier;
+  if (calc?.riskTiers && calc.riskTiers.length > 0) {
+    const matched = calc.riskTiers.find((t) => t.id === tierId) ??
+      calc.riskTiers.find((t) => t.severityLevel === severityLevel) ??
+      calc.riskTiers[0];
+    activeRiskTier = matched;
+  } else {
+    activeRiskTier = {
+      id: tierId,
+      label: tierLabel,
+      severityLevel,
+      minScore: rawScore,
+      maxScore: rawScore,
+      statisticalOutcome,
+      colorHex,
+      pharmacologicalActions: [
+        {
+          id: 'rx_vaso_nimo',
+          drugName: 'Nimodipino Oral / Enteral',
+          dosage: '60 mg VO ou SNE a cada 4 horas por 21 dias contínuos',
+          route: 'Oral / SNE exclusiva',
+          frequency: '4/4h',
+          dilutionInstructions: 'PROIBIDO USO INTRAVENOSO. Se por sonda, aspirar cápsula com seringa oral e lavar com 20 mL de água.',
+          contraindications: 'Choque hipotensivo grave refratário.'
+        }
+      ],
+      nonPharmacologicalActions: [
+        {
+          id: 'non_vaso_mgmt',
+          recommendationTitle: tierLabel,
+          dispositionTarget: severityLevel === 'critical' ? 'Centro Cirúrgico / Hemodinâmica' : severityLevel === 'intermediate' ? 'UTI Neurocrítica' : 'UTI Neurocrítica / Semi-Intensiva',
+          monitoringPlan: 'Doppler Transcraniano (DTC) seriado e controle de euvolemia.',
+          interventionalProcedure: severityLevel === 'critical'
+            ? 'Implantação emergencial de Derivação Ventricular Externa (DVE) à beira do leito para alívio de hidrocefalia aguda hipertensiva e lavagem liquórica, seguida de oclusão do aneurisma.'
+            : 'Oclusão precoce do aneurisma em < 24h a 72h.'
+        }
+      ]
+    };
+  }
+
+  const radarValues: Record<string, number> = {};
+  if (calc?.radarAxes) {
+    for (const axis of calc.radarAxes) {
+      radarValues[axis.id] = 0;
+    }
+  }
+
+  const normClinical = wfnsVal !== undefined ? (wfnsVal - 1) / 4 : (categoryChoice === 'red' ? 1.0 : categoryChoice === 'yellow' ? 0.4 : 0.0);
+  const normImaging = fisherVal !== undefined ? fisherVal / 4 : (categoryChoice === 'red' ? 1.0 : categoryChoice === 'yellow' ? 0.75 : 0.2);
+  const normDci = categoryChoice === 'red' ? 1.0 : categoryChoice === 'yellow' ? 0.5 : 0.0;
+
+  radarValues['axis_vaso_clinical'] = Math.min(1, Math.max(0, normClinical));
+  radarValues['axis_vaso_imaging'] = Math.min(1, Math.max(0, normImaging));
+  radarValues['axis_vaso_dci'] = normDci;
+
+  return {
+    score: rawScore,
+    rawScore,
+    scoreFormatted,
+    activeRiskTier,
+    radarValues,
+    radarPoints: radarValues,
+    clinicalWarning: calc?.clinicalWarning,
+    warnings: calc?.clinicalWarning ? [calc.clinicalWarning] : undefined
+  };
+}
+
 
