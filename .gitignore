@@ -37,6 +37,7 @@ credentials.json
 .idea/
 # Arquivos gerados para distribuição do Google Drive
 docs/dist_google_drive/
+docs/01_especificacoes_clinicas/neurocirurgia_drive/*.docx
 *.zip
 
 # Logs e traces de subagentes

@@ -1,0 +1,1758 @@
+﻿Protocolos Preditivos e Diretrizes Terapêuticas em Neurocirurgia, Coluna Vertebral e Neurointensivismo
+Aviso de Segurança: Este compilado técnico tem caráter exclusivamente educacional e de suporte à consulta médica informada. Escores prognósticos e calculadoras clínicas servem como subsídio à decisão clínica e não substituem o julgamento presencial individualizado do profissional assistente.
+A tomada de decisão em neurocirurgia e neurointensivismo assenta na quantificação precisa de riscos biológicos e biomecânicos para orientar intervenções cirúrgicas e médicas imediatas1. O manejo de lesões intracranianas com efeito de massa, roturas vasculares, instabilidades da coluna vertebral e disfunções da dinâmica liquórica exige a substituição de impressões subjetivas por instrumentos probabilísticos multivariados validados1. Quando associadas a limiares terapêuticos claros, ferramentas como os escores EDEMA, CRASH, IMPACT, Spetzler-Martin Suplementar, SINS, NOMS e Kiefer reduzem a variabilidade de conduta e definem janelas temporais críticas para descompressão, revascularização ou estabilização mecânica1.
+O modelo operacional contemporâneo integra a estratificação de risco radiológico-clínico diretamente à farmacoterapia direcionada de neuroproteção, titulação osmolar contínua, profilaxia de eventos trombóticos e controle hemodinâmico por metas de perfusão tecidual (  )1. Casos cirúrgicos limítrofes são resolvidos mediante o cruzamento da reserva fisiológica sistêmica (KPS/ECOG) com a anatomia microvascular e a estabilidade esquelética segmentar2. O presente compêndio consolida as métricas, os cálculos de corte, as dosagens farmacológicas detalhadas e os protocolos intervencionistas aplicados do departamento de emergência à terapia intensiva neurocirúrgica1.
+CONTEXTO E DEFINIÇÃO DE ESCOPO
+* Área/Especialidade clínica de foco: Neurocirurgia, Cirurgia de Coluna, Neurointensivismo, Patologia Neurovascular e Neuro-Oncologia.
+* Ambiente de aplicação pretendido: Sala Vermelha do Trauma, Unidade de Emergência Neurovascular, Unidade de Terapia Intensiva Neurocrítica, Enfermaria Cirúrgica e Bloco Operatório.
+* População-alvo: Pacientes adultos e pediátricos acometidos por traumatismo cranioencefálico, acidentes vasculares encefálicos isquêmicos malignos, patologias vasculares estruturais, tumores do sistema nervoso central e base de crânio, trauma raquimedular, metástases espinhais e hidrocefalias.
+ETAPA 1: TABELA SINTÉTICA PANORÂMICA (VISÃO GERAL)
+
+
+Nome do Score / Sigla
+	População Indicada
+	Parâmetros Principais
+	Ponto de Corte Crítico
+	Conduta Resumida (Farma e Não Farma)
+	Validação / Ano Original
+	EDEMA Score
+[cite: 4]
+	AVCi maligno de ACM ou lesão expansiva traumática
+	Desvio da linha média, cisternas basais, glicemia admissional, reperfusão prévia
+	  
+ pontos
+	Salina hipertônica 3% contínua/bolus; intubação orotraqueal e craniectomia descompressiva imediata.
+	Ong et al., 20174
+	CRASH Trial Score
+[cite: 1, 2]
+	TCE moderado a grave (  ) em até 8h
+	Idade, GCS motor, pupilas, lesão extracraniana, achados na TC de crânio
+	Risco de óbito em 14 dias   
+	Neuroproteção estrita em UTI; contraindicação a corticoterapia; monitorização invasiva de PIC; craniotomia se efeito de massa.
+	MRC CRASH, 20081
+	IMPACT Score
+[cite: 1, 2]
+	TCE moderado a grave (  )
+	Idade, motor GCS, pupilas, hipóxia, hipotensão, Marshall TC, tHSA, EDA, lab
+	Risco    desfecho desfavorável aos 6 meses
+	Manutenção de PPC com Noradrenalina (  ); Levetiracetam profilático 7 dias; craniotomia para drenagem de massas.
+	Steyerberg et al., 20081
+	Spetzler-Martin Suplementar (Lawton-Young)
+[cite: 1, 3]
+	Malformações Arteriovenosas Cerebrais (MAV)
+	Tamanho, eloquência, drenagem venosa + Idade, sangramento prévio e nidus difuso
+	Pontuação combinada   
+	Tratamento conservador expectante ou radiocirurgia (SRS); microcirurgia aberta evitada pelo alto risco funcional.
+	Lawton et al., 20101
+	Escala de Zabramski
+[cite: 1]
+	Malformações Cavernosas (Cavernomas) intracranianas
+	Padrão de sinal em RM (T1, T2, gradiente-eco/SWI) categorizado em Tipos I a IV
+	Tipo I (agudo) ou Tipo II sintomático
+	Anticonvulsivantes profiláticos se crises epilépticas; exérese microcirúrgica completa com remoção do anel de hemossiderina.
+	Zabramski et al., 19941
+	PHASES Score
+[cite: 1]
+	Aneurismas Intracranianos Não Rotos
+	População/etnia, HAS, Idade, Tamanho aneurismático, HSA prévia, Sítio vascular
+	Risco cumulativo em 5 anos   
+	Otimização pressórica ambulatorial (  ); oclusão endovascular (molas/diversor) ou clipagem microcirúrgica.
+	Greving et al., 20141
+	UIATS
+[cite: 1, 5]
+	Aneurismas Intracranianos Não Rotos
+	29 variáveis clínicas, anatômicas do aneurisma e relacionadas ao procedimento
+	Diferença líquida    pontos
+	Decisão intervencionista quantificada: tratamento preventivo (clipagem/endovascular) versus conduta expectante ativa.
+	Etminan et al., 20155
+	Classificação de Knosp
+[cite: 1, 6]
+	Macroadenomas Hipofisários / Região Selar
+	Relação anatômica lateral do tumor com as linhas intercarotídeas coronais
+	Graus 3B e 4
+	Ressecção transesfenoidal endoscópica subtotal intencional (descompressão óptica), seguida de radioterapia conformacional/SRS.
+	Knosp, 1993; Micko, 20151
+	Classificação de Samii / Hannover
+[cite: 1]
+	Schwannomas Vestibulares
+	Extensão em meato acústico interno e cisterna do ângulo pontocerebelar
+	Graus T4a e T4b
+	Dexametasona perioperatória; microcirurgia via retrosigmoide com monitorização contínua de VII/VIII pares; DVE se hidrocefalia.
+	Samii & Matthies, 19971
+	Escala de Levine-Sekhar
+[cite: 1, 7]
+	Tumores Complexos de Base de Crânio / Meningiomas
+	Nervo óptico, seio cavernoso, pares VII-VIII, pares baixos, encasement da ACI, radiocirurgia prévia
+	  
+ pontos
+	Abordagens em múltiplos tempos cirúrgicos, bypass vascular prévio se sacrifício carotídeo necessário, radiocirurgia adjuvante.
+	Sekhar, 1999; Saberi, 20067
+	KPS e ECOG Performance Status
+[cite: 1, 2]
+	Oncologia Geral e Neoplasias do SNC
+	Capacidade de autocuidado, deambulação, confinamento ao leito e sintomas
+	  
+ ou   
+	Contraindicação a craniotomias amplas para citorredução agressiva; opção por biópsia diagnóstica e radioterapia hipofracionada.
+	Karnofsky, 1949; Oken, 19822
+	RPA e DS-GPA
+[cite: 1, 2]
+	Metástases Cerebrais Sólidas
+	Idade, KPS, metástases extracranianas, número de lesões cerebrais, marcadores moleculares
+	  
+ ou Classe III RPA
+	Dexametasona para alívio vasogênico; cuidados paliativos ou WBRT; preservação de cirurgia aberta para lesões com bom score.
+	Gaspar, 1997; Sperduto, 20122
+	TLICS
+[cite: 1, 3]
+	Fraturas da Coluna Toracolombar (T1–L5)
+	Morfologia do colapso/fratura, integridade do CLP e estado neurológico
+	  
+ pontos
+	Indicação cirúrgica de artrodese instrumentada e descompressão; conduta conservadora com colete rígido se    pontos.
+	Vaccaro et al., 20051
+	SLICS
+[cite: 1]
+	Fraturas da Coluna Cervical Subaxial (C3–C7)
+	Padrão morfológico, integridade do complexo disco-ligamentar (DLC) e neurologia
+	  
+ pontos
+	Descompressão aberta e artrodese cervical anterior (ACDF) ou fixação posterior; tração se luxação unicompartimental sem disco livre.
+	Vaccaro et al., 20071
+	Anderson-D'Alonzo
+[cite: 1, 3]
+	Fraturas do Processo Odontoide do Áxis (C2)
+	Altura do traço: ápice (I), colo da base (II) ou extensão ao corpo vertebral (III)
+	Tipo II
+	Cirurgia mandatória (parafuso anterior de odontoide ou fixação posterior C1-C2 de Harms) devido a taxas de pseudoartrose   .
+	Anderson & D'Alonzo, 19741
+	SINS
+[cite: 1, 2]
+	Metástases Ósseas na Coluna Vertebral
+	Localização anatômica, dor mecânica, padrão de lise, alinhamento, colapso, arcos
+	  
+ pontos (Instável)
+	Estabilização instrumentada com parafusos pediculares prévia à radioterapia/SBRT; analgesia multimodal e bisfosfonatos.
+	Fisher et al., 20102
+	Framework NOMS
+[cite: 1, 2]
+	Metástases Vertebrais com Acometimento Medular
+	Integração de 4 pilares: Neurológico (ESCC), Oncológico, Mecânico (SINS) e Sistêmico
+	Bilsky 2 ou 3 com tumor radiorresistente
+	Cirurgia de Separação vertebral (separation surgery) associada a artrodese seguida de radioterapia estereotática (SBRT).
+	Bilsky et al., 20132
+	Escala de Kiefer
+[cite: 1, 8]
+	Hidrocefalia de Pressão Normal (HPN)
+	Marcha, cognição, incontinência urinária, cefaleia e vertigem/tontura
+	  
+ pontos com ganho pós-Tap Test
+	Derivação Ventrículo-Peritoneal (DVP) com válvula ajustável e mecanismo antigravitacional; analgesia simples.
+	Kiefer et al., 20038
+	Índice de Evans e Callaghan / DESH
+[cite: 1, 8, 10]
+	Dinâmica Liquórica / Ventriculomegalia
+	Razão diâmetro corno frontal/biparietal interno e achados de desproporção sulcal
+	Evans    e ângulo caloso   
+	Encaminhamento para Tap Test evacuatório confirmatório (  ); implante de DVP definitiva se teste positivo.
+	Evans, 1942; Callaghan8
+	ETAPA 2: ANÁLISE MONOGRÁFICA PROFUNDA (FERRAMENTA POR FERRAMENTA)
+Domínio 1: Trauma Cranioencefálico e Neurointensivismo
+1. EDEMA Score (Enhanced Detection of Edema in Malignant Anterior Circulation Stroke)
+1. Identificação e Propósito Clínico
+* Nome formal completo: Enhanced Detection of Edema in Malignant Anterior Circulation Stroke Score (EDEMA Score), publicado por Ong et al. em 20174.
+* Objetivo clínico primário: Estratificação prognóstica e predição precoce do desenvolvimento de edema cerebral citotóxico volumoso com risco iminente de herniação transtentorial uncal, colapso de tronco encefálico e óbito, determinando a janela ótima para craniectomia descompressiva4.
+* População elegível exata e critérios de exclusão: Pacientes adultos (   anos) admitidos com infarto isquêmico agudo de território carotídeo/cerebral médio ou lesão contusa traumática hemisférica com escore no National Institutes of Health Stroke Scale (NIHSS)    avaliados nas primeiras 24 horas4. Critérios de exclusão: presença de hemorragia intracraniana primária maciça espontânea, lesão axonal difusa traumática catastrófica incompatível com a sobrevida basal, ou realização de craniectomia prévia à neuroimagem de 24 horas4.
+2. Parâmetros e Atribuição de Pontos
+Variável Clínica / Radiológica
+	Categoria / Faixa de Corte
+	Pontos
+	Desvio da Linha Média (MLS)
+[cite: 4]
+	Sem desvio (  )
+
+
+Desvio   
+
+
+Desvio   
+
+
+Desvio   
+
+
+Desvio   
+	0
+
+
+1
+
+
+2
+
+
+4
+
+
+7
+	Apagamento de Cisternas Basais
+[cite: 4]
+	Cisternas perimesencefálicas preservadas
+
+
+Obliteração parcial ou completa das cisternas basais
+	0
+
+
+3
+	Glicemia Admissional
+[cite: 4]
+	  
+ (  )
+
+
+  
+ (  )
+	0
+
+
+2
+	Terapia de Reperfusão Prévia
+[cite: 4]
+	Trombolisado com rt-PA IV e/ou submetido à Trombectomia Mecânica
+
+
+Nenhuma terapia de reperfusão realizada
+	0
+
+
+1
+	Intervalo total da escala: 0 a 13 pontos4.
+3. Estratificação de Risco e Condutas por Faixa de Pontuação
+Faixa 1: Baixo Risco (0 a 3 pontos)
+A. Desfecho Estatístico Associado
+Probabilidade de evolução para edema maligno fatal ou necessidade cirúrgica descompressiva inferior a   4. Mortalidade intra-hospitalar global   .
+B. Conduta Medicamentosa (Farmacológica)
+Conduta Farmacológica: Nenhuma intervenção medicamentosa osmoterapêutica indicada nesta faixa. Manutenção de balanço hídrico neutro com Cloreto de Sódio 0,9% IV   . Controle térmico profilático com Dipirona    IV a cada 6 horas se temperatura axilar   . Profilaxia mecânica e farmacológica de tromboembolismo venoso (TEV) com Enoxaparina    SC uma vez ao dia (iniciada 24 horas após exclusão de transformação hemorrágica sintomática).
+C. Conduta Não Medicamentosa e Intervencionista
+Internação em Unidade de AVC ou Enfermaria de Cuidados Semi-Intensivos com monitorização contínua de saturação periférica e ritmo cardíaco. Cabeceira elevada a   , alinhamento do polo cefálico neutro. Avaliação da escala de coma de Glasgow e exame pupilar a cada 2 horas; tomografia computadorizada de crânio de controle se queda de    pontos no Glasgow.
+Faixa 2: Risco Intermediário (4 a 6 pontos)
+A. Desfecho Estatístico Associado
+Risco de desenvolvimento de edema cerebral expansivo com efeito de massa variando entre    e   4. Mortalidade estimada em torno de   .
+B. Conduta Medicamentosa (Farmacológica)
+Terapia osmolar hiperosmolar intermitente de resgate. Fármaco preferencial: Cloreto de Sódio a 3% (Salina Hipertônica). Dose: bolus de    IV (ou   ) infundidos em acesso venoso calibroso ou central em 15 a 20 minutos perante declínio neurológico ou assimetria pupilar. Fármaco alternativo: Manitol a 20% na dose de    IV em bolus rápido (infusão em 20 minutos). Contraindicação formal ao manitol se choque sistêmico,    ou osmolalidade sérica   . Monitorização dos eletrólitos a cada 6 horas visando sódio sérico entre 145 e   .
+C. Conduta Não Medicamentosa e Intervencionista
+Transferência imediata para Unidade de Terapia Intensiva Neurocrítica. Instalação de linha arterial invasiva contínua (PAI). Parecer de urgência à equipe neurocirúrgica e reserva formal de centro cirúrgico. Intubação traqueal profilática se Glasgow    ou rebaixamento súbito de consciência.
+Faixa 3: Alto a Muito Alto Risco (7 a 13 pontos)
+A. Desfecho Estatístico Associado
+Risco de evolução para herniação uncal, parada de tronco e óbito superior a    sob tratamento exclusivamente conservador4.
+B. Conduta Medicamentosa (Farmacológica)
+Protocolo intensivo de neuroproteção osmolar. Salina Hipertônica a 3% em bomba contínua na vazão de    associada a bolus de    se pressão intracraniana (PIC)   . Meta de sódio sérico alvo entre    e osmolalidade entre   . Suporte hemodinâmico com Noradrenalina IV contínua (  ) visando Pressão Arterial Média (PAM)    para garantir Pressão de Perfusão Cerebral (  ) entre 60 e   . Sedação e analgesia com Propofol (  ) associado a Fentanil (  ).
+C. Conduta Não Medicamentosa e Intervencionista
+Encaminhamento imediato ao Centro Cirúrgico para Craniectomia Descompressiva Hemicraniana Ampla (diâmetro anteroposterior   ) com duroplastia de expansão (uso de pericrânio ou fáscia lata) nas primeiras 24 a 48 horas4. Monitorização contínua de PIC intraparenquimatosa no pós-operatório. Ventilação mecânica invasiva protetora com volume corrente de    e alvo de    em   ; hiperventilação transitória (   de 30 a   ) reservada exclusivamente para o trajeto até a sala operatória.
+2. CRASH Trial Score (Medical Research Council CRASH Prognostic Model)
+1. Identificação e Propósito Clínico
+   * Nome formal completo: Corticosteroid Randomisation After Significant Head Injury Trial Prognostic Model (CRASH Trial Score), validado pelo MRC CRASH Trial Collaborators em 20081.
+   * Objetivo clínico primário: Predição quantitativa da mortalidade intra-hospitalar global em 14 dias e do desfecho funcional desfavorável aos 6 meses (Escala de Resultados de Glasgow / GOS   : morte, estado vegetativo persistente ou dependência severa)1.
+   * População elegível exata e critérios de exclusão: Pacientes com idade    anos com TCE não penetrante avaliados em até 8 horas do trauma contuso com Glasgow total admissional   1. Critérios de exclusão: lesões exclusivamente penetrantes por arma de fogo ou arma branca, tempo decorrido superior a 24 horas, gestação no terceiro trimestre e ausência de tomografia computadorizada basal de admissão.
+2. Parâmetros e Atribuição de Pontos (Variáveis Integradas na Calculadora Multivariada)
+Categoria da Variável
+	Variáveis e Parâmetros Específicos
+	Valores / Níveis Inseridos no Modelo
+	Demografia e Região
+[cite: 1]
+	Idade cronológica do paciente
+
+
+Nível socioeconômico de infraestrutura médica local
+	Valor contínuo linear (anos)
+
+
+País de alta vs média/baixa renda
+	Exame Fisiológico / Neurológico
+[cite: 1]
+	Escala de Coma de Glasgow (GCS Total)
+
+
+Resposta Motora do Glasgow
+
+
+Reatividade Fotomotora Pupilar
+
+
+Presença de Grande Lesão Extracraniana
+	Intervalo total de 3 a 14 pontos
+
+
+1 (sem resposta) a 6 (obedece a ordens)
+
+
+Bilateral reativa, unilateral ou bilateral fixa
+
+
+Presente (risco de choque hipovolêmico) vs Ausente
+	Achados na TC de Crânio
+[cite: 1]
+	Contusões / Hematoma Parenquimatoso Petequial
+
+
+Obliteracão de Cisternas Basais / III Ventrículo
+
+
+Hemorragia Subaracnóidea Traumática (tHSA)
+
+
+Lesão de Massa Focal Não Evacuada   
+	Ausente (0) vs Presente (1)
+
+
+Normal (0) vs Comprimido/Apagado (1)
+
+
+Ausente (0) vs Presente (1)
+
+
+Ausente (0) vs Presente (1)
+	Intervalo do escore: Calculadora de regressão logística probabilística; expressa em risco percentual contínuo de óbito em 14 dias (   a   ) e desfecho desfavorável aos 6 meses (   a   )1.
+3. Estratificação de Risco e Condutas por Faixa de Pontuação
+Faixa 1: Risco Previsto Baixo (Mortalidade estimada em 14 dias   )
+A. Desfecho Estatístico Associado
+Mortalidade aos 14 dias   ; taxa de retorno à independência motora e funcional aos 6 meses (GOS 4 ou 5)   .
+B. Conduta Medicamentosa (Farmacológica)
+Profilaxia farmacológica de crises epilépticas pós-traumáticas precoces (primeiros 7 dias): Levetiracetam IV. Dose de ataque:    IV diluídos em    de SF 0,9% em 15 minutos (dose máxima de   ). Dose de manutenção:    IV a cada 12 horas por 7 dias. Ajuste na insuficiência renal: se   , administrar    12/12h; se   , administrar    24/24h. Analgesia: Dipirona    IV 6/6h associada a Tramadol    IV 8/8h se dor moderada a intensa. Contraindicação formal: o uso de Metilprednisolona ou Dexametasona é proibido no TCE agudo (evidência Classe I do próprio ensaio CRASH com aumento absoluto de mortalidade).
+C. Conduta Não Medicamentosa e Intervencionista
+Leito de observação neurocirúrgica ou semi-intensivo por 48 horas. Exame pupilar horário e escala de Glasgow seriada. TC de crânio de controle em 12 a 24 horas se houver alteração neurológica focal ou elevação da queixa álgica.
+Faixa 2: Risco Previsto Intermediário (Mortalidade estimada em 14 dias entre    e   )
+A. Desfecho Estatístico Associado
+Mortalidade em 14 dias estimada entre    e   ; taxa de desfecho desfavorável aos 6 meses entre    e   .
+B. Conduta Medicamentosa (Farmacológica)
+Anticonvulsivante profilático: Levetiracetam conforme esquema acima ou Fenitoína IV. Ataque de Fenitoína:    IV infundidos a no máximo    sob monitorização eletrocardiográfica contínua; manutenção:    IV a cada 8 horas (meta sérica entre 10 e   ). Suporte hemodinâmico: Noradrenalina contínua (  ) para sustentar    (pacientes 50–69 anos) ou    (pacientes 15–49 anos ou    anos). Profilaxia de úlcera de estresse com Omeprazol    IV ao dia.
+C. Conduta Não Medicamentosa e Intervencionista
+Admissão obrigatória em UTI Neurocrítica. Instalação de cateter de monitorização invasiva da Pressão Intracraniana (intraparenquimatoso ou Derivação Ventricular Externa - DVE). Cabeceira elevada a   , normotermia rigorosa (  ). Se presença de lesão focal com volume    e desvio de linha média   , programação de craniotomia formal para esvaziamento da massa.
+Faixa 3: Risco Previsto Alto (Mortalidade estimada em 14 dias   )
+A. Desfecho Estatístico Associado
+Mortalidade aos 14 dias superior a   ; probabilidade acumulada de óbito ou incapacidade funcional grave irreversível (GOS 1–3) aos 6 meses   .
+B. Conduta Medicamentosa (Farmacológica)
+Manejo medicamentoso da Hipertensão Intracraniana Refratária (Tier 2 e 3 da Brain Trauma Foundation). Sedação contínua com Midazolam (  ) associado a Fentanil (  ). Salina Hipertônica 3% em bólus de    se    por    minutos. Em falência de controle, indução de coma barbitúrico com Tiopental Sódico: ataque de    IV em 30 minutos, seguido por manutenção contínua de    sob monitorização contínua de EEG com meta de padrão de surto-supressão (burst suppression). Vasopressores em titulação agressiva para estabilização hemodinâmica induzida pelo barbitúrico.
+C. Conduta Não Medicamentosa e Intervencionista
+Indicação cirúrgica de Nível 3: Craniectomia Descompressiva Bifrontal Ampla (para edema difuso) ou Hemicraniectomia Frontotemporoparietal Ampla com Duroplastia de Expansão (se contusões unilaterais e desvio de septo). Drenagem de líquor contínua caso cateter ventricular externo instalado (nível em   ). Hipotermia terapêutica controlada (  ) restrita a casos de resgate extremo em UTI neurocrítica.
+3. IMPACT Score (International Mission for Prognosis and Analysis of Clinical Trials in TBI)
+1. Identificação e Propósito Clínico
+      * Nome formal completo: International Mission for Prognosis and Analysis of Clinical Trials in Traumatic Brain Injury Prognostic Calculator (IMPACT Score), formulado por Steyerberg et al. em 20081.
+      * Objetivo clínico primário: Fornecer estimativas de prognóstico funcional aos 6 meses no TCE por meio de arquitetura em três camadas (Core, Extended e Lab/CT), predizendo mortalidade e dependência grave (GOS 1–3)1.
+      * População elegível exata e critérios de exclusão: Pacientes acometidos por traumatismo cranioencefálico moderado a grave (  ) nas primeiras 24 horas1. Critérios de exclusão: choque neurogênico por transecção medular cervical alta associada, parada cardiorrespiratória refratária prévia com encefalopatia anóxica global e morte encefálica documentada à admissão.
+2. Parâmetros e Atribuição de Pontos (Estrutura do Modelo Incremental)
+Modelo IMPACT
+	Parâmetros Incluídos
+	Categorias de Análise / Métricas
+	1. IMPACT Core
+[cite: 1]
+	Idade cronológica
+
+
+Escore Motor da Escala de Glasgow
+
+
+Reatividade Pupilar à Luz
+	Valor contínuo linear (anos)
+
+
+1 a 6 (Nenhuma resposta motora até obedece)
+
+
+Bilateral reativa, unilateral fixa, bilateral fixa
+	2. IMPACT Extended
+[cite: 1]
+	Core Model +
+
+
+Episódio de Hipóxia Pré-hospitalar
+
+
+Episódio de Hipotensão Sistêmica Pré-hospitalar
+	Idem ao anterior +
+
+
+Presente vs Ausente (   ou   )
+
+
+Presente vs Ausente (  )
+	3. IMPACT Lab / CT Model
+[cite: 1]
+	Extended Model +
+
+
+Glicemia Admissional
+
+
+Hemoglobina sérica
+
+
+Classificação Tomográfica de Marshall
+
+
+Hemorragia Subaracnóidea Traumática (tHSA)
+
+
+Hematoma Epidural Traumático (EDA)
+	Idem ao anterior +
+
+
+Valor numérico contínuo em   
+
+
+Valor numérico contínuo em   
+
+
+Graus I a IV (Lesão Difusa) e Massas Evacuadas/Não Evacuadas
+
+
+Presente vs Ausente
+
+
+Presente vs Ausente (efeito protetor relativo no modelo)
+	Intervalo do escore: Algoritmo multivariado linear; probabilidade predita contínua de desfecho desfavorável em 6 meses (   a   ) e mortalidade (   a   )1.
+3. Estratificação de Risco e Condutas por Faixa de Pontuação
+Faixa 1: Risco Previsto Baixo (Mortalidade estimada em 6 meses   )
+A. Desfecho Estatístico Associado
+Mortalidade em 6 meses   ; independência funcional (GOS 4 ou 5) superior a   .
+B. Conduta Medicamentosa (Farmacológica)
+Profilaxia anticonvulsivante imediata com Levetiracetam IV: ataque de    em 20 minutos, seguido de    IV a cada 12 horas por 7 dias. Controle glicêmico com Insulina Regular em esquema proporcional se glicemia   . Analgesia com Dipirona    IV 6/6h e Ondansetrona    IV 8/8h se êmese.
+C. Conduta Não Medicamentosa e Intervencionista
+Internação em UTI ou Semi-Intensiva. Manutenção de cabeceira a   , alinhamento cervical. Monitorização de PAI se rebaixamento progressivo. TC de controle em 24 horas obrigatória.
+Faixa 2: Risco Previsto Intermediário (Mortalidade estimada em 6 meses entre    e   )
+A. Desfecho Estatístico Associado
+Mortalidade estimada em 6 meses entre    e   ; desfecho desfavorável cumulativo (morte ou sequela severa) entre    e   .
+B. Conduta Medicamentosa (Farmacológica)
+Ressuscitação volêmica e vasopressores para manutenção da perfusão cerebral. Noradrenalina IV contínua (  ) titulada para Pressão de Perfusão Cerebral (  ) estritamente entre 60 e   . Terapia osmolar com Salina a 3% em bólus de    se   . Sedação analgésica com Dexmedetomidina (  ) ou Fentanil (  ) associado a Midazolam.
+C. Conduta Não Medicamentosa e Intervencionista
+Monitorização neurointensiva multimodal: sensor de PIC intraparenquimatoso associado a cateter de saturação no bulbo da jugular (   mantida entre    e   ) ou pressão tecidual de oxigênio cerebral (  ). Intubação traqueal e ventilação mecânica controlada. Cirurgia aberta de evacuação de massas: hematomas subdurais traumáticos    de espessura ou com desvio de linha média    devem ser operados por craniotomia ampla imediata.
+Faixa 3: Risco Previsto Alto (Mortalidade estimada em 6 meses   )
+A. Desfecho Estatístico Associado
+Mortalidade estimada em 6 meses superior a   ; desfecho desfavorável permanente   .
+B. Conduta Medicamentosa (Farmacológica)
+Intervenções farmacológicas extremas para falência de complacência intracraniana: Pentobarbital (ataque    em 30 minutos, manutenção   ) com controle contínuo por EEG até atingir surto-supressão. Suporte inotrópico e vasopressor agressivo com Noradrenalina e Vasopressina (  ) para combater a vasodilatação barbitúrica sistêmica. Salina a 3% em infusão contínua com sódio sérico limite em   .
+C. Conduta Não Medicamentosa e Intervencionista
+Indicação de Craniectomia Descompressiva de Resgate (hemicraniectomia frontotemporoparietal    ou bifrontal ampla) perante falha das medidas clínicas de Tier 1 e Tier 2 em sustentar   . Instalação de DVE para drenagem liquórica profilática e terapêutica contínua. Comunicação prognóstica estruturada e transparente com a família.
+Domínio 2: Doenças Vasculares Encefálicas
+4. Spetzler-Martin Suplementar (Sistema Lawton-Young)
+1. Identificação e Propósito Clínico
+         * Nome formal completo: Supplementary Spetzler-Martin Arteriovenous Malformation Grading System (Sistema de Graduação Suplementar Lawton-Young), formulado por Lawton et al. em 20101.
+         * Objetivo clínico primário: Estratificar o risco cirúrgico de déficit neurológico permanente pós-operatório na ressecção microcirúrgica de Malformações Arteriovenosas (MAV) cerebrais1.
+         * População elegível exata e critérios de exclusão: Pacientes com diagnóstico angiográfico de MAV cerebral parenquimatosa em avaliação para microcirurgia aberta, embolização ou radiocirurgia1. Critérios de exclusão: fístulas arteriovenosas durais puras, anomalias de desenvolvimento venoso (DVA) isoladas e malformações cavernosas.
+2. Parâmetros e Atribuição de Pontos (Sistema Combinado SM + Lawton-Young)
+Escore Componente
+	Variável / Parâmetro Avaliado
+	Faixa de Corte / Definição
+	Pontos
+	Spetzler-Martin Clássico
+[cite: 1, 3]
+	Tamanho do Nidus
+	Pequeno (  )
+
+
+Médio (  )
+
+
+Grande (  )
+	1
+
+
+2
+
+
+3
+	
+
+	Eloquência da Área Adjacente
+	Não eloquente
+
+
+Eloquente (córtex motor, sensorial, fala, visual, tálamo, tronco)
+	0
+
+
+1
+	
+
+	Padrão de Drenagem Venosa
+	Superficial exclusiva
+
+
+Presença de drenagem venosa profunda
+	0
+
+
+1
+	Escore Suplementar (Lawton)
+[cite: 1]
+	Idade do Paciente
+	  
+
+
+
+  
+
+
+
+  
+
+	1
+
+
+2
+
+
+3
+	
+
+	Sangramento Prévio Documentado
+	Nidus roto (hemorragia prévia documentada)
+
+
+Nidus não roto (apresentação por convulsão ou incidental)
+	0
+
+
+1
+	
+
+	Compacidade da Arquitetura do Nidus
+	Compacto (nidus circunscrito sem cérebro interposto)
+
+
+Difuso (malformação infiltrativa com tecido encefálico interposto)
+	0
+
+
+1
+	Intervalo total combinado (SM Clássico + Suplementar): 2 a 10 pontos1.
+3. Estratificação de Risco e Condutas por Faixa de Pontuação
+Faixa 1: Baixa Complexidade Cirúrgica (Pontuação Combinada de 2 a 4 pontos)
+A. Desfecho Estatístico Associado
+Risco de déficit neurológico pós-operatório novo incapacitante permanente   1. Taxa de obliteração cirúrgica completa imediata   .
+B. Conduta Medicamentosa (Farmacológica)
+Conduta Farmacológica: Nenhuma intervenção medicamentosa específica indicada para oclusão vascular tecidual3. Controle de crises epilépticas se presentes: Levetiracetam    VO a cada 12 horas. Profilaxia intraoperatória na indução: Levetiracetam    IV em 15 minutos, mantido no pós-operatório por 7 dias. Controle estrito da pressão arterial sistólica pós-operatória (  ) com Nitroprussiato de Sódio IV contínuo (  ) ou Esmolol (  ) para evitar a síndrome de hiperperfusão normal (Normal Perfusion Pressure Breakthrough - NPPB).
+C. Conduta Não Medicamentosa e Intervencionista
+Ressecção Microcirúrgica Primária. Craniotomia guiada por neuronavegação tridimensional e monitorização neurofisiológica intraoperatória (potenciais somatossensoriais e motores). Realização mandatória de angiografia cerebral digital (DSA) de controle pós-operatória nas primeiras 48 horas para certificar a exclusão anatômica completa do nidus.
+Faixa 2: Complexidade Intermediária (Pontuação Combinada de 5 a 6 pontos)
+A. Desfecho Estatístico Associado
+Taxa de novos déficits permanentes pós-operatórios entre    e   1. Acurácia cirúrgica aceitável quando indicada criteriosamente.
+B. Conduta Medicamentosa (Farmacológica)
+Controle pressórico rigoroso com Labetalol IV (   em bolus) ou Enalaprilato no perioperatório. Antiepilépticos profiláticos mantidos conforme rotina cirúrgica.
+C. Conduta Não Medicamentosa e Intervencionista
+Conduta multidisciplinar em Tumor Board Vascular. Abordagens viáveis: (1) Embolização endovascular pré-operatória seriada com agentes líquidos (Onyx ou Squid) com objetivo exclusivo de oclusão de pedículos nutridores profundos de difícil acesso, seguida de microcirurgia aberta para ressecção da lesão residual; ou (2) Radiocirurgia Estereotática (SRS) se nidus    localizado em área profunda/eloquente, aguardando obliteração tecidual gradual ao longo de 2 a 4 anos.
+Faixa 3: Alta Complexidade / Risco Proibitivo (Pontuação Combinada de 7 a 10 pontos)
+A. Desfecho Estatístico Associado
+Risco de morbidade cirúrgica permanente com dependência funcional grave superior a   1. O risco do ato operatório supera a história natural de sangramento da lesão.
+B. Conduta Medicamentosa (Farmacológica)
+Conduta Farmacológica: Nenhuma terapia medicamentosa indicada para cura do nidus vascular. Otimização terapêutica da hipertensão arterial crônica com IECA (Ramipril    VO) ou Bloqueadores do Canal de Cálcio para atingir   . Manutenção de anticonvulsivantes orais se crises associadas.
+C. Conduta Não Medicamentosa e Intervencionista
+Tratamento Conservador Ativo (Manejo Clínico Expectante, baseado nas diretrizes do ensaio ARUBA)1. Microcirurgia aberta formalmente contraindicada. Exceções cirúrgicas restritas a: hematoma intraparenquimatoso compressivo com risco iminente de morte (evacuação isolada do coágulo sem dissecção agressiva do nidus difuso) ou oclusão endovascular dirigida de aneurisma intranidal de alto fluxo com risco iminente de rotura3.
+5. Escala de Zabramski (Malformações Cavernosas Cerebrais)
+1. Identificação e Propósito Clínico
+         * Nome formal completo: Zabramski Classification of Cavernous Malformations, estabelecida por Zabramski et al. em 19941.
+         * Objetivo clínico primário: Classificação anatômica e evolutiva dos cavernomas encefálicos por meio do padrão de sinal na Ressonância Magnética (RM), estratificando risco de sangramento e definindo indicação operatória1.
+         * População elegível exata e critérios de exclusão: Pacientes com lesões cavernomatosas encefálicas identificadas em RM, familiares ou esporádicas1. Critérios de exclusão: MAVs de alto fluxo, hemangioblastomas e telangiectasias capilares sem estroma cavernoso.
+2. Parâmetros e Atribuição de Tipos Morfológicos
+Tipo Zabramski
+	Padrão em RM T1
+	Padrão em RM T2
+	Gradiente-Eco (GRE) / SWI
+	Correlato Histopatológico e Risco
+	Tipo I
+[cite: 1]
+	Hiperintenso central
+	Hiperintenso central
+	Halo de hipointensidade periférica
+	Metemoglobina subaguda por hemorragia recente; alto risco de ressangramento agudo
+	Tipo II
+[cite: 1]
+	Sinal reticulado misto ("pipoca")
+	Miolo misto reticulado com anel de hipointensidade
+	Área expandida de artefato por suscetibilidade magnética (blooming)
+	Padrão clássico: lesão trombosada com neoformação vascular e anel de hemossiderina
+	Tipo III
+[cite: 1]
+	Isocelular a hipointenso
+	Hipointenso homogêneo acentuado
+	Hipointensidade acentuada homogênea
+	Depósito crônico residual de hemossiderina sem trombose ativa intraparenquimatosa
+	Tipo IV
+[cite: 1]
+	Não visualizado ou isointenso
+	Dificilmente caracterizável (isointenso)
+	Múltiplas lesões puntiformes hipointensas "em cabeça de alfinete"
+	Micro-hemorragias telangiectásicas puntiformes; marcador da forma familiar (KRIT1/CCM)
+	Intervalo: Classificação categórica morfológica em 4 tipos distintos (Tipos I, II, III e IV)1.
+3. Estratificação de Risco e Condutas por Categoria
+Categoria 1: Tipos I e II Sintomáticos (Lesões Ativas)
+A. Desfecho Estatístico Associado
+Taxa anual de ressangramento espontâneo documentada entre    ao ano (supratentorial) e    ao ano (tronco encefálico com sangramento prévio pré-existente)1.
+B. Conduta Medicamentosa (Farmacológica)
+Manejo da epilepsia secundária à irritação cortical pelo ferro tecidual: Levetiracetam VO: dose de    a cada 12 horas, titulada até    12/12h se necessário. Opções alternativas: Carbamazepina (   VO 8/8h) ou Lacosamida (   VO 12/12h). Conduta Farmacológica: Nenhuma intervenção medicamentosa específica indicada para redução ou eliminação da lesão estrutural cavernosa.
+C. Conduta Não Medicamentosa e Intervencionista
+Ressecção Microcirúrgica Eletiva. Em lesões Tipo I ou Tipo II com crises epilépticas refratárias ou déficits motores/sensoriais progressivos localizadas em regiões acessíveis ou atingindo a superfície pial/ependimal do tronco cerebral: remoção microcirúrgica completa da malformação associada à exérese circunferencial do anel gliótico carregado de hemossiderina. Monitorização neurofisiológica contínua durante todo o procedimento operatório. Se o cavernoma estiver em tronco encefálico profundo sem exposição à superfície pial, manter tratamento expectante até aproximação da superfície.
+Categoria 2: Tipo III e Lesões Assintomáticas em Áreas Profundas
+A. Desfecho Estatístico Associado
+Risco anualizado de sangramento baixo, estimado em    por paciente-ano1.
+B. Conduta Medicamentosa (Farmacológica)
+Conduta Farmacológica: Nenhuma intervenção medicamentosa indicada nesta faixa na ausência de epilepsia ativa. Evitar uso crônico não monitorizado de antiagregantes plaquetários e anticoagulantes orais, exceto por indicação cardiovascular absoluta.
+C. Conduta Não Medicamentosa e Intervencionista
+Seguimento clínico e por imagem ambulatorial. RM de encéfalo a cada 12 a 24 meses. Radiocirurgia estereotática desaconselhada pela alta incidência de edema e radionecrose perifocal tardia sem controle do risco de ressangramento.
+Categoria 3: Tipo IV (Forma Familiar com Cavernomatose Múltipla)
+A. Desfecho Estatístico Associado
+Propensão ao longo da vida para formação de novas lesões vasculares de novo; risco individual por lesão   /ano, porém cumulativamente relevante pela multiplicidade das lesões.
+B. Conduta Medicamentosa (Farmacológica)
+Conduta Farmacológica: Nenhuma intervenção medicamentosa curativa aprovada na prática clínica (estudos com propranolol e estatinas permanecem sob investigação experimental). Otimização anticonvulsivante direcionada caso surjam focos eletroencefalográficos dominantes.
+C. Conduta Não Medicamentosa e Intervencionista
+Aconselhamento genético e sequenciamento dos genes CCM1/KRIT1, CCM2 e CCM3/PDCD101. Cirurgia aberta reservada exclusivamente para a lesão índice sintomática que comprovadamente sangrou ou produziu déficit focal. Radiocirurgia formalmente contraindicada pela indução de novas mutações e proliferação de novas lesões induzidas pela radiação ionizante no tecido cerebral suscetível.
+6. PHASES Score (Predictor of Rupture Risk in Unruptured Intracranial Aneurysms)
+1. Identificação e Propósito Clínico
+         * Nome formal completo: PHASES Aneurysm Rupture Risk Score, derivado de metanálise multicêntrica internacional por Greving et al. em 20141.
+         * Objetivo clínico primário: Calcular a probabilidade percentual absoluta de rotura espontânea e hemorragia subaracnóidea aneurismática em 5 anos para aneurismas saculares intracranianos não rotos1.
+         * População elegível exata e critérios de exclusão: Pacientes adultos (   anos) com achado incidental de aneurisma sacular não roto diagnosticado por angio-TC, angio-RM ou angiografia digital1. Critérios de exclusão: aneurismas fusiformes, micóticos, dissecantes agudos, aneurismas associados a pedículos nutridores de MAV e aneurismas rotos prévios no mesmo episódio agudo de HSA1.
+2. Parâmetros e Atribuição de Pontos
+Fator Clínico / Anatômico
+	Critérios / Categorias
+	Pontos
+	P - População / Origem Étnica
+[cite: 1]
+	América do Norte, Europa Central, outros
+
+
+Japão
+
+
+Finlândia
+	0
+
+
+3
+
+
+5
+	H - Hipertensão Arterial
+[cite: 1]
+	Ausente
+
+
+Diagnosticada e tratada com anti-hipertensivo
+	0
+
+
+1
+	A - Idade (Age)
+[cite: 1]
+	  
+
+
+
+  
+
+	0
+
+
+1
+	S - Tamanho (Size)
+[cite: 1]
+	  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+	0
+
+
+3
+
+
+6
+
+
+10
+	E - HSA Prévia (Earlier SAH)
+[cite: 1]
+	Sem história prévia de HSA aneurismática
+
+
+História prévia de HSA decorrente de outro aneurisma tratado
+	0
+
+
+1
+	S - Sítio Anatômico (Site)
+[cite: 1]
+	ACI média, intracavernosa ou segmento oftálmico
+
+
+Artéria Cerebral Média (ACM)
+
+
+ACoA, PCoA ou Circulação Posterior (Basilar/Vertebral)
+	0
+
+
+2
+
+
+4
+	Intervalo total da escala: 0 a 22 pontos1.
+3. Estratificação de Risco e Condutas por Faixa de Pontuação
+Faixa 1: Risco Muito Baixo a Baixo (0 a 3 pontos)
+A. Desfecho Estatístico Associado
+Risco de rotura do aneurisma em 5 anos entre    e    (risco anual   )1.
+B. Conduta Medicamentosa (Farmacológica)
+Conduta Farmacológica: Nenhuma intervenção medicamentosa específica indicada para eliminação do saco aneurismático. Controle pressórico com IECA (Enalapril    VO) ou BRA (Losartana    VO) visando   . Cessação obrigatória do tabagismo com auxílio medicamentoso (Adesivo de Nicotina    ou Bupropiona    VO 12/12h se necessário).
+C. Conduta Não Medicamentosa e Intervencionista
+Conduta expectante e acompanhamento neurovascular ambulatorial regular. Angio-TC ou Angio-RM sem contraste de controle em 12 meses; se dimensionalmente estável, exames de controle a cada 24 a 36 meses. Os riscos intrínsecos de procedimentos cirúrgicos ou endovasculares superam o benefício preventivo nesta faixa.
+Faixa 2: Risco Intermediário (4 a 7 pontos)
+A. Desfecho Estatístico Associado
+Risco de rotura em 5 anos estimado entre    e   1.
+B. Conduta Medicamentosa (Farmacológica)
+Controle ambulatorial rigoroso de pressão arterial (  ). Restrição ao uso de fármacos simpaticomiméticos ou descongestionantes sistêmicos.
+C. Conduta Não Medicamentosa e Intervencionista
+Decisão intervencionista individualizada. Avaliação de morfologia por neuroimagem tridimensional: verificar irregularidades no saco (daughter sacs, lóbulos secundários) e proporção cúpula/colo (Aspect Ratio   ). Se paciente jovem (   anos) com longa expectativa de vida ou saco irregular: indicação de Oclusão Endovascular com microespirais ou Clipagem Microcirúrgica Eletiva.
+Faixa 3: Risco Alto a Muito Alto (   pontos)
+A. Desfecho Estatístico Associado
+Risco cumulativo de rotura em 5 anos de    a    para escores   , ultrapassando    em aneurismas gigantes (  ) de circulação posterior1.
+B. Conduta Medicamentosa (Farmacológica)
+Otimização clínica e controle imediato de picos hipertensivos. Caso programado procedimento endovascular com colocação de stent ou desviador de fluxo intraluminal (flow diverter): Terapia antiplaquetária dupla com Ácido Acetilsalicílico (AAS)    VO associado a Ticagrelor (   VO 12/12h) ou Clopidogrel (   VO) iniciada 7 a 10 dias antes do procedimento, monitorando a agregabilidade plaquetária.
+C. Conduta Não Medicamentosa e Intervencionista
+Intervenção Neurocirúrgica ou Neuroendovascular Mandatória Eletiva. Aneurismas de bifurcação de ACM: craniotomia minipterional ou pterional e Clipagem Microcirúrgica do colo. Aneurismas de topo de basilar, comunicante anterior alta ou segmento oftálmico: Embolização endovascular com espirais destacáveis assistidas por balão/stent ou implante de diversor de fluxo.
+7. UIATS (Unruptured Intracranial Aneurysm Treatment Score)
+1. Identificação e Propósito Clínico
+            * Nome formal completo: Unruptured Intracranial Aneurysm Treatment Score (UIATS), desenvolvido por consenso internacional multidisciplinar liderado por Etminan et al. em 20151.
+            * Objetivo clínico primário: Estruturar um algoritmo ponderado e reprodutível que quantifique 29 fatores clínicos, morfológicos e técnicos para resolver o conflito de indicação entre tratamento profilático ativo (cirúrgico ou endovascular) e conduta expectante em aneurismas não rotos5.
+            * População elegível exata e critérios de exclusão: Pacientes com aneurismas saculares intracranianos não rotos incidentais5. Critérios de exclusão: hemorragia subaracnóidea aguda em curso, recanalização de aneurisma previamente tratado e dissecções vasculares traumáticas.
+2. Parâmetros e Arquitetura Operacional do Algoritmo
+O modelo quantifica 29 parâmetros distribuídos em três pilares analíticos, gerando dois escores simultâneos: Pontuação a Favor do Tratamento Intervencionista e Pontuação a Favor do Manejo Conservador5.
+Pilar de Decisão
+	Variáveis Integradas no Algoritmo de Consenso Internacional
+	Fatores do Paciente
+[cite: 5]
+	Idade cronológica / expectativa de vida (   anos vs    anos); histórico de HSA prévia por outro aneurisma; história familiar de aneurisma intracraniano em parentes de primeiro grau; presença de comorbidades clínicas severas ativas; uso crônico e compulsório de anticoagulação plena; tabagismo ativo; sintomas neurológicos decorrentes de compressão local por efeito de massa ou pares cranianos.
+	Fatores do Aneurisma
+[cite: 5]
+	Tamanho máximo do saco (  ,   ,   ,   ,   ); morfologia da cúpula (regular vs irregular/multilobulada); sítio anatômico (ACI, ACM, complexo ACoA, circulação vértebro-basilar); taxa de crescimento em neuroimagem longitudinal documentada (   em 12 meses); proporção de aspecto (Aspect Ratio e Size Ratio).
+	Fatores do Procedimento e Operador
+[cite: 5]
+	Anatomia de colo favorável à microclipagem cirúrgica simples; colo favorável à embolização com micromolas; obrigatoriedade de stents e tolerância à dupla antiagregação plaquetária; complexidade anatômica prevista e taxas institucionais de complicação operatória.
+	Intervalo: Subtrai-se a soma dos pontos a favor do tratamento conservador da soma a favor da intervenção ativa5. A diferença líquida (  ) estabelece o veredito final5.
+3. Estratificação e Condutas por Diferença Líquida de Pontos
+Faixa 1: Favorece Tratamento Conservador (   pontos)
+A. Desfecho Estatístico Associado
+A probabilidade de morbimortalidade procedimental (estimada entre    e   ) excede o risco cumulativo de sangramento natural do aneurisma ao longo da sobrevida estimada do paciente5.
+B. Conduta Medicamentosa (Farmacológica)
+Conduta Farmacológica: Nenhuma intervenção medicamentosa específica indicada para resolução vascular. Otimização terapêutica de patologias clínicas de base e suporte medicamentoso para cessação de tabagismo.
+C. Conduta Não Medicamentosa e Intervencionista
+Conduta conservadora exclusiva5. Angio-TC ou Angio-RM seriada de controle após 12 meses e, se mantida estabilidade morfológica, a cada 2 a 3 anos. Esclarecimento formal para procurar atendimento de emergência se cefaleia súbita e intensa.
+Faixa 2: Zona Indeterminada / Neutra (   entre    e    pontos)
+A. Desfecho Estatístico Associado
+Equilíbrio estatístico de risco (equipoise clínico): o risco cumulativo de rotura equivale ao risco combinado do procedimento cirúrgico ou endovascular5.
+B. Conduta Medicamentosa (Farmacológica)
+Ajuste medicamentoso individualizado. Evitar terapias de reposição hormonal descontroladas ou substâncias com ação vasoativa simpaticomimética intensa.
+C. Conduta Não Medicamentosa e Intervencionista
+Discussão multidisciplinar em reunião neurovascular e tomada de decisão compartilhada com o paciente. Avaliar o impacto psicológico da presença da lesão não tratada. Repetição do exame angiográfico em intervalo curto (6 meses). Caso haja crescimento documentado: indicação cirúrgica imediata.
+Faixa 3: Favorece Tratamento Intervencionista Ativo (   pontos)
+A. Desfecho Estatístico Associado
+O risco cumulativo de rotura ao longo da vida do paciente supera expressivamente os riscos do procedimento invasivo; taxa de oclusão do aneurisma com exclusão da circulação   5.
+B. Conduta Medicamentosa (Farmacológica)
+Se indicada embolização com stent intracraniano: Dupla antiagregação plaquetária com AAS    VO associado a Clopidogrel    VO por no mínimo 6 meses, mantendo AAS isolado em longo prazo. Se cirurgia microcirúrgica aberta: profilaxia antimicrobiana com Cefazolina    IV na indução (dose de repique de    a cada 4 horas se cirurgia prolongada).
+C. Conduta Não Medicamentosa e Intervencionista
+Tratamento Cirúrgico ou Endovascular Eletivo Programado5. Definição da modalidade por critérios anatômicos: microcirurgia com clipagem para bifurcação da ACM e colo largo com ramos emergentes da base; embolização endovascular (com molas ou stent diversor de fluxo) para aneurismas de circulação posterior e carótida supraclinoideia de colo estreito. Pós-operatório em leito de UTI por 24 horas sob monitorização neurológica.
+Domínio 3: Neuro-Oncologia e Base de Crânio
+8. Classificação de Knosp (Invasão do Seio Cavernoso por Adenomas Hipofisários)
+1. Identificação e Propósito Clínico
+            * Nome formal completo: Knosp Pituitary Adenoma Cavernous Sinus Infiltration Grading System, descrita por Knosp et al. em 1993 e modificada por Micko et al. em 20151.
+            * Objetivo clínico primário: Quantificar a invasão anatômica do seio cavernoso por adenomas de hipófise com base em tangentes carotídeas em cortes coronais de Ressonância Magnética, estimando a viabilidade de ressecção total por via endonasal transesfenoidal versus subtotal intencional1.
+            * População elegível exata e critérios de exclusão: Pacientes portadores de adenomas hipofisários com extensão selar ou parasselar candidatos a tratamento cirúrgico1. Critérios de exclusão: meningiomas do tubérculo selar, craniofaringiomas puros sem invasão da sela túrcica e lesões selares previamente submetidas a radioterapia conformacional com desestruturação dos marcos anatômicos intercarotídeos.
+2. Parâmetros e Atribuição de Graus (Tangentes no Plano Coronal da RM)
+Três linhas anatômicas verticais tangenciam os segmentos carotídeos intracavernoso e intraclinoideo superior no corte coronal de RM: Linha Tangente Medial, Linha Intercarotídea Mediana e Linha Tangente Lateral1.
+Grau Knosp
+	Posição da Borda Tumoral Lateral em Relação às Artérias Carótidas Internas
+	Probabilidade Real de Invasão Cavernosa
+	Grau 0
+[cite: 1]
+	Tumor contido estritamente medial à Linha Tangente Medial das ACIs
+	Ausente (  )
+	Grau 1
+[cite: 1]
+	Tumor ultrapassa a Linha Tangente Medial, sem atingir a Linha Intercarotídea Mediana
+	Muito improvável (  )
+	Grau 2
+[cite: 1]
+	Tumor cruza a Linha Intercarotídea Mediana, sem ultrapassar a Linha Tangente Lateral
+	Indeterminada / Transição (  )
+	Grau 3A
+[cite: 1]
+	Tumor cruza a Linha Tangente Lateral em direção ao compartimento superior do seio cavernoso
+	Invasão confirmada no compartimento superior (  )
+	Grau 3B
+[cite: 1]
+	Tumor cruza a Linha Tangente Lateral em direção ao compartimento inferior do seio cavernoso
+	Invasão confirmada no compartimento inferior (  )
+	Grau 4
+[cite: 1]
+	Envolvimento circunferencial total (encasement) da ACI intracavernosa pelo adenoma
+	Invasão absoluta do seio cavernoso (  )
+	Intervalo: Classificação ordinal morfológica estruturada em 6 estágios (Graus 0, 1, 2, 3A, 3B e 4)1.
+3. Estratificação de Risco e Condutas por Grau
+Graus 0 e 1 (Lesões Não Invasivas)
+A. Desfecho Estatístico Associado
+Taxa de ressecção cirúrgica completa (gross total resection) por via endoscópica endonasal   1. Controle bioquímico em tumores funcionantes   .
+B. Conduta Medicamentosa (Farmacológica)
+Em prolactinomas: Primeira linha com Cabergolina oral: dose inicial de    por semana dividida em duas tomadas de   , titulada mensalmente conforme dosagens de prolactina até   . Em adenomas não funcionantes: Conduta Farmacológica: Nenhuma intervenção medicamentosa específica indicada para redução tumoral primária; cobertura de Hidrocortisona IV (   a cada 8 horas na indução cirúrgica com desmame rápido em 48 horas se cortisol pós-operatório   ).
+C. Conduta Não Medicamentosa e Intervencionista
+Cirurgia Endoscópica Endonasal Transesfenoidal (EETS). Abertura do assoalho selar e dissecção extracapsular completa. Monitorização intraoperatória de campos visuais se compressão do quiasma óptico associada. Acompanhamento endócrino ambulatorial.
+Graus 2 e 3A (Invasão de Transição / Parcial)
+A. Desfecho Estatístico Associado
+Taxa de ressecção cirúrgica completa de   1. Risco cirúrgico moderado de sangramento venoso do plexo cavernoso durante a dissecção da parede medial.
+B. Conduta Medicamentosa (Farmacológica)
+Em adenomas funcionantes secretores de GH (acromegalia) ou ACTH (síndrome de Cushing) com persistência bioquímica pós-operatória: Análogos de somatostatina (Octreotida LAR    IM a cada 4 semanas ou Lanreotida Autogel    SC a cada 4 semanas) ou Pasireotida.
+C. Conduta Não Medicamentosa e Intervencionista
+Cirurgia Endoscópica Endonasal Expandida. Exposição da artéria carótida interna parasselar e uso de microdoppler intraoperatório. Dissecção cuidadosa da porção que invade o seio intercarotídeo. Caso ocorra resíduo aderido lateralmente: programação de Radiocirurgia Estereotática (SRS: 12 a 15 Gy na borda do resíduo) após RM de controle de 3 a 6 meses.
+Graus 3B e 4 (Invasão Cavernosa Avançada)
+A. Desfecho Estatístico Associado
+Taxa de ressecção cirúrgica gross total nula ou    por abordagens convencionais; risco proibitivo de lesão vascular lacerante da carótida intracavernosa e paralisia dos pares cranianos oculomotores (III, IV e VI) se dissecção agressiva for realizada1.
+B. Conduta Medicamentosa (Farmacológica)
+Em adenomas atípicos agressivos ou refratários: Temozolomida oral (   por 5 dias consecutivos a cada 28 dias). Reposição hormonal crônica plena para pan-hipopituitarismo estabelecido: Prednisona    pela manhã e    à tarde VO, associada a Levotiroxina    VO.
+C. Conduta Não Medicamentosa e Intervencionista
+Cirurgia Endoscópica Transesfenoidal Paliativa / Descompressiva Segura. O cirurgião deve intencionalmente interromper a dissecção lateral no plano medial da ACI, visando à descompressão ampla do aparelho óptico para salvamento visual, preservando o remanescente tumoral intracavernoso lateral. No pós-operatório: encaminhamento para Radioterapia Conformacional com Modulação de Intensidade (IMRT) ou Protonterapia direcionada à loja cavernosa remanescente.
+9. Classificação de Samii / Hannover (Schwannomas Vestibulares)
+1. Identificação e Propósito Clínico
+            * Nome formal completo: Hannover Classification of Vestibular Schwannomas, descrita por Madjid Samii e Cord Matthies em 19971.
+            * Objetivo clínico primário: Estadiar o tamanho e a extensão anatômica do schwannoma vestibular no meato acústico interno e no ângulo pontocerebelar, orientando a escolha da via neurocirúrgica e prevendo taxas de preservação dos nervos facial (VII) e coclear (VIII)1.
+            * População elegível exata e critérios de exclusão: Pacientes portadores de Schwannoma Vestibular (Neurinoma do Acústico) em RM contrastada1. Critérios de exclusão: meningiomas petroclivais sem invasão meatal primária, cistos epidermoides e tumores glômicos do forame jugular.
+2. Parâmetros e Atribuição de Graus
+Grau Hannover
+	Topografia Anatômica e Extensão do Schwannoma
+	Grau T1
+[cite: 1]
+	Tumor puramente intracanalicular (confinado ao meato acústico interno)
+	Grau T2
+[cite: 1]
+	Extensão intra-extrameatal: projeta-se na cisterna do ângulo pontocerebelar sem tocar o tronco
+	Grau T3a
+[cite: 1]
+	Tumor atinge a superfície anterior da ponte/tronco encefálico sem deformá-la
+	Grau T3b
+[cite: 1]
+	Tumor comprime e deforma a ponte e o pedúnculo cerebelar médio
+	Grau T4a
+[cite: 1]
+	Tumor volumoso com acentuada deformação de tronco e do quarto ventrículo
+	Grau T4b
+[cite: 1]
+	Tumor volumoso com herniação de fossa posterior, deslocamento de tronco e hidrocefalia secundária ativa
+	Intervalo: Classificação anatômica contínua em 6 subgrupos (T1 a T4b)1.
+3. Estratificação de Risco e Condutas por Grau
+Grau T1 (Intracanalicular Puro)
+A. Desfecho Estatístico Associado
+Taxa de integridade funcional motora do nervo facial (House-Brackmann Grau I ou II) superior a   1. Risco de déficit bulbar ou hidrocefalia de   .
+B. Conduta Medicamentosa (Farmacológica)
+Conduta Farmacológica: Nenhuma intervenção medicamentosa indicada nesta faixa. Analgesia ambulatorial simples se queixa de zumbido ou cefaleia leve.
+C. Conduta Não Medicamentosa e Intervencionista
+Conduta de observação ativa com RM e audiometria seriada a cada 6 a 12 meses (Wait and Scan), particularmente em idosos ou lesões com audição útil preservada. Caso ocorra crescimento documentado   : indicar Radiocirurgia Estereotática (SRS: 12 a 13 Gy) ou Microcirurgia via fossa média (se preservação auditiva viável) ou translabiríntica (se anacusia prévia).
+Graus T2 e T3a (Médio Porte Cisternal)
+A. Desfecho Estatístico Associado
+Taxa de preservação da mímica facial de   1; preservação da audição funcional em cerca de    dos casos selecionados.
+B. Conduta Medicamentosa (Farmacológica)
+Conduta Farmacológica: Nenhuma terapia medicamentosa direcionada à redução da lesão. Antibioticoprofilaxia perioperatória com Cefazolina    IV na indução.
+C. Conduta Não Medicamentosa e Intervencionista
+Decisão entre Microcirurgia Eletiva via Retrosigmoide versus Radiocirurgia Estereotática (SRS). Se a audição for nula e se optar por microcirurgia: via translabiríntica é alternativa adequada. Uso obrigatório de monitorização neurofisiológica intraoperatória contínua (EMG contínua do VII par e potenciais evocados auditivos de tronco - BERA).
+Graus T3b, T4a e T4b (Compressão de Tronco Encefálico e Hidrocefalia)
+A. Desfecho Estatístico Associado
+Risco de hipertensão intracraniana e parada cardiorrespiratória por compressão bulbar; preservação funcional do VII par facial cai para    pelo adelgaçamento das fibras nervosas sobre a cápsula tumoral1.
+B. Conduta Medicamentosa (Farmacológica)
+Corticoterapia de descompressão vasogênica: Dexametasona IV: ataque de    em bolus, seguido de    IV a cada 6 horas por 5 a 7 dias no perioperatório para redução do edema de tronco e cerebelo, com desmame progressivo subsequente. Omeprazol    IV uma vez ao dia para proteção gástrica.
+C. Conduta Não Medicamentosa e Intervencionista
+Microcirurgia Aberta Mandatória de Urgência. Acesso neurocirúrgico: Craniotomia Retrosigmoide Suboccipital Ampla com aspirador ultrassônico (CUSA). Se paciente apresentar hidrocefalia obstrutiva descompensada no grau T4b: instalação de DVE de alívio ou derivação definitiva prévia/concomitante. Perante aderência íntima da cápsula ao nervo facial com perda transitória de sinal neurofisiológico: manter intencionalmente um remanescente capsular subtotal fino colado ao trajeto do nervo, encaminhando o resíduo para controle radiocirúrgico posterior.
+10. Escala de Levine-Sekhar (Tumores Complexos da Base do Crânio)
+1. Identificação e Propósito Clínico
+            * Nome formal completo: Levine-Sekhar Grading System for Skull Base Meningiomas and Complex Tumors, proposto por Levine, Sekhar et al. em 1999 e refinado por Saberi, Sekhar et al. em 20061.
+            * Objetivo clínico primário: Determinar a complexidade operatória, prever a probabilidade de ressecção cirúrgica total (Gross Total Resection - Simpson I/II) e a taxa de déficits permanentes de pares cranianos ou lesões de artérias axiais de transição7.
+            * População elegível exata e critérios de exclusão: Pacientes com tumores de base de crânio (meningiomas petroclivais, forame jugular, esfenocavernosos, cordomas e condrossarcomas clivais)7. Critérios de exclusão: meningiomas parassagitais ou de convexidade sem invasão óssea basilar e metástases calvarianas puras.
+2. Parâmetros e Atribuição de Pontos
+Critério Anatômico / Cirúrgico
+	Definição / Presença
+	Pontos
+	Acometimento do Aparelho Óptico
+[cite: 7]
+	Nervo óptico, quiasma ou forame óptico envolvido pelo tumor
+	1
+	Invasão Neural do Seio Cavernoso
+[cite: 7]
+	Pares cranianos intracavernosos (III, IV, V1, V2 ou VI) invadidos
+	1
+	Acometimento Facial-Vestibulococlear
+[cite: 7]
+	Envolvimento dos pares VII ou VIII no meato acústico interno / APC
+	1
+	Disfunção de Pares Cranianos Baixos
+[cite: 7]
+	Invasão ou paresia clínica dos nervos IX, X, XI ou XII
+	1
+	Acometimento Multifossas e/ou Encasement Vascular
+[cite: 7]
+	Extensão transdural entre fossas e/ou envolvimento circunferencial da ACI/Basilar
+	1
+	Tratamento Radioterápico Prévio
+[cite: 7]
+	Radioterapia ou Radiocirurgia prévia com fibrose induzida e perda do plano de clivagem
+	1
+	Intervalo total da escala modificada: 0 a 6 pontos7.
+3. Estratificação de Risco e Condutas por Faixa de Pontuação
+Faixa 1: Complexidade Cirúrgica Baixa a Moderada (0 a 2 pontos)
+A. Desfecho Estatístico Associado
+Probabilidade de ressecção cirúrgica completa (Simpson I ou II) superior a   7. Novos déficits neurológicos pós-operatórios   .
+B. Conduta Medicamentosa (Farmacológica)
+Conduta Farmacológica: Nenhuma intervenção farmacológica curativa indicada para a lesão neoplásica. Cefazolina    IV profilática na indução anestésica cirúrgica. Dexametasona    IV a cada 8 horas no pós-operatório com desmame em 5 dias.
+C. Conduta Não Medicamentosa e Intervencionista
+Ressecção microcirúrgica aberta padrão em tempo único utilizando acessos cranianos convencionais (craniotomia pterional expandida, orbitocigomática ou retrosigmoide padrão). Microdissecção guiada por neuronavegação tridimensional e visualização microscópica de alto campo.
+Faixa 2: Alta Complexidade Cirúrgica (3 a 4 pontos)
+A. Desfecho Estatístico Associado
+Taxa de ressecção cirúrgica completa cai para   7. Risco de novos déficits de nervos cranianos no pós-operatório imediato de   .
+B. Conduta Medicamentosa (Farmacológica)
+Profilaxia neuroprotetora e antiedema. Dexametasona IV (   6/6h). Profilaxia de TEV com compressão mecânica contínua transoperatória e Enoxaparina    SC uma vez ao dia iniciada após 24 horas de hemostasia comprovada por TC.
+C. Conduta Não Medicamentosa e Intervencionista
+Acessos Complexos de Base de Crânio em Múltiplos Tempos Cirúrgicos (ex.: petrosectomia anterior/posterior combinada, acesso infratemporal ou transcondilar extremo-lateral). Realização de angiografia pré-operatória com teste de oclusão por balão (BOT) com desafio hipotensivo para avaliar colateralidade hemisférica. Ressecção parcial planejada se houver risco aos pares cranianos, seguida de radiocirurgia adjuvante no resíduo.
+Faixa 3: Extrema Complexidade / Risco Proibitivo (5 a 6 pontos)
+A. Desfecho Estatístico Associado
+Taxa de ressecção completa   7; complicações isquêmicas catastróficas por oclusão de ramos perfurantes ou déficit de deglutição grave com risco de aspiração pulmonar   .
+B. Conduta Medicamentosa (Farmacológica)
+Se sacrifício e reconstrução vascular necessários com bypass intraoperatório: Heparina Não Fracionada IV (bólus de    com meta de Tempo de Coagulação Ativada - TCA entre 250 e 300 segundos). No pós-operatório de revascularização: AAS    VO associado a Clopidogrel    VO.
+C. Conduta Não Medicamentosa e Intervencionista
+Revascularização Cerebral Microcirúrgica Primária (Bypass de alto fluxo, como carótida externa para artéria cerebral média utilizando enxerto de veia safena magna ou artéria radial) previamente à abordagem tumoral em caso de encasement total da ACI. Se risco cirúrgico impeditivo: descompressão intracapsular conservadora para alívio funcional de estruturas de tronco, seguida de Radioterapia por Feixe de Prótons ou IMRT. Instalação precoce de traqueostomia e gastrostomia se paralisia de IX e X pares com disfagia grave.
+11. Escalas Funcionais de Performance: KPS (Karnofsky) e ECOG (Zubrod)
+1. Identificação e Propósito Clínico
+            * Nome formal completo: Karnofsky Performance Scale (KPS, formulada por Karnofsky et al. em 1949) e Eastern Cooperative Oncology Group Performance Status (ECOG, derivado por Oken et al. em 1982)2.
+            * Objetivo clínico primário: Quantificar a capacidade funcional e o nível de independência motora do paciente oncológico, definindo a permissividade biológica para cirurgia craniana ampla em gliomas e tolerância aos esquemas adjuvantes de rádio e quimioterapia1.
+            * População elegível exata e critérios de exclusão: Pacientes com neoplasias intracranianas primárias ou metastáticas2. Sem exclusões formais (ferramenta universal).
+2. Parâmetros e Correlação de Graus Funcionais
+
+
+Escore KPS (%)
+	Nível de Autonomia Funcional e Dependência de Cuidados
+	Grau ECOG Correspondente
+	100%
+	Sem sintomas funcionais, plenamente ativo sem restrições
+	Grau 0
+	90%
+	Capaz de atividade diária normal com queixas clínicas mínimas
+	Grau 0
+	80%
+	Atividade normal com esforço; presença de sinais de doença
+	Grau 1 (Incapaz para esforço pesado)
+	70%
+	Cuida de si, mas incapaz de exercer trabalho ativo contínuo
+	Grau 1
+	60%
+	Requer assistência ocasional; realiza a maioria das necessidades pessoais
+	Grau 2 (Ambulatorial, acordado    do dia)
+	50%
+	Requer assistência frequente e cuidados médicos frequentes
+	Grau 2
+	40%
+	Incapacitado motor; requer cuidados diários especiais contínuos
+	Grau 3 (Restrito ao leito/cadeira    do dia)
+	30%
+	Confinamento severo ao leito; hospitalização necessária para suporte
+	Grau 3
+	20%
+	Muito enfermo; cuidados hospitalares e suporte vital intensivo
+	Grau 4 (Totalmente restrito ao leito)
+	10%
+	Moribundo; evolução terminal de falência multissistêmica
+	Grau 4
+	0%
+	Óbito
+	Grau 5 (Falecido)
+	3. Estratificação de Risco e Condutas por Faixa de Performance
+Faixa 1: Performance Funcional Preservada (   ou   )
+A. Desfecho Estatístico Associado
+Sobrevida global mediana em glioblastoma tratado com protocolo multimodal de 14 a 20 meses; adesão ao tratamento quimiorradioterápico   2.
+B. Conduta Medicamentosa (Farmacológica)
+Elegibilidade para Protocolo Stupp completo: Temozolomida oral:    diariamente durante a radioterapia fracionada (6 semanas), seguida de 4 semanas de intervalo e posterior Temozolomida adjuvante em 6 ciclos de 28 dias (   do D1 ao D5 no primeiro ciclo, escalonada para    se ausência de toxicidade hematológica). Profilaxia concomitante contra Pneumocystis jirovecii com Sulfametoxazol-Trimetoprima (   VO 3 vezes por semana). Titulação mínima de Dexametasona (   VO), desmamando precocemente.
+C. Conduta Não Medicamentosa e Intervencionista
+Indicação de Ressecção Cirúrgica Supratotal / Máxima Segura. Avaliação para Craniotomia Acordada (Awake Craniotomy) com mapeamento funcional cortical e subcortical se lesão em áreas eloquentes de linguagem ou motricidade. Uso de fluorescência com Ácido 5-Aminolevulínico (5-ALA) ou Fluoresceína Sódica. Radioterapia externa adjuvante (60 Gy em 30 frações).
+Faixa 2: Performance Funcional Intermediária (   ou   )
+A. Desfecho Estatístico Associado
+Sobrevida global mediana reduzida para 6 a 9 meses; risco expressivo de toxicidade limitante ao tratamento combinado padrão2.
+B. Conduta Medicamentosa (Farmacológica)
+Desafio terapêutico com Dexametasona oral:    a cada 12 horas por 7 dias para testar melhora funcional; caso o paciente recupere para   , reclassificar para terapia combinada. Caso contrário: monoterapia com Temozolomida ou apenas suporte medicamentoso sintomático.
+C. Conduta Não Medicamentosa e Intervencionista
+Contraindicação a craniotomias acordadas ou ressecções prolongadas agressivas. Ressecção citorredutora restrita a massas volumosas com efeito compressivo iminente; se lesão infiltrativa difusa: realização de Biópsia Guiada por Imagem ou Estereotaxia para histopatologia e painel molecular. Radioterapia hipofracionada (40 Gy em 15 frações ou 25 Gy em 5 frações).
+Faixa 3: Performance Terminal / Confinamento ao Leito (   ou   )
+A. Desfecho Estatístico Associado
+Sobrevida global mediana    meses; mortalidade cirúrgica perioperatória em 30 dias de    caso submetido à cirurgia aberta.
+B. Conduta Medicamentosa (Farmacológica)
+Conduta Farmacológica: Nenhuma intervenção quimioterápica citotóxica indicada (quimioterapia contraindicada). Paliação intensiva de sintomas: Dexametasona    VO/SC para alívio do edema vasogênico; Haloperidol    VO/SC a cada 8 horas se agitação; Morfina oral ou subcutânea (   a cada 4 horas) para controle álgico e dispneia.
+C. Conduta Não Medicamentosa e Intervencionista
+Cuidados Paliativos Exclusivos. Procedimentos cirúrgicos de grande porte formalmente contraindicados. Acompanhamento em regime de Hospice ou domiciliar, priorizando conforto biológico e acolhimento familiar sem medidas invasivas fúteis.
+12. RPA (Recursive Partitioning Analysis) e DS-GPA (Diagnosis-Specific Graded Prognostic Assessment)
+1. Identificação e Propósito Clínico
+            * Nome formal completo: RTOG Recursive Partitioning Analysis (RPA, por Gaspar et al. em 1997) e Diagnosis-Specific Graded Prognostic Assessment (DS-GPA, por Sperduto et al., 2012–2020)1.
+            * Objetivo clínico primário: Estimar a sobrevida global mediana em pacientes com metástases cerebrais parenquimatosas e selecionar o tratamento ótimo entre ressecção cirúrgica, Radiocirurgia Estereotática (SRS), Radioterapia de Crânio Total (WBRT) ou paliação clínica1.
+            * População elegível exata e critérios de exclusão: Pacientes adultos com metástases cerebrais documentadas decorrentes de neoplasias sólidas sistêmicas2. Critérios de exclusão: meningite carcinomatosa leptomeníngea exclusiva sem metástases parenquimatosas, linfomas do SNC e leucemias.
+2. Parâmetros e Atribuição de Pontos
+Classes do Modelo RPA (Gaspar et al., 1997):
+            * Classe I: Idade    anos,   , Tumor Primário Sistêmico Controlado e Ausência de Metástases Extracranianas2.
+            * Classe III:    (independentemente das demais variáveis)2.
+            * Classe II: Todos os demais pacientes (ex.:    com primário não controlado ou idade    anos)2.
+Critérios do DS-GPA Específico por Patologia (Exemplo: Câncer de Pulmão Não Pequenas Células - CPNPC):
+Variável Prognóstica
+	0 Pontos
+	0,5 Pontos
+	1,0 Ponto
+	Idade
+[cite: 2]
+	  
+
+	  
+
+	  
+
+	KPS
+[cite: 2]
+	  
+
+	  
+
+	  
+
+	Metástases Extracranianas
+[cite: 2]
+	Presentes
+	—
+	Ausentes
+	Número de Metástases Cerebrais
+[cite: 2]
+	  
+
+	  
+
+	  
+
+	Status Molecular (EGFR / ALK)
+[cite: 2]
+	Negativo ou não testado
+	—
+	Mutado / Rearranjado (EGFR+ / ALK+)
+	Intervalo do DS-GPA: 0,0 a 4,0 pontos (maiores escores indicam melhor prognóstico biológico)2.
+3. Estratificação de Risco e Condutas por Faixa de Pontuação
+Faixa 1: Prognóstico Favorável (RPA Classe I / DS-GPA 3,5 a 4,0)
+A. Desfecho Estatístico Associado
+Sobrevida global mediana entre 15 e 36 meses (podendo atingir    meses em tumores de pulmão com mutação tratável de EGFR e inibidores de 3ª geração)2.
+B. Conduta Medicamentosa (Farmacológica)
+Terapia-alvo sistêmica dirigida de alta penetração no SNC: Osimertinibe (   VO 1x/dia para EGFR mutado) ou Alectinibe (   VO 12/12h para translocação de ALK). Se melanoma com mutação de BRAF: Dabrafenibe (   12/12h) associado a Trametinibe (   1x/dia).
+C. Conduta Não Medicamentosa e Intervencionista
+Tratamento Agressivo Focal. Se metástase cerebral volumosa (  ) sintomática com efeito de massa: Ressecção Microcirúrgica Aberta, seguida de Radiocirurgia Estereotática de Leito/Cavidade (SRS: 12 a 15 Gy em fração única ou 24 Gy em 3 frações) para prevenir recorrência local. Se lesões menores (  ) e oligometastáticas (1 a 4 lesões): Radiocirurgia Estereotática Primária isolada, evitando a WBRT para proteger o desempenho cognitivo.
+Faixa 2: Prognóstico Intermediário (RPA Classe II / DS-GPA 1,5 a 3,0)
+A. Desfecho Estatístico Associado
+Sobrevida global mediana de 6 a 12 meses; controle local satisfatório em mais de    das lesões tratadas com SRS2.
+B. Conduta Medicamentosa (Farmacológica)
+Dexametasona VO em dose moderada (   a cada 12 horas) durante o tratamento radioterápico com desmame subsequente. Imunoterapia ou quimioterapia conforme protocolo do tumor primário.
+C. Conduta Não Medicamentosa e Intervencionista
+Ressecção cirúrgica reservada para lesão única com compressão mecânica de tronco encefálico ou hidrocefalia de fossa posterior. Em pacientes com 2 a 10 lesões com volume individual controlado: Radiocirurgia Estereotática Fracionada ou SRS multilesões, poupando WBRT sempre que factível.
+Faixa 3: Prognóstico Desfavorável (RPA Classe III / DS-GPA 0,0 a 1,0)
+A. Desfecho Estatístico Associado
+Sobrevida global mediana de 1,5 a 2,5 meses; ausência de benefício demonstrado de sobrevida com cirurgia aberta ou radiocirurgia conformacional avançada2.
+B. Conduta Medicamentosa (Farmacológica)
+Conduta Farmacológica: Nenhuma intervenção quimioterápica agressiva indicada. Foco em paliação de sintomas: Dexametasona    VO para alívio de cefaleia vasogênica hipertensiva; Haloperidol    VO se delírio; opioides conforme a escada analgésica da OMS.
+C. Conduta Não Medicamentosa e Intervencionista
+Contraindicação Formal à Cirurgia Aberta. Se o paciente apresentar múltiplos sintomas neurológicos difusos incapacitantes e a família solicitar intervenção: Radioterapia de Crânio Total (WBRT: 20 Gy em 5 frações ou 30 Gy em 10 frações) exclusivamente para fins de alívio; caso contrário, adoção preferencial de Cuidados Paliativos Domiciliares ou Hospitalares sem terapias ionizantes fúteis.
+Domínio 4: Coluna Vertebral — Instabilidade Mecânica, Trauma e Oncologia
+13. TLICS (Thoracolumbar Injury Classification and Severity Score)
+1. Identificação e Propósito Clínico
+               * Nome formal completo: Thoracolumbar Injury Classification and Severity Score (TLICS), estabelecido pelo Spine Trauma Study Group por Vaccaro et al. em 20051.
+               * Objetivo clínico primário: Determinar a estabilidade estrutural da coluna toracolombar após trauma mecânico e guiar objetivamente a decisão entre tratamento conservador com órtese versus intervenção cirúrgica de estabilização e artrodese1.
+               * População elegível exata e critérios de exclusão: Pacientes acometidos por traumatismo fechado da coluna toracolombar (segmento T1 a L5)1. Critérios de exclusão: lesões da coluna cervical (avaliadas pelo SLICS), patologias degenerativas isoladas, fraturas patológicas oncológicas (avaliadas pelo SINS) e fraturas osteoporóticas graves por fragilidade óssea senil.
+2. Parâmetros e Atribuição de Pontos (Três Pilares Biomecânicos)
+Pilar de Avaliação
+	Característica Morfológica / Clínica
+	Pontos
+	1. Morfologia da Fratura
+[cite: 1, 3]
+	Sem fratura / Compressão simples por cunha
+
+
+Fratura em Explosão (Burst)
+
+
+Fratura Translacional ou Rotacional
+
+
+Fratura por Distração (lesão tipo cinto de segurança / Chance)
+	1
+
+
+2
+
+
+3
+
+
+4
+	2. Complexo Ligamentar Posterior (CLP)
+[cite: 1, 3]
+	Íntegro (ligamento supraespinhal, infraespinhal, amarelo e cápsulas facetárias intactos)
+
+
+Suspeito / Indeterminado (edema interespinhoso na RM)
+
+
+Rompido / Desestruturado (diastase de espinhosas, gap facetário, rotura visível)
+	0
+
+
+2
+
+
+3
+	3. Estado Neurológico
+[cite: 1, 3]
+	Intacto neurologicamente (sem déficits)
+
+
+Lesão de Raiz Nervosa isolada
+
+
+Lesão Medular Completa (ASIA A)
+
+
+Lesão Medular Incompleta (ASIA B, C ou D)
+
+
+Síndrome da Cauda Equina
+	0
+
+
+2
+
+
+2
+
+
+3
+
+
+3
+	Intervalo total da escala: 1 a 10 pontos1.
+3. Estratificação de Risco e Condutas por Faixa de Pontuação
+Faixa 1: Conduta Conservadora (   pontos)
+A. Desfecho Estatístico Associado
+Coluna biomecanicamente estável; taxa de consolidação óssea bem-sucedida sem progressão cifótica patológica ou déficit neurológico tardio   1.
+B. Conduta Medicamentosa (Farmacológica)
+Conduta Farmacológica: Nenhuma intervenção medicamentosa específica para consolidação mecânica. Controle de dor nociceptiva mecânica: Dipirona    VO/IV a cada 6 horas associada a Cetoprofeno    IV a cada 12 horas (ou Ibuprofeno    VO 8/8h) por 5 a 7 dias (contraindicado se    ou sangramento digestivo ativo). Analgesia de resgate com Codeína    associada a Paracetamol    VO a cada 6 horas se dor moderada (EVA 4 a 7).
+C. Conduta Não Medicamentosa e Intervencionista
+Tratamento Conservador Ortopédico1. Imobilização com órtese rígida: Colete TLSO (Thoracolumbosacral Orthosis) ou Colete de Jewett confeccionado sob medida, mantido durante ortostase e deambulação por 8 a 12 semanas. Repouso relativo inicial no leito e deambulação assistida. Radiografias em perfil e ortostase em 2, 4 e 8 semanas para monitorar o alinhamento angular sagital.
+Faixa 2: Zona Limítrofe / Critério do Cirurgião (   pontos)
+A. Desfecho Estatístico Associado
+Instabilidade relativa; probabilidade de    de falha do manejo conservador com colapso cifótico secundário (  ) ou dor crônica mecânica incapacitante1.
+B. Conduta Medicamentosa (Farmacológica)
+Idem à faixa anterior, associando relaxante muscular (Ciclobenzaprina    VO ao deitar). Profilaxia de TVP com Enoxaparina    SC uma vez ao dia enquanto houver restrição prolongada ao leito.
+C. Conduta Não Medicamentosa e Intervencionista
+Decisão Individualizada Baseada em Parâmetros Mecânicos e Comorbidades1. Se paciente jovem e ativo com perda de altura vertebral    ou cifose focal regional   : indicação de Artrodese Curta Posterior Instrumentada com parafusos pediculares (um nível acima e um abaixo da vértebra fraturada). Se paciente com perfil funcional frágil ou comorbidade que eleve o risco operatório: manter tratamento conservador com colete TLSO rígido e controle radiográfico semanal.
+Faixa 3: Indicação Cirúrgica Mandatória (   pontos)
+A. Desfecho Estatístico Associado
+Instabilidade mecânica grave; alto risco de colapso progressivo, lesão canalicular adicional e deterioração neurológica irreversível se mantido sem estabilização1.
+B. Conduta Medicamentosa (Farmacológica)
+Profilaxia antimicrobiana cirúrgica: Cefazolina    IV na indução cirúrgica e repique de    a cada 4 horas no transoperatório. Em caso de dor radicular neuropática por encarceramento de raiz: Gabapentina na dose inicial de    VO 8/8h (ajustar por função renal:    12/12h se    e    1x/dia se   ) ou Pregabalina    VO 12/12h.
+C. Conduta Não Medicamentosa e Intervencionista
+Intervenção Cirúrgica de Urgência1. Pacientes com déficit neurológico incompleto ou cauda equina: abordagem de emergência em até 8 a 24 horas. Procedimento: Laminectomia Descompressiva Ampla com descompressão medular/radicular associada à Redução Anatômica e Artrodese Posterior Instrumentada com Parafusos Pediculares (construções longas se fratura por distração ou rotação, envolvendo dois níveis acima e dois abaixo). Início precoce de reabilitação e mobilização assistida após estabilidade mecânica restabelecida.
+14. SLICS (Subaxial Cervical Spine Injury Classification System)
+1. Identificação e Propósito Clínico
+               * Nome formal completo: Subaxial Cervical Spine Injury Classification and Severity Scale (SLICS), desenvolvido pelo Spine Trauma Study Group por Vaccaro et al. em 20071.
+               * Objetivo clínico primário: Quantificar a instabilidade traumática e o comprometimento neurológico do segmento cervical subaxial (vértebras C3 a C7), definindo a necessidade de estabilização cirúrgica e descompressão de urgência versus imobilização cervical conservadora1.
+               * População elegível exata e critérios de exclusão: Pacientes vítimas de trauma contuso na coluna cervical subaxial (C3 a C7)1. Critérios de exclusão: lesões traumáticas da junção craniocervical Occipito-C1 e fraturas isoladas de C1 e C2 (atlas e áxis).
+2. Parâmetros e Atribuição de Pontos
+Categoria
+	Descrição da Lesão no Segmento Cervical Subaxial (C3 a C7)
+	Pontos
+	1. Morfologia
+[cite: 1]
+	Sem fratura / Fratura sem perda de alinhamento
+
+
+Fratura por Compressão simples
+
+
+Fratura por Explosão (Burst)
+
+
+Fratura por Distração (hiperflexão/distração ligamentar)
+
+
+Fratura por Translação / Rotação (luxação uni/bifacetária)
+	0
+
+
+1
+
+
+2
+
+
+3
+
+
+4
+	2. Complexo Disco-Ligamentar (DLC)
+[cite: 1]
+	Íntegro (disco, ligamentos longitudinais anterior/posterior e posteriores intactos)
+
+
+Indeterminado (edema isolado de partes moles na RM)
+
+
+Rompido / Desestruturado (diastase facetária, extrusão discal traumática na RM)
+	0
+
+
+1
+
+
+2
+	3. Estado Neurológico
+[cite: 1]
+	Neurologicamente intacto
+
+
+Radiculopatia isolada documentada
+
+
+Lesão Medular Completa (ASIA A)
+
+
+Lesão Medular Incompleta (ASIA B, C ou D)
+
+
+Modificador Adicional: Déficit neurológico progressivo ativo
+	0
+
+
+1
+
+
+2
+
+
+3
+
+
++1
+	Intervalo total da escala: 0 a 10 pontos1.
+3. Estratificação de Risco e Condutas por Faixa de Pontuação
+Faixa 1: Conduta Conservadora (   pontos)
+A. Desfecho Estatístico Associado
+Estabilidade mecânica preservada; probabilidade de consolidação sem deformidade ou colapso subaxial tardio   1.
+B. Conduta Medicamentosa (Farmacológica)
+Conduta Farmacológica: Nenhuma intervenção medicamentosa específica indicada nesta faixa para regeneração estrutural. Analgesia com Dipirona    IV/VO 6/6h combinada a Paracetamol    VO 6/6h. Se necessário, Tramadol    VO a cada 8 horas. Proibição formal do uso de Metilprednisolona em altas doses (Protocolo NASCIS) devido à ausência de benefício funcional e ao aumento comprovado de risco de sepse e complicações pulmonares.
+C. Conduta Não Medicamentosa e Intervencionista
+Tratamento Não Operatório. Uso contínuo de Colar Cervical Rígido tipo Miami-J ou Filadélfia por 6 a 12 semanas1. Radiografias simples dinâmicas cervicais (perfil e flexão/extensão assistida) de controle na alta hospitalar e seriadas no primeiro mês para certificar a ausência de subluxação subaxial oculta.
+Faixa 2: Conduta Limítrofe (   pontos)
+A. Desfecho Estatístico Associado
+Instabilidade marginal; taxa estimada de falha biomecânica e progressão para cifose patológica cervical em torno de   1.
+B. Conduta Medicamentosa (Farmacológica)
+Manejo analgésico intra-hospitalar. Profilaxia de TEV com Enoxaparina    SC 1 vez ao dia enquanto restrito ao leito.
+C. Conduta Não Medicamentosa e Intervencionista
+Avaliação Rigorosa por Especialista em Coluna. Se a pontuação derivar de falha ligamentar do DLC (DLC = 2) associada a fratura compressão sem déficit, a estabilização anterior cirúrgica é a conduta de escolha em pacientes ativos. Em pacientes de alto risco cirúrgico: aplicação de Haloveste (Halo-Vest) ou colar rígido estrito associado a controle semanal por TC1.
+Faixa 3: Indicação Cirúrgica Mandatória (   pontos)
+A. Desfecho Estatístico Associado
+Instabilidade cervical grave; risco crítico de lesão medular irreversível e tetraplegia decorrente de translação/luxação das facetas articulares1.
+B. Conduta Medicamentosa (Farmacológica)
+Intubação traqueal em sequência rápida com videolaringoscopia mantendo estabilização cervical manual em linha neutra (sem hiperextensão do pescoço). Antibioticoprofilaxia cirúrgica com Cefazolina    IV. No trauma raquimedular cervical associado a choque neurogênico (hipotensão e bradicardia por perda do tônus simpático): suporte com Noradrenalina IV contínua (  ) associada a Atropina se bradicardia sintomática, mantendo meta de PAM entre 85 e    por 7 dias em leito de UTI.
+C. Conduta Não Medicamentosa e Intervencionista
+Tratamento Cirúrgico Descompressivo e Estabilizador de Emergência. Em luxação facetária fechada em paciente acordado e comunicativo: tração esquelética cervical com halo craniano tipo Gardner-Wells sob controle radioscópico contínuo e exame neurológico seriado. Se houver hérnia discal traumática volumosa em RM ou falha da tração fechada: abordagem cirúrgica aberta imediata. Via Anterior (ACDF - Artrodese Cervical Anterior e Discectomia) com descompressão canalicular, colocação de cage e fixação por placa bloqueada. Em fraturas cominutivas posteriores complexas ou luxações irredutíveis: Fixação Posterior (parafusos em massa lateral de C3 a C6 e parafusos pediculares em C7) ou dupla abordagem circunferencial anterior-posterior.
+15. Critérios de Anderson-D'Alonzo (Fraturas do Processo Odontoide do Áxis)
+1. Identificação e Propósito Clínico
+               * Nome formal completo: Anderson and D'Alonzo Classification of Fractures of the Odontoid Process of the Axis, formulada por L. D. Anderson e R. T. D'Alonzo em 19741.
+               * Objetivo clínico primário: Classificar topograficamente as fraturas do processo odontoide da vértebra C2 (áxis) para determinar o potencial biológico de consolidação óssea versus pseudoartrose e definir a necessidade de fixação cirúrgica1.
+               * População elegível exata e critérios de exclusão: Pacientes acometidos por fratura contusa aguda do dente do áxis1. Critérios de exclusão: Os Odontoideum congênito, lesões osteolíticas neoplásicas e fraturas concomitantes isoladas do anel de Jefferson (C1) ou fratura do enforcado de C2 (Hangman's fracture).
+2. Parâmetros e Atribuição de Tipos Morfológicos
+Tipo de Fratura
+	Localização do Traço de Fratura em C2
+	Vascularização Local e Estabilidade Mecânica
+	Tipo I
+[cite: 1, 3]
+	Fratura oblíqua ou avulsão no ápice do odontoide (inserção do ligamento alar)
+	Estável; vascularização preservada; fratura rara
+	Tipo II
+[cite: 1, 3]
+	Fratura transversa ou oblíqua através da base do colo do odontoide (junção com C2)
+	Altamente instável; zona de transição vascular pobre; alta incidência de não união
+	Tipo III
+[cite: 1, 3]
+	O traço de fratura estende-se profundamente para o corpo trabecular esponjoso de C2
+	Moderadamente instável; ampla vascularização esponjosa; excelente potencial biológico
+	Intervalo: Classificação morfológica anatômica dividida em 3 tipos (Tipo I, Tipo II e Tipo III)1.
+3. Estratificação de Risco e Condutas por Tipo Anatômico
+Tipo I (Fratura do Ápice do Odontoide)
+A. Desfecho Estatístico Associado
+Taxa de consolidação óssea   ; risco de instabilidade atlantoaxial nulo, exceto na rara presença de avulsão ligamentar alar bilateral com subluxação occipitoatlantocervical associada1.
+B. Conduta Medicamentosa (Farmacológica)
+Conduta Farmacológica: Nenhuma intervenção medicamentosa específica indicada nesta faixa (analgesia ambulatorial simples conforme sintomas).
+C. Conduta Não Medicamentosa e Intervencionista
+Tratamento Conservador Primário. Imobilização com Colar Cervical Rígido (Filadélfia ou Miami-J) por 6 a 8 semanas1. Exame de RM cervical se suspeita de lesão da membrana tectorial ou ligamentos alares. Acompanhamento clínico ambulatorial.
+Tipo II (Fratura da Base / Colo do Odontoide)
+A. Desfecho Estatístico Associado
+Taxa de Pseudoartrose / Não-União Óssea    se tratada conservadoramente em idosos ou com desvio   , angulação    ou idade    anos1.
+B. Conduta Medicamentosa (Farmacológica)
+Profilaxia cirúrgica perioperatória com Cefazolina    IV na indução. Analgesia multimodal pós-operatória. Otimização do metabolismo ósseo com Carbonato de Cálcio (   VO) e Colecalciferol (Vitamina D3    VO) para auxiliar a integração do foco de fratura.
+C. Conduta Não Medicamentosa e Intervencionista
+Tratamento Cirúrgico Preferencial1. A técnica operatória depende do padrão do traço, integridade do ligamento transverso e idade biológica:
+               * Opção A (Preservação da rotação C1-C2): Osteossíntese Anterior com Parafuso de Odontoide por via cervical anterior anterolateral retrofaríngea sob fluoroscopia biplanar (indicada se traço oblíquo posterior, ligamento transverso íntegro e coluna torácica sem hipercifose)1.
+               * Opção B (Estabilidade Máxima / Padrão-Ouro): Artrodese Posterior C1–C2 Instrumentada (Técnica de Harms-Goel com parafusos em massa lateral de C1 e parafusos pediculares/isquêmicos de C2, ou técnica transarticular de Magerl) associada à enxertia óssea autógena1.
+               * Opção C (Manejo Conservador de Exceção): Haloveste ou gesso Minerva por 12 a 16 semanas reservado exclusivamente para pacientes jovens sem desvio milimétrico ou quando houver contraindicação clínica absoluta ao procedimento anestésico-cirúrgico.
+Tipo III (Extensão para o Corpo Esponjoso de C2)
+A. Desfecho Estatístico Associado
+Taxa de consolidação óssea espontânea entre    e    sob imobilização ortopédica adequada, em virtude da ampla área esponjosa vascularizada1.
+B. Conduta Medicamentosa (Farmacológica)
+Conduta Farmacológica: Nenhuma intervenção medicamentosa específica indicada nesta faixa além de analgesia comum (Paracetamol e Dipirona). Evitar o uso crônico continuado de AINEs em idosos pelo risco de atraso na consolidação óssea e disfunção renal.
+C. Conduta Não Medicamentosa e Intervencionista
+Tratamento Conservador Ortopédico. Imobilização com Colar Cervical Rígido tipo Miami-J ou Órtese Cérvico-Torácica (SOMI - Sterno-Occipital-Mandibular Immobilizer) por 8 a 12 semanas1. Casos de cominuição extrema com translação atlantoaxial grosseira: indicação cirúrgica de redução e fixação posterior C1-C2 com técnica de Harms.
+16. SINS (Spine Instability Neoplastic Score)
+1. Identificação e Propósito Clínico
+               * Nome formal completo: Spine Instability Neoplastic Score (SINS), padronizado pelo Spine Oncology Study Group sob liderança de Charles Fisher et al. em 20102.
+               * Objetivo clínico primário: Diagnosticar e quantificar a instabilidade mecânica e estrutural da coluna vertebral acometida por lesões neoplásicas metastáticas, determinando a obrigatoriedade de estabilização cirúrgica instrumentada antes da realização de radioterapia conformacional ou ablativa1.
+               * População elegível exata e critérios de exclusão: Pacientes com metástases comprovadas nos corpos vertebrais ou elementos posteriores da coluna vertebral da junção occipitocervical ao sacro2. Critérios de exclusão: fraturas traumáticas puras de alta energia sem neoplasia, espondilodiscites infecciosas e deformidades congênitas pediátricas.
+2. Parâmetros e Atribuição de Pontos (Seis Componentes Independentes)
+Componente Avaliado
+	Características Radiográficas / Clínicas
+	Pontos
+	1. Localização Anatômica
+[cite: 2]
+	Segmento Juncional (Occipito-C2, C7-T1, T11-L1, L5-S1)
+
+
+Segmento Móvel (C3-C6, L2-L4)
+
+
+Segmento Semirrígido (T2-T10)
+
+
+Segmento Rígido (S2-S5 / Sacro distal)
+	3
+
+
+2
+
+
+1
+
+
+0
+	2. Dor Mecânica
+[cite: 2]
+	Dor Mecânica (dor ao suporte de carga, piora ao sentar/ficar em pé, melhora ao deitar)
+
+
+Dor Não Mecânica (dor em queimação/inflamatória noturna isolada)
+
+
+Sem dor no sítio lesionado
+	3
+
+
+1
+
+
+0
+	3. Tipo de Lesão Óssea
+[cite: 2]
+	Estritamente Lítica (destruição radiotransparente pura)
+
+
+Mista (componentes líticos e blásticos coexistentes)
+
+
+Estritamente Blástica (lesão densa osteoesclerótica pura)
+	2
+
+
+1
+
+
+0
+	4. Alinhamento Espinhal
+[cite: 2]
+	Subluxação ou Translação anatômica evidente
+
+
+Deformidade de novo (cifose ou escoliose secundária progressiva)
+
+
+Alinhamento mantido normal
+	4
+
+
+2
+
+
+0
+	5. Colapso do Corpo Vertebral
+[cite: 2]
+	Colapso    da altura do corpo vertebral
+
+
+Colapso    da altura do corpo vertebral
+
+
+Sem colapso, com envolvimento tumoral de    do corpo vertebral
+
+
+Sem colapso, com envolvimento tumoral de    do corpo vertebral
+	3
+
+
+2
+
+
+1
+
+
+0
+	6. Envolvimento dos Elementos Posteriores
+[cite: 2]
+	Comprometimento Tumoral Bilateral (pedículos, lâminas ou facetas bilaterais)
+
+
+Comprometimento Tumoral Unilateral
+
+
+Nenhum acometimento dos elementos posteriores
+	3
+
+
+1
+
+
+0
+	Intervalo total da escala: 0 a 18 pontos2.
+3. Estratificação de Risco e Condutas por Categoria de Instabilidade
+Categoria 1: Coluna Estável (0 a 6 pontos)
+A. Desfecho Estatístico Associado
+Probabilidade de colapso vertebral sob carga fisiológica inferior a   2. Integridade mecânica preservada.
+B. Conduta Medicamentosa (Farmacológica)
+Conduta Farmacológica: Nenhuma intervenção cirúrgica medicamentosa direta. Manejo analgésico sistêmico da dor neoplásica biológica inflamatória com Dipirona    VO 6/6h associada a Paracetamol e opioides orais regulares. Moduladores do metabolismo ósseo metastático: Ácido Zoledrônico    IV diluído em    de SF 0,9% infundidos em 15 minutos a cada 3 a 4 semanas (ajustado para clearance:    se   ;    se   ; contraindicado se   ) ou Denosumabe    SC a cada 4 semanas.
+C. Conduta Não Medicamentosa e Intervencionista
+Tratamento Conservador e Radioterapia Oncológica Exclusiva2. Radioterapia Conformacional Externa (30 Gy em 10 frações) ou Radiocirurgia Corporal Estereotática (SBRT: 18 a 24 Gy) sem necessidade de instrumentação mecânica ou suporte externo por órtese rígida.
+Categoria 2: Coluna Potencialmente Instável (7 a 12 pontos)
+A. Desfecho Estatístico Associado
+Risco intermediário a elevado de colapso estrutural; progressão de dor intratável ou subluxação em até    dos casos submetidos à radioterapia convencional sem reforço biomecânico prévio2.
+B. Conduta Medicamentosa (Farmacológica)
+Otimização da analgesia com opioides potentes: Sulfato de Morfina oral de liberação prolongada (   VO 12/12h) ou Fentanil transdérmico (   a cada 72 horas). Introdução de Dexametasona (   VO 12/12h) se dor radicular associada a microfratura foraminal.
+C. Conduta Não Medicamentosa e Intervencionista
+Avaliação Cirúrgica com Especialista em Coluna Fortemente Recomendada2. Conduta pautada pela sintomatologia mecânica: se dor puramente ao suporte de carga sem invasão do canal medular, opções percutâneas minimamente invasivas de aumento vertebral (Cifoplastia com Balão ou Vertebroplastia) conferem sustentação mecânica e alívio rápido. Se envolvimento de elementos posteriores ou segmento juncional: artrodese percutânea posterior instrumentada antes da radiação.
+Categoria 3: Coluna Instável (13 a 18 pontos)
+A. Desfecho Estatístico Associado
+Colapso estrutural estabelecido com deformidade progressiva e alto risco de compressão mecânica súbita e transecção vascular da medula espinhal ou cauda equina decorrente da mobilidade patológica2.
+B. Conduta Medicamentosa (Farmacológica)
+Corticoterapia de emergência se contato epidural: Dexametasona IV: dose de ataque de    em bolus, seguida de manutenção com    IV a cada 6 horas por 72 horas com desmame subsequente. Analgesia em bomba de infusão contínua com Fentanil ou Morfina.
+C. Conduta Não Medicamentosa e Intervencionista
+Consulta Neurocirúrgica e Estabilização Cirúrgica Mandatórias1. A radioterapia isolada é contraindicada na ausência de estabilização estrutural, pois a necrose tecidual radioinduzida acelera o colapso mecânico ósseo. Realização de Artrodese Posterior Instrumentada com Parafusos Pediculares (dois níveis acima e dois abaixo da vértebra acometida) com ou sem reconstrução do corpo vertebral anterior (corpectomia com implante de cage expansível). Radioterapia adjuvante programada após a cicatrização da ferida operatória (2 a 3 semanas pós-op).
+17. Framework NOMS (Neurologic, Oncologic, Mechanical, Systemic Decision Framework)
+1. Identificação e Propósito Clínico
+               * Nome formal completo: NOMS Decision Framework for Spine Metastases, desenvolvido pelo Memorial Sloan Kettering Cancer Center sob liderança de Mark Bilsky et al. em 20132.
+               * Objetivo clínico primário: Integrar de forma estruturada os quatro domínios determinantes na oncologia espinhal: grau de compressão medular (Neurológico), biologia e perfil de resposta à radiação do tumor (Oncológico), estabilidade esquelética (Mecânico - SINS) e tolerância clínica e sobrevida estimada (Sistêmico)1.
+               * População elegível exata e critérios de exclusão: Pacientes adultos portadores de metástases na coluna vertebral2. Critérios de exclusão: neoplasias primárias da coluna com indicação curativa de ressecção en bloc ampla (conforme critérios oncológicos de Enneking e estadiamento WBB).
+2. Parâmetros e Atribuição de Graus nos Quatro Pilares
+As decisões clínicas no algoritmo derivam da integração dos quatro pilares analíticos:
+               * Pilar Neurológico (N): Avaliado pela Escala de Compressão Medular Epidural (Epidural Spinal Cord Compression - ESCC / Bilsky Scale)2: Grau 0 (osso puro); Grau 1 (espaço peridural: 1a contato dural, 1b obliteração liquórica, 1c contato medular sem deformidade); Grau 2 (compressão medular com líquor visível); Grau 3 (compressão medular circunferencial sem líquor visível)2.
+               * Pilar Oncológico (O): Sensibilidade à radioterapia convencional2. Radiossensíveis convencionais: mieloma múltiplo, linfoma, carcinoma de pequenas células, seminoma. Radiorresistentes convencionais (porém responsivos à radiação ablativa hipofracionada de alta dose / SBRT): carcinoma de células renais, melanoma, carcinoma de tireoide, sarcomas, carcinoma colorretal e adenocarcinomas de pulmão/mama refratários.
+               * Pilar Mecânico (M): Avaliado objetivamente pela pontuação do SINS: Estável (0–6), Potencialmente Instável (7–12) ou Instável (13–18)2.
+               * Pilar Sistêmico (S): Condição fisiológica do paciente (KPS/ECOG), capacidade cardiopulmonar e sobrevida estimada: elegível (  ) versus inelegível (   ou   )2.
+3. Estratificação e Condutas por Perfis Integrados
+Perfil 1: Tumor Radiorresistente com Alto Grau de Compressão Medular (Bilsky 2 ou 3) em Paciente Sistemicamente Elegível
+A. Desfecho Estatístico Associado
+Taxa de controle local da lesão em 1 ano    quando associada cirurgia de separação à SBRT, em comparação a    com radioterapia convencional isolada2.
+B. Conduta Medicamentosa (Farmacológica)
+Corticoterapia de emergência: Dexametasona IV: bólus de   , seguido de    IV a cada 6 horas por 48 a 72 horas com desmame rápido após o procedimento cirúrgico. Proteção gástrica com Omeprazol    IV ao dia.
+C. Conduta Não Medicamentosa e Intervencionista
+Cirurgia de Separação ("Separation Surgery") Associada à Estabilização Instrumentada1. O objetivo cirúrgico não é a ressecção oncológica ampla de margens, mas descompressão circunferencial posterior e posterolateral para criar uma margem milimétrica segura (  ) entre a medula espinhal e a neoplasia. Isso viabiliza ao radio-oncologista a entrega de doses ablativas hipofracionadas de SBRT (18 a 24 Gy) no corpo vertebral destruído sem exceder a dose de tolerância tóxica da medula espinhal. Estabilização posterior concomitante com parafusos pediculares.
+Perfil 2: Tumor Radiossensível com Alto Grau de Compressão Medular (Bilsky 2 ou 3) em Paciente Sistemicamente Elegível
+A. Desfecho Estatístico Associado
+Taxa de remissão neurológica e descompressão do canal espinhal após radioterapia e quimioterapia   , tornando a cirurgia aberta descompressiva desnecessária na maioria dos pacientes2.
+B. Conduta Medicamentosa (Farmacológica)
+Início precoce de protocolo de quimioterapia sistêmica ou pulsoterapia com corticoide conforme a linhagem neoplásica hematológica (ex.: Dexametasona em altas doses associada a agentes imunomoduladores no mieloma).
+C. Conduta Não Medicamentosa e Intervencionista
+Radioterapia Externa Convencional Primária de Urgência (30 Gy em 10 frações ou 20 Gy em 5 frações)2. A cirurgia descompressiva é dispensada para alívio neurológico. Exceção estritamente mecânica: caso o escore SINS associado seja    (instabilidade óssea grave com risco de colapso), realizar Estabilização Cirúrgica Percutânea Instrumentada para sustentação mecânica, mantendo a radioterapia convencional como agente de controle celular tumoral.
+Perfil 3: Baixo Grau de Compressão Epidural (Bilsky 0, 1a ou 1b)
+A. Desfecho Estatístico Associado
+Excelente controle álgico e preservação funcional motora (  ) mediante técnicas não invasivas ou radioterapia estereotática fracionada2.
+B. Conduta Medicamentosa (Farmacológica)
+Manejo medicamentoso da dor oncológica e manutenção de moduladores do metabolismo ósseo (Ácido Zoledrônico ou Denosumabe).
+C. Conduta Não Medicamentosa e Intervencionista
+Cirurgia aberta formalmente contraindicada. Se o tumor for radiorresistente: SBRT Primária Isolada2. Se houver instabilidade mecânica sintomática focal (SINS 7 a 12 com dor ao suporte de carga): Cifoplastia Percutânea ou Vertebroplastia para reforço do corpo anterior previamente à irradiação.
+Perfil 4: Paciente Terminal ou Inelegível Cirurgicamente (   ou   )
+A. Desfecho Estatístico Associado
+Risco de óbito perioperatório em 30 dias    secundário a complicações cardiopulmonares, falência de múltiplos órgãos ou sepse2.
+B. Conduta Medicamentosa (Farmacológica)
+Paliação medicamentosa de sintomas: Dexametasona e opioides potentes contínuos com foco em analgesia e controle de desconforto.
+C. Conduta Não Medicamentosa e Intervencionista
+Cirurgia instrumentada contraindicada. Radioterapia de Curso Curto em fração única (8 Gy) ou hipofracionada (20 Gy em 5 frações) exclusivamente para controle álgico refratário2. Suporte multidisciplinar de cuidados paliativos no leito com coxins de alívio de pressão tecidual.
+Domínio 5: Hidrocefalia e Dinâmica Liquórica
+18. Escala de Kiefer (Hidrocefalia de Pressão Normal - HPN)
+1. Identificação e Propósito Clínico
+                  * Nome formal completo: Kiefer Hydrocephalus Grading Scale, introduzida por Michael Kiefer et al. em 2003 e validada em ensaios multicêntricos de hidrodinâmica liquórica (como o SVASONA Trial)8.
+                  * Objetivo clínico primário: Quantificar a gravidade da tríade de Hakim-Adams (marcha, demência/cognição e incontinência) e sintomas associados na Hidrocefalia de Pressão Normal (HPN), avaliando o ganho funcional após o Tap Test evacuatório para indicar Derivação Ventrículo-Peritoneal (DVP)1.
+                  * População elegível exata e critérios de exclusão: Adultos e idosos (   anos) com ventriculomegalia idiopática na neuroimagem e presença de ao menos dois componentes clínicos da tríade1. Critérios de exclusão: hidrocefalia obstrutiva não comunicante primária (estenose do aqueduto de Sylvius), meningite infecciosa crônica ativa e antecedente agudo recente de traumatismo ou HSA espontânea (hidrocefalia secundária pós-traumática/HSA)10.
+2. Parâmetros e Atribuição de Pontos (Cinco Dimensões Clínicas)
+Domínio Avaliado
+	Nível de Limitação Funcional / Sintoma Clínico
+	Pontos
+	1. Transtorno da Marcha
+[cite: 8, 9]
+	Marcha completamente normal
+
+
+Marcha discretamente instável, passos encurtados, sem apoio
+
+
+Instabilidade moderada, marcha magnética típica apraxica, sem apoio
+
+
+Marcha dificultosa, requer apoio unilateral (bengala)
+
+
+Marcha severamente comprometida, requer andador ou apoio bilateral
+
+
+Deambulação restrita a assistência humana contínua
+
+
+Incapaz de deambular (confinado à cadeira de rodas ou ao leito)
+	0
+
+
+1
+
+
+2
+
+
+3
+
+
+4
+
+
+5
+
+
+6
+	2. Transtorno Cognitivo
+[cite: 8, 9]
+	Sem declínio cognitivo aparente
+
+
+Queixas de memória subjetivas, sem impacto nas atividades diárias
+
+
+Lentificação psicomotora e desatenção leves, independente para autocuidado
+
+
+Deterioração moderada, necessita de supervisão para atividades complexas
+
+
+Déficit grave, desorientado, dependente parcial para autocuidado
+
+
+Demência avançada, apatia severa, afasia, não reconhece familiares
+
+
+Quadro demencial vegetativo profundo, mutismo acinético
+	0
+
+
+1
+
+
+2
+
+
+3
+
+
+4
+
+
+5
+
+
+6
+	3. Incontinência Urinária
+[cite: 8, 9]
+	Continência urinária e controle esfincteriano normais
+
+
+Polaciúria e urgência miccional sem perdas involuntárias
+
+
+Urgência com perdas acidentais ocasionais (uso eventual de protetor)
+
+
+Incontinência urinária diária habitual com perda esfincteriana
+
+
+Incontinência dupla completa (vesical e fecal)
+	0
+
+
+1
+
+
+2
+
+
+3
+
+
+4
+	4. Cefaleia
+[cite: 8, 9]
+	Ausente
+
+
+Cefaleia leve ocasional
+
+
+Cefaleia moderada recorrente sem impacto funcional
+
+
+Cefaleia severa frequente necessitando de repouso ou medicação regular
+
+
+Cefaleia contínua diária intensa
+	0
+
+
+1
+
+
+2
+
+
+3
+
+
+4
+	5. Tontura / Vertigem
+[cite: 8, 9]
+	Ausente
+
+
+Tontura postural leve inespecífica ocasional
+
+
+Tontura moderada habitual sem instabilidade na deambulação
+
+
+Tontura intensa episódica com vertigem rotatória nítida
+
+
+Vertigem contínua e persistente associada a náuseas
+	0
+
+
+1
+
+
+2
+
+
+3
+
+
+4
+	Intervalo total da escala: 0 a 24 pontos (maiores valores refletem pior déficit funcional)8.
+3. Estratificação de Risco e Condutas por Faixa de Pontuação
+Faixa 1: Comprometimento Clínico Leve (0 a 6 pontos)
+A. Desfecho Estatístico Associado
+Quadro em fase inicial; taxa de restauração funcional da marcha e reversão cognitiva com shunt ventricular superior a    se confirmada resposta hidrodinâmica8.
+B. Conduta Medicamentosa (Farmacológica)
+Conduta Farmacológica: Nenhuma intervenção medicamentosa indicada nesta faixa (drogas antiparkinsonianas ou moduladores de acetilcolinesterase não revertem o distúrbio mecânico de complacência liquórica da HPN).
+C. Conduta Não Medicamentosa e Intervencionista
+Investigação estruturada com Teste de Punção Lombar Evacuatória de Alto Volume (Tap Test): aplicação prévia do teste de caminhada de 10 metros e do teste Timed Up and Go (TUG), associados ao MoCA ou Mini-Mental. Drenagem de    de líquor por punção lombar sob medida precisa da pressão de abertura (normal: 8 a   ). Reavaliação clínica funcional completa após 2 a 4 horas e em 24 horas. Redução de    pontos no escore de Kiefer ou melhora    no tempo do teste de marcha indica teste positivo com Indicação Formal de Implante de Derivação Ventrículo-Peritoneal (DVP).
+Faixa 2: Comprometimento Clínico Moderado (7 a 15 pontos)
+A. Desfecho Estatístico Associado
+Quadro consolidado da síndrome de Hakim-Adams; taxa de resposta cirúrgica favorável no primeiro ano pós-DVP entre    e    quando selecionado por ensaio liquórico responsivo8.
+B. Conduta Medicamentosa (Farmacológica)
+Profilaxia antimicrobiana cirúrgica: Cefazolina    IV na indução, associada a banho com clorexidina degermante na véspera e utilização de cateteres impregnados com antibióticos (Rifampicina e Clindamicina).
+C. Conduta Não Medicamentosa e Intervencionista
+Se o Tap Test ambulatorial for duvidoso ou negativo, com alta suspeita clínica e de neuroimagem: internação para Drenagem Lombar Externa Contínua (ELD) por 72 horas em UTI/Semi-intensiva com drenagem controlada de    (  ). Se melhora documentada na escala de Kiefer: Cirurgia de Implante de DVP com Válvula Programável Gravitacional / Mecanismo Antissifão8. Válvulas gravitacionais são imperativas para prevenir complicações decorrentes de hiperdrenagem no ortostatismo (higromas e hematomas subdurais crônicos, presentes em até um terço dos casos operados com válvulas não gravitacionais)8.
+Faixa 3: Comprometimento Clínico Severo / Tardio (16 a 24 pontos)
+A. Desfecho Estatístico Associado
+Atrofia cortical secundária avançada e gliose periventricular estabelecida; a taxa de recuperação funcional completa ou expressiva cai para menos de   , predominando alívio discreto da rigidez axial e facilitação do manejo diário pelos cuidadores8.
+B. Conduta Medicamentosa (Farmacológica)
+Conduta Farmacológica: Nenhuma intervenção medicamentosa específica para controle liquórico. Profilaxia de complicações de imobilismo: Enoxaparina    SC/dia se acamado crônico; analgesia e cuidados de enfermagem preventiva para úlceras de pressão.
+C. Conduta Não Medicamentosa e Intervencionista
+Avaliação cautelosa do perfil neurodegenerativo subjacente (investigar demência de Alzheimer concomitante com biomarcadores liquóricos de proteína tau e beta-amiloide). Se a drenagem prolongada de teste ainda documentar ganho clínico relevante: implante de DVP sob parâmetros de abertura de pressão valvular mais elevados para evitar colapso ventricular abrupto em parênquima atrófico. Encaminhamento para fisioterapia e reabilitação intensiva.
+19. Parâmetros Radiológicos de Hidrocefalia: Índice de Evans e Fenótipo DESH
+1. Identificação e Propósito Clínico
+                     * Nome formal completo: Evans Index of Ventricular Enlargement (Evans, 1942) e Callaghan / O'Callaghan Ventricular Ratio and DESH Metric (Disproportionately Enlarged Subarachnoid Space Hydrocephalus, refinado por Hashimoto, Mori et al.)8.
+                     * Objetivo clínico primário: Parâmetros morfométricos em tomografia computadorizada e ressonância magnética do encéfalo para diferenciar ventriculomegalia hidrodinâmica ativa na Hidrocefalia de Pressão Normal da dilatação compensatória puramente decorrente de atrofia cerebral difusa (Hydrocephalus ex vacuo)8.
+                     * População elegível exata e critérios de exclusão: Pacientes adultos e idosos apresentando dilatação dos ventrículos cerebrais em neuroimagem8. Critérios de exclusão: disgenesia ou agenesia do corpo caloso, antecedentes de cirurgias ablativas hemisféricas, craniectomias descompressivas prévias ou malformações craniofaciais congênitas graves19.
+2. Parâmetros Morfométricos e Fórmulas de Cálculo
+Os critérios radiológicos integram mensurações lineares e análise da distribuição do líquor subaracnóideo:
+                     * Fórmula do Índice de Evans:
+  
+Onde    corresponde à largura linear transversal máxima entre os cornos frontais dos ventrículos laterais e    corresponde ao diâmetro interno máximo da calvária óssea (tábua interna) no mesmo corte tomográfico ou plano axial de RM exato.
+                     * Avaliação de Callaghan / Fenótipo DESH (Disproportionately Enlarged Subarachnoid Space Hydrocephalus): Avaliação da desproporção anatômica compartimental no plano coronal perpendicular à comissura posterior:
+                        * Ventriculomegalia supratentorial (Índice de Evans   ).
+                        * Alargamento proeminente e ectasia das fissuras sylvianas e cisternas basais da base craniana.
+                        * Obliteração e estreitamento marcados dos sulcos e espaços liquóricos subaracnóideos na alta convexidade parassagital e vértex encefálico (Tight High Convexity).
+                        * Ângulo Caloso (Callosal Angle): mensurado no plano coronal na altura da comissura posterior: valor    é altamente específico de HPN comunicante ativa, em contraste com ângulos    característicos da atrofia senil difusa (ex vacuo).
+3. Estratificação e Condutas por Padrões Radiológicos
+Padrão 1: Índice de Evans    (Ventrículos Normais)
+A. Desfecho Estatístico Associado
+Probabilidade de alteração hidrodinâmica ativa do líquor ou HPN inferior a   . Ausência de ventriculomegalia radiológica8.
+B. Conduta Medicamentosa (Farmacológica)
+Conduta Farmacológica: Nenhuma intervenção medicamentosa indicada para dinâmica liquórica. Investigação de causas metabólicas, osteoarticulares ou polineuropatias periféricas causadoras de distúrbio de equilíbrio.
+C. Conduta Não Medicamentosa e Intervencionista
+Conduta conservadora. Testes de punção lombar evacuatórios contraindicados. Acompanhamento clínico ambulatorial com a especialidade neurológica geral.
+Padrão 2: Índice de Evans    com Sulcos de Alta Convexidade Alargados (Atrofia Cortical / Ex Vacuo)
+A. Desfecho Estatístico Associado
+Taxa de falha cirúrgica    caso submetido a derivação liquórica; alto risco de complicações hemorrágicas por sangramento subdural devido à tração mecânica de veias-ponte em cérebro atrófico8.
+B. Conduta Medicamentosa (Farmacológica)
+Tratamento medicamentoso padrão de síndromes demenciais primárias neurodegenerativas (ex.: Doença de Alzheimer): Inibidores da Acetilcolinesterase: Donepezila VO:    1x/dia ao deitar por 4 a 6 semanas, titulada para   ; ou Rivastigmina transdérmica (   escalonada para    e   ). Em fases moderadas a avançadas: Memantina oral (   escalonada semanalmente até    12/12h).
+C. Conduta Não Medicamentosa e Intervencionista
+Derivação Ventricular Formalmente Contraindicada. Esclarecimento diagnóstico à família sobre o processo neurodegenerativo irreversível. Encaminhamento para estimulação cognitiva, fonoaudiologia e fisioterapia motora.
+Padrão 3: Índice de Evans    Associado ao Padrão DESH Positivo (Ângulo Caloso    e Vértex Estreitado)
+A. Desfecho Estatístico Associado
+O fenótipo DESH associado a ângulo caloso agudo constitui o preditor isolado de imagem mais acurado para reversibilidade funcional cirúrgica: probabilidade de resposta motora favorável pós-DVP entre    e   8.
+B. Conduta Medicamentosa (Farmacológica)
+Conduta Farmacológica: Nenhuma intervenção farmacológica curativa indicada para dinâmica ventricular. Preparação cirúrgica com profilaxia antimicrobiana (Cefazolina    IV na indução operatória).
+C. Conduta Não Medicamentosa e Intervencionista
+Encaminhamento prioritário para realização do Tap Test Evacuatório Diagnóstico (  ) e cálculo funcional da escala de Kiefer8. Comprovado o ganho na marcha ou velocidade psicomotora, realizar o Implante de Derivação Ventrículo-Peritoneal Definitiva com Cateter Ventricular Frontal Direito e Válvula Programável Antigravitacional, restaurando o gradiente de complacência tecidual e a perfusão capilar subcortical frontal10.
+A consolidação de diretrizes operacionais e escores multivariados assegura a transição de condutas empíricas para modelos de decisão baseados em evidências nos cenários críticos de neurocirurgia e neurointensivismo. A associação de preditores morfológicos e fisiológicos, como os escores EDEMA, CRASH e IMPACT no encéfalo traumatizado, Lawton-Young e PHASES nas anomalias vasculares, TLICS, SLICS, SINS e NOMS na biomecânica da coluna, e a escala de Kiefer com a caracterização do fenótipo DESH nas hidrocefalias, permite calibrar a agressividade cirúrgica, prevenir lesões secundárias e adequar as terapêuticas farmacológicas e de suporte vital às reais probabilidades de recuperação funcional dos pacientes.
+Referências citadas
+                           1. https://drive.google.com/open?id=1BjEcohOa5-x71VbON5e1uOxNvtVcHgnC
+                           2. https://drive.google.com/open?id=1gzEXtyE437Dc7dT7RYFYbYVvPi01uneV
+                           3. https://drive.google.com/open?id=1rgFfXMm4xh9Y75dwsRup91ChLHuydyx-
+                           4. Enhanced Detection of Edema in Malignant Anterior ... - PubMed - NIH, https://pubmed.ncbi.nlm.nih.gov/28487333/
+                           5. Unruptured Intracranial Aneurysm Treatment Score - Peripheral Brain, https://pbrainmd.wordpress.com/2020/05/08/unruptured-intracranial-aneurysm-treatment-score-2/
+                           6. Skull Base Approaches | Neupsy Key, https://neupsykey.com/skull-base-approaches/
+                           7. (PDF) Levine-Sekhar grading system for prediction of the extent of, https://www.researchgate.net/publication/7366640_Levine-Sekhar_grading_system_for_prediction_of_the_extent_of_resection_of_cranial_base_meningiomas_revisited_Study_of_124_cases
+                           8. Safety and efficacy of gravitational shunt valves... - Ovid, https://www.ovid.com/00005069-201308000-00008
+                           9. Normal pressure hydrocephalus grading scales (Chapter 9), https://www.cambridge.org/core/books/adult-hydrocephalus/normal-pressure-hydrocephalus-grading-scales/0F422708C118FDC96F6571C594AA597B
+                           10. (PDF) The Differential Diagnosis and Treatment of Normal-Pressure, https://www.researchgate.net/publication/221782450_The_Differential_Diagnosis_and_Treatment_of_Normal-Pressure_Hydrocephalus
+                           11. A Nomogram Model to Predict Malignant Cerebral Edema in ... - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC7719319/
+                           12. External Validation and Modification of the EDEMA Score for ... - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC7018595/
+                           13. Clinical Scales in Aneurysm Rupture Prediction | Stroke, https://www.ahajournals.org/doi/10.1161/SVIN.123.000625
+                           14. unruptured intracranial aneurysm treatment score (UIATS) - Evidencio, https://www.evidencio.com/models/show/770
+                           15. a pragmatic, randomised, open label, multicentre trial (SVASONA), https://jnnp.bmj.com/content/84/8/850
+                           16. Motor skills, cognitive impairment, and quality of life in normal ... - PMC, https://pmc.ncbi.nlm.nih.gov/articles/PMC9233626/
+                           17. Ventricular volume in normal pressure hydrocephalus - DiVA portal, https://www.diva-portal.org/smash/get/diva2:2054801/FULLTEXT01.pdf
+                           18. A study of linear measurement and clinical correlation of brain, https://pmc.ncbi.nlm.nih.gov/articles/PMC10086176/
+                           19. The Pathophysiology of Sinking Flap Syndrome Associated with, https://www.mdpi.com/2077-0383/15/12/4753
