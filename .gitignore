@@ -38,3 +38,6 @@ credentials.json
 # Arquivos gerados para distribuição do Google Drive
 docs/dist_google_drive/
 *.zip
+
+# Logs e traces de subagentes
+.agents/
