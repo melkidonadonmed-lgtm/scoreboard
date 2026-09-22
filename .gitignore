@@ -1,0 +1,38 @@
+# Dependências
+node_modules/
+.pnp
+.pnp.js
+
+# Ambientes virtuais e Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Testes e Linters
+coverage/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Build e Produção
+dist/
+dist-ssr/
+build/
+*.local
+
+# Variáveis de Ambiente e Segredos
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+
+# Sistema Operacional e IDE
+.DS_Store
+*.swp
+*.bak
+.idea/
+.vscode/

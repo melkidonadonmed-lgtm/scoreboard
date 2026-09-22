@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>FrontCraft Master — Guia Modular, Design System & Exportador</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              200: '#bae6fd',
+              300: '#7dd3fc',
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+              800: '#075985',
+              900: '#0c4a6e',
+              950: '#082f49'
+            },
+            slate: {
+              850: '#141d2e',
+              900: '#0f172a',
+              950: '#090d16'
+            },
+            sand: {
+              50: '#fafaf9',
+              100: '#f5f5f4',
+              200: '#e7e5e4',
+              800: '#292524',
+              900: '#1c1917'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+            mono: ['JetBrains Mono', 'Fira Code', 'monospace']
+          },
+          boxShadow: {
+            'glow-cyan': '0 0 24px -4px rgba(56, 189, 248, 0.35)',
+            'glow-brand': '0 0 28px -4px rgba(14, 165, 233, 0.4)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-canvas: #f8fafc;
+      --bg-surface: #ffffff;
+      --bg-card: #f1f5f9;
+      --border-subtle: #e2e8f0;
+      --border-focus: #38bdf8;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --text-light: #94a3b8;
+      --code-bg: #f1f5f9;
+      --code-text: #0369a1;
+      --nav-glass: rgba(255, 255, 255, 0.88);
+    }
+
+    html.dark {
+      --bg-canvas: #090d16;
+      --bg-surface: #0f172a;
+      --bg-card: #151e2e;
+      --border-subtle: #1e293b;
+      --border-focus: #38bdf8;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-light: #64748b;
+      --code-bg: #0c121e;
+      --code-text: #38bdf8;
+      --nav-glass: rgba(9, 13, 22, 0.88);
+    }
+
+    body {
+      background-color: var(--bg-canvas);
+      color: var(--text-main);
+      transition: background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1), color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0284c7;
+    }
+
+    .btn-tactile-primary {
+      background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+      box-shadow: 
+        inset 0 1px 1px rgba(255, 255, 255, 0.3),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.45),
+        0 2px 4px rgba(0, 0, 0, 0.25),
+        0 6px 18px -2px rgba(2, 132, 199, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      transition: all 0.16s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .btn-tactile-primary:hover {
+      filter: brightness(1.08);
+      transform: translateY(-1.5px);
+      box-shadow: 
+        inset 0 1px 1px rgba(255, 255, 255, 0.4),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.45),
+        0 4px 10px rgba(0, 0, 0, 0.3),
+        0 12px 24px -2px rgba(2, 132, 199, 0.5);
+    }
+    .btn-tactile-primary:active {
+      transform: translateY(1px);
+      box-shadow: 
+        inset 0 2px 4px rgba(0, 0, 0, 0.6),
+        0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Soft Neumorphic Emboss */
+    .btn-neumorphic {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      transition: all 0.2s ease;
+    }
+    html.dark .btn-neumorphic {
+      box-shadow: 5px 5px 12px #06090f, -5px -5px 12px #182337;
+    }
+    html:not(.dark) .btn-neumorphic {
+      box-shadow: 4px 4px 10px #cbd5e1, -4px -4px 10px #ffffff;
+    }
+    .btn-neumorphic:active {
+      transform: translateY(1px);
+    }
+
+    /* Glassmorphism Frosted */
+    .btn-glass {
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transition: all 0.2s ease;
+    }
+    html.dark .btn-glass {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #f8fafc;
+    }
+    html:not(.dark) .btn-glass {
+      background: rgba(15, 23, 42, 0.05);
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      color: #0f172a;
+    }
+
+    /* Neo-Brutalist High Contrast */
+    .btn-brutalist {
+      background: #38bdf8;
+      color: #090d16;
+      border: 2px solid currentColor;
+      box-shadow: 4px 4px 0px 0px currentColor;
+      transition: all 0.12s ease;
+    }
+    .btn-brutalist:hover {
+      background: #7dd3fc;
+      transform: translate(-1px, -1px);
+      box-shadow: 5px 5px 0px 0px currentColor;
+    }
+    .btn-brutalist:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0px 0px currentColor;
+    }
+
+    @media print {
+      body {
+        background-color: #ffffff !important;
+        color: #0f172a !important;
+        font-size: 11pt !important;
+        line-height: 1.5 !important;
+      }
+      header, footer, #mobile-bottom-nav, #mobile-menu, #toast, .no-print, button, input[type="range"], select {
+        display: none !important;
+      }
+      .tab-pane {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        page-break-after: always;
+      }
+      .print-only {
+        display: block !important;
+      }
+      .card, .p-6, .p-8 {
+        border: 1px solid #cbd5e1 !important;
+        background: #ffffff !important;
+        box-shadow: none !important;
+        break-inside: avoid;
+        margin-bottom: 1.5rem !important;
+      }
+      pre, code, textarea {
+        background-color: #f8fafc !important;
+        color: #0f172a !important;
+        border: 1px solid #cbd5e1 !important;
+        white-space: pre-wrap !important;
+        word-break: break-all !important;
+      }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col font-sans selection:bg-brand-500 selection:text-slate-950 pb-20 md:pb-8">
+
+  <!-- A4 Executive Print Header (Only visible when printing or exporting to PDF) -->
+  <div class="hidden print-only p-6 border-b-2 border-slate-900 mb-6">
+    <div class="flex justify-between items-center">
+      <div>
+        <h1 class="text-2xl font-black tracking-tight text-slate-900">FrontCraft Master — Especificação de Design & Arquitetura Frontend</h1>
+        <p class="text-xs text-slate-600 mt-1">Dossiê Técnico de UI/UX, Design Tokens e Engenharia de Prompt para IAs de Código</p>
+      </div>
+      <div class="text-right text-xs text-slate-500 font-mono">
+        <span>Data: <span id="print-date"></span></span><br>
+        <span>Status: Especificação Aprovada</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Sticky Navigation Bar with Glassmorphism -->
+  <header class="sticky top-0 z-40 backdrop-blur-xl border-b transition-colors duration-200" style="background-color: var(--nav-glass); border-color: var(--border-subtle);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2">
+      
+      <!-- Brand & Project Identity -->
+      <div class="flex items-center space-x-3 cursor-pointer shrink-0" onclick="switchTab('glossary')">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 via-brand-500 to-cyan-300 p-0.5 shadow-lg shadow-brand-500/25 flex items-center justify-center">
+          <div class="w-full h-full rounded-[10px] flex items-center justify-center transition-colors" style="background-color: var(--bg-surface);">
+            <svg class="w-5 h-5 text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+              <polyline points="2 17 12 22 22 17"/>
+              <polyline points="2 12 12 17 22 12"/>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="text-base font-extrabold tracking-tight bg-gradient-to-r from-brand-400 via-sky-300 to-brand-600 bg-clip-text text-transparent">
+              FrontCraft Master
+            </span>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-brand-500/10 text-brand-500 border border-brand-500/30 uppercase tracking-widest hidden sm:inline-block">
+              Modular v2.5
+            </span>
+          </div>
+          <p class="text-[11px] font-medium hidden md:block" style="color: var(--text-muted);">
+            Engenharia de Prompt, Design Systems & Laboratório Visual
+          </p>
+        </div>
+      </div>
+
+      <!-- Desktop Navigation Tabs (Atomic Architecture Style) -->
+      <nav class="hidden lg:flex items-center space-x-1 p-1.5 rounded-2xl border shadow-inner transition-colors" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+        <button onclick="switchTab('glossary')" id="nav-glossary" class="nav-tab active-tab flex items-center space-x-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>
+          <span>Dicionário Front</span>
+        </button>
+
+        <button onclick="switchTab('buttons')" id="nav-buttons" class="nav-tab flex items-center space-x-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold hover:opacity-100 transition-all" style="color: var(--text-muted);">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="12" rx="4"/><circle cx="8" cy="12" r="1.5"/></svg>
+          <span>Botões & 3D</span>
+        </button>
+
+        <button onclick="switchTab('menus')" id="nav-menus" class="nav-tab flex items-center space-x-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold hover:opacity-100 transition-all" style="color: var(--text-muted);">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          <span>Navegação & Menus</span>
+        </button>
+
+        <button onclick="switchTab('shadows')" id="nav-shadows" class="nav-tab flex items-center space-x-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold hover:opacity-100 transition-all" style="color: var(--text-muted);">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="8" y1="8" x2="16" y2="16"/></svg>
+          <span>Sombras & Z-Depth</span>
+        </button>
+
+        <button onclick="switchTab('palettes')" id="nav-palettes" class="nav-tab flex items-center space-x-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold hover:opacity-100 transition-all" style="color: var(--text-muted);">
+          <svg class="w-3.5 h-3.5 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a7 7 0 0 0 7 7c0 3.866-3.134 7-7 7a7 7 0 0 1-7-7c0-3.866 3.134-7 7-7z"/></svg>
+          <span>Paletas & WCAG</span>
+        </button>
+
+        <button onclick="switchTab('generator')" id="nav-generator" class="nav-tab flex items-center space-x-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold hover:opacity-100 transition-all" style="color: var(--text-muted);">
+          <svg class="w-3.5 h-3.5 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+          <span class="text-cyan-400 font-bold">Gerador de Prompt</span>
+        </button>
+      </nav>
+
+      <!-- Right Action Toolbar: Theme Switcher & Export Modal Trigger -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        
+        <!-- Light / Dark Theme Button -->
+        <button id="theme-toggle-btn" onclick="toggleTheme()" class="p-2 sm:px-3 sm:py-1.5 rounded-xl border flex items-center space-x-2 shadow-sm transition-all" style="background-color: var(--bg-surface); border-color: var(--border-subtle); color: var(--text-main);" title="Alternar tema claro/escuro" aria-label="Alternar tema">
+          <svg id="theme-sun-icon" class="w-4 h-4 text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+          <svg id="theme-moon-icon" class="w-4 h-4 text-sky-500 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+          <span id="theme-text-status" class="text-xs font-semibold hidden md:inline">Tema</span>
+        </button>
+
+        <!-- Export Center Trigger (PDF / Markdown) -->
+        <button onclick="openExportModal()" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-brand-600 to-cyan-500 hover:from-brand-500 hover:to-cyan-400 text-white text-xs font-bold shadow-md shadow-brand-500/20 flex items-center space-x-1.5 transition-all">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Exportar</span>
+          <span class="hidden sm:inline text-[10px] bg-white/20 px-1.5 py-0.5 rounded ml-1 font-mono">PDF / MD</span>
+        </button>
+
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+
+    <!-- In-Page Feedback Toast (No browser alert) -->
+    <div id="toast" class="fixed bottom-20 sm:bottom-8 right-4 sm:right-8 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none flex items-center space-x-3 px-5 py-3 rounded-2xl shadow-2xl border backdrop-blur-xl" style="background-color: var(--bg-surface); border-color: var(--border-focus); color: var(--text-main);">
+      <div class="w-7 h-7 rounded-lg bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold text-sm">✓</div>
+      <div>
+        <p id="toast-title" class="text-xs font-bold">Copiado com sucesso!</p>
+        <p id="toast-desc" class="text-[11px]" style="color: var(--text-muted);">Pronto para utilizar no seu ambiente de trabalho.</p>
+      </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- MODAL DE EXPORTAÇÃO (PDF FORMATADO & MARKDOWN .MD)       -->
+    <!-- ======================================================== -->
+    <div id="export-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/60 backdrop-blur-md">
+      <div class="w-full max-w-lg rounded-3xl border p-6 sm:p-8 space-y-6 shadow-2xl transition-all" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+        
+        <div class="flex items-start justify-between">
+          <div>
+            <div class="inline-flex items-center space-x-2 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-brand-500/10 text-brand-400 border border-brand-500/30 mb-2">
+              Central de Exportação
+            </div>
+            <h3 class="text-xl font-extrabold text-white">Emitir Especificação Técnica</h3>
+            <p class="text-xs mt-1" style="color: var(--text-muted);">
+              Gere um documento profissional com as decisões de UI, tokens e prompt selecionados.
+            </p>
+          </div>
+          <button onclick="closeExportModal()" class="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-all">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+
+        <!-- Export Action Cards -->
+        <div class="space-y-3">
+          
+          <!-- Option 1: PDF Executive Print -->
+          <div onclick="exportToPDF()" class="p-4 rounded-2xl border hover:border-brand-500/60 cursor-pointer transition-all flex items-center justify-between group" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+            <div class="flex items-center space-x-3.5">
+              <div class="w-10 h-10 rounded-xl bg-rose-500/10 text-rose-400 border border-rose-500/30 flex items-center justify-center font-bold">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-white group-hover:text-brand-400 transition-colors">Relatório Executivo PDF (Formato A4)</h4>
+                <p class="text-xs" style="color: var(--text-muted);">Gera layout limpo pronto para impressão ou salvar em PDF no navegador.</p>
+              </div>
+            </div>
+            <span class="text-xs font-bold text-brand-400">Imprimir →</span>
+          </div>
+
+          <!-- Option 2: Download .MD File -->
+          <div onclick="downloadMarkdownFile()" class="p-4 rounded-2xl border hover:border-brand-500/60 cursor-pointer transition-all flex items-center justify-between group" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+            <div class="flex items-center space-x-3.5">
+              <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 flex items-center justify-center font-bold">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-white group-hover:text-cyan-400 transition-colors">Baixar Arquivo Markdown (.md)</h4>
+                <p class="text-xs" style="color: var(--text-muted);">Download do documento completo com tokens CSS, acessibilidade e prompt.</p>
+              </div>
+            </div>
+            <span class="text-xs font-bold text-cyan-400">Download →</span>
+          </div>
+
+          <!-- Option 3: Copy Markdown to Clipboard -->
+          <div onclick="copyMarkdownDirect()" class="p-4 rounded-2xl border hover:border-brand-500/60 cursor-pointer transition-all flex items-center justify-between group" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+            <div class="flex items-center space-x-3.5">
+              <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-bold">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+              </div>
+              <div>
+                <h4 class="text-sm font-bold text-white group-hover:text-emerald-400 transition-colors">Copiar Especificação em Texto</h4>
+                <p class="text-xs" style="color: var(--text-muted);">Copia a especificação formatada para colar no Notion, Obsidian ou chat.</p>
+              </div>
+            </div>
+            <span class="text-xs font-bold text-emerald-400">Copiar →</span>
+          </div>
+
+        </div>
+
+        <div class="pt-2 flex justify-end">
+          <button onclick="closeExportModal()" class="px-5 py-2 rounded-xl text-xs font-bold text-slate-300 hover:text-white bg-slate-800 transition-all">
+            Fechar
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- TAB 1: DICIONÁRIO MODULAR (ATOMIC DESIGN & FRONTEND)     -->
+    <!-- ======================================================== -->
+    <section id="tab-glossary" class="tab-pane block space-y-10">
+      
+      <!-- Modular Hero Section -->
+      <div class="relative overflow-hidden rounded-3xl p-6 sm:p-10 border shadow-2xl transition-all" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+        <div class="max-w-3xl space-y-4">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-brand-500/10 text-brand-400 border border-brand-500/30">
+              Engenharia de Prompt & Arquitetura
+            </span>
+            <span class="px-2.5 py-1 rounded-full text-[11px] font-mono bg-cyan-500/10 text-cyan-300 border border-cyan-500/20">
+              Mobile-First • React • Tailwind • Vite
+            </span>
+          </div>
+          <h1 class="text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+            Como pedir e entender Front-End sem retrabalho
+          </h1>
+          <p class="text-sm sm:text-base leading-relaxed" style="color: var(--text-muted);">
+            Quando você faz um pedido a um modelo de IA sem especificar os termos corretos de engenharia, ele adota padrões genéricos. Entender a separação em <strong>Átomos, Moléculas e Tokens</strong> faz com que você receba o código certo na primeira tentativa.
+          </p>
+        </div>
+      </div>
+
+      <!-- Atomic Hierarchy Badge Bar -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+        <div class="p-3.5 rounded-2xl border" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+          <span class="text-xs font-bold text-cyan-400 block font-mono">1. Átomos (Atoms)</span>
+          <span class="text-[11px]" style="color: var(--text-muted);">Botões, inputs, ícones SVG</span>
+        </div>
+        <div class="p-3.5 rounded-2xl border" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+          <span class="text-xs font-bold text-brand-400 block font-mono">2. Moléculas (Molecules)</span>
+          <span class="text-[11px]" style="color: var(--text-muted);">Busca rápida, card de métrica</span>
+        </div>
+        <div class="p-3.5 rounded-2xl border" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+          <span class="text-xs font-bold text-purple-400 block font-mono">3. Organismos (Organisms)</span>
+          <span class="text-[11px]" style="color: var(--text-muted);">Navbar, Drawer, Grid de listas</span>
+        </div>
+        <div class="p-3.5 rounded-2xl border" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+          <span class="text-xs font-bold text-emerald-400 block font-mono">4. Templates / Páginas</span>
+          <span class="text-[11px]" style="color: var(--text-muted);">Layout fluido A4 / Telas</span>
+        </div>
+      </div>
+
+      <!-- Quick Terminology Grid with Atomic Tags -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- Card: Mobile-First -->
+        <div class="p-6 rounded-3xl border flex flex-col justify-between space-y-5 transition-all" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-2xl">📱</span>
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">Layout & CSS</span>
+            </div>
+            <h3 class="text-lg font-bold">Mobile-First</h3>
+            <p class="text-xs leading-relaxed" style="color: var(--text-muted);">
+              Desenhar e codificar <strong>primeiro para telas pequenas de celular (320px a 480px)</strong> e depois expandir progressivamente para telas maiores com <code class="text-cyan-400 font-mono">min-width</code>.
+            </p>
+            <div class="p-3 rounded-xl border text-[11px] space-y-1" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+              <span class="text-brand-400 font-bold block">Por que evita retrabalho:</span>
+              <p style="color: var(--text-muted);">Se a IA criar para desktop primeiro, a versão de celular quase sempre quebra em largura horizontal e botões pequenos demais para o polegar.</p>
+            </div>
+          </div>
+          <div class="text-[11px] text-brand-400 bg-brand-500/10 border border-brand-500/20 p-2.5 rounded-xl font-mono">
+            💡 <strong>No Prompt peça:</strong> "Abordagem Mobile-First rigorosa, alvos de toque mínimos de 48x48px no mobile e zero overflow horizontal."
+          </div>
+        </div>
+
+        <!-- Card: React & Reatividade -->
+        <div class="p-6 rounded-3xl border flex flex-col justify-between space-y-5 transition-all" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-2xl">⚛️</span>
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">Biblioteca UI</span>
+            </div>
+            <h3 class="text-lg font-bold">React & Estado Reativo</h3>
+            <p class="text-xs leading-relaxed" style="color: var(--text-muted);">
+              Divide a tela em blocos isolados com ciclo de vida próprio. Atualiza apenas os nós do DOM que sofreram mutação de dados sem recarregar a página.
+            </p>
+            <div class="p-3 rounded-xl border text-[11px] space-y-1" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+              <span class="text-brand-400 font-bold block">Por que evita retrabalho:</span>
+              <p style="color: var(--text-muted);">Evita que o usuário perca o foco do teclado a cada letra digitada em formulários extensos.</p>
+            </div>
+          </div>
+          <div class="text-[11px] text-brand-400 bg-brand-500/10 border border-brand-500/20 p-2.5 rounded-xl font-mono">
+            💡 <strong>No Prompt peça:</strong> "Componentes desacoplados, com nós de formulário isolados para preservar o foco de digitação."
+          </div>
+        </div>
+
+        <!-- Card: Tailwind CSS -->
+        <div class="p-6 rounded-3xl border flex flex-col justify-between space-y-5 transition-all" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-2xl">🎨</span>
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-sky-500/10 text-sky-400 border border-sky-500/30">Estilização</span>
+            </div>
+            <h3 class="text-lg font-bold">Tailwind CSS & Tokens</h3>
+            <p class="text-xs leading-relaxed" style="color: var(--text-muted);">
+              Usa classes utilitárias diretas (como <code class="text-cyan-400 font-mono">p-4 rounded-2xl shadow-xl</code>) calibradas em múltiplos de 4px e 8px, eliminando CSS solto duplicado.
+            </p>
+            <div class="p-3 rounded-xl border text-[11px] space-y-1" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+              <span class="text-brand-400 font-bold block">Por que evita retrabalho:</span>
+              <p style="color: var(--text-muted);">Evita conflitos de especificidade entre arquivos CSS externos e padroniza as cores em uma escala consistente.</p>
+            </div>
+          </div>
+          <div class="text-[11px] text-brand-400 bg-brand-500/10 border border-brand-500/20 p-2.5 rounded-xl font-mono">
+            💡 <strong>No Prompt peça:</strong> "Estilize estritamente com classes utilitárias do Tailwind CSS e tokens claros de cores."
+          </div>
+        </div>
+
+        <!-- Card: Vite -->
+        <div class="p-6 rounded-3xl border flex flex-col justify-between space-y-5 transition-all" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-2xl">⚡</span>
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30">Tooling</span>
+            </div>
+            <h3 class="text-lg font-bold">Vite & Bundlers Rápidos</h3>
+            <p class="text-xs leading-relaxed" style="color: var(--text-muted);">
+              O motor moderno que compila código em milissegundos via ES Modules nativos no navegador, substituindo ferramentas lentas como Webpack antigo.
+            </p>
+            <div class="p-3 rounded-xl border text-[11px] space-y-1" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+              <span class="text-brand-400 font-bold block">Por que evita retrabalho:</span>
+              <p style="color: var(--text-muted);">Garante que o projeto inicie instantaneamente em qualquer máquina sem erro de dependências quebradas.</p>
+            </div>
+          </div>
+          <div class="text-[11px] text-brand-400 bg-brand-500/10 border border-brand-500/20 p-2.5 rounded-xl font-mono">
+            💡 <strong>No Prompt peça:</strong> "Setup leve com React + Vite + Tailwind CSS para compilação rápida sem pacotes redundantes."
+          </div>
+        </div>
+
+        <!-- Card: Design Tokens & Relevos -->
+        <div class="p-6 rounded-3xl border flex flex-col justify-between space-y-5 transition-all" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-2xl">💎</span>
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-rose-500/10 text-rose-400 border border-rose-500/30">Design Systems</span>
+            </div>
+            <h3 class="text-lg font-bold">Design Tokens & Relevo 3D</h3>
+            <p class="text-xs leading-relaxed" style="color: var(--text-muted);">
+              São as constantes visuais (cores de superfície, chanfros de 1px e raios de curvatura) que conferem elegância física à interface.
+            </p>
+            <div class="p-3 rounded-xl border text-[11px] space-y-1" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+              <span class="text-brand-400 font-bold block">Por que evita retrabalho:</span>
+              <p style="color: var(--text-muted);">Impede botões com cores desarmônicas ou sombras que parecem borrões desconexos.</p>
+            </div>
+          </div>
+          <div class="text-[11px] text-brand-400 bg-brand-500/10 border border-brand-500/20 p-2.5 rounded-xl font-mono">
+            💡 <strong>No Prompt peça:</strong> "Use chanfro iluminado interno (inset highlight) de 1px e sombra de oclusão curta."
+          </div>
+        </div>
+
+        <!-- Card: MCP & Agentes -->
+        <div class="p-6 rounded-3xl border flex flex-col justify-between space-y-5 transition-all" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-2xl">🔌</span>
+              <span class="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-indigo-500/10 text-indigo-400 border border-indigo-500/30">Protocolos IA</span>
+            </div>
+            <h3 class="text-lg font-bold">MCP (Model Context Protocol)</h3>
+            <p class="text-xs leading-relaxed" style="color: var(--text-muted);">
+              O "USB-C dos Agentes": protocolo aberto que conecta IAs a arquivos locais, bancos de dados e APIs sem precisar programar conectores manuais.
+            </p>
+            <div class="p-3 rounded-xl border text-[11px] space-y-1" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+              <span class="text-brand-400 font-bold block">Por que evita retrabalho:</span>
+              <p style="color: var(--text-muted);">Permite que ferramentas como Cursor, Claude Desktop e IDEs executem ações reais de sistema com segurança.</p>
+            </div>
+          </div>
+          <div class="text-[11px] text-brand-400 bg-brand-500/10 border border-brand-500/20 p-2.5 rounded-xl font-mono">
+            💡 <strong>No Prompt peça:</strong> "Arquitetura com separação clara de responsabilidades, compatível com MCP tools e schemas JSON estritos."
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 2: BOTÕES & ESTILOS TÁTEIS 3D                        -->
+    <!-- ======================================================== -->
+    <section id="tab-buttons" class="tab-pane hidden space-y-8">
+      
+      <div class="border-b pb-4" style="border-color: var(--border-subtle);">
+        <h2 class="text-xl sm:text-2xl font-bold tracking-tight flex items-center space-x-2">
+          <span>Showroom Interativo de Botões & Relevos 3D</span>
+        </h2>
+        <p class="text-xs sm:text-sm mt-1" style="color: var(--text-muted);">
+          Toque ou clique nos botões para testar a compressão mecânica (:active) e inspecionar a formulação exata para o seu prompt.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- 1. Tactile 3D (Neumorphism Refinado com Bevel & Rim Light) -->
+        <div class="p-6 rounded-3xl border flex flex-col justify-between space-y-5" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+          <div>
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-sm font-bold">1. Relevo 3D Tátil (Tactile CTA)</h3>
+              <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-brand-500/20 text-brand-400 border border-brand-500/30">Linear / Apple</span>
+            </div>
+            <p class="text-xs leading-relaxed" style="color: var(--text-muted);">
+              Chanfro superior iluminado com sombra interna branca (<code class="text-cyan-400 font-mono">inset 0 1px 1px</code>) e corte escuro na base. Sensação física de hardware de luxo.
+            </p>
+          </div>
+
+          <div class="py-6 flex flex-col items-center justify-center rounded-2xl border" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+            <button class="btn-tactile-primary px-6 py-3 rounded-xl text-xs font-bold text-white uppercase tracking-wider flex items-center space-x-2">
+              <svg class="w-4 h-4 text-cyan-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span>Salvar Alterações</span>
+            </button>
+            <span class="text-[10px] mt-3 font-mono" style="color: var(--text-light);">Clique para sentir a compressão mecânica</span>
+          </div>
+
+          <div class="space-y-1.5">
+            <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--text-muted);">Como pedir no prompt:</span>
+            <div class="p-2.5 rounded-xl border text-[11px] text-brand-400 font-mono" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+              "Botão primário 3D tátil com chanfro iluminado interno (inset highlight) e compressão mecânica translateY(1px) no :active."
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Soft Neumorphic Dark -->
+        <div class="p-6 rounded-3xl border flex flex-col justify-between space-y-5" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+          <div>
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-sm font-bold">2. Neumorfismo Fosco (Soft Matte)</h3>
+              <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-purple-500/20 text-purple-400 border border-purple-500/30">Minimalist</span>
+            </div>
+            <p class="text-xs leading-relaxed" style="color: var(--text-muted);">
+              Parece esculpido diretamente na superfície, com sombras duplas invertidas em repouso e sem brilho plástico exagerado.
+            </p>
+          </div>
+
+          <div class="py-6 flex flex-col items-center justify-center rounded-2xl border" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+            <button class="btn-neumorphic px-6 py-3 rounded-xl text-xs font-semibold flex items-center space-x-2">
+              <svg class="w-4 h-4 text-purple-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              <span>Gerar Relatório</span>
+            </button>
+            <span class="text-[10px] mt-3 font-mono" style="color: var(--text-light);">Relevo suave com acabamento acetinado</span>
+          </div>
+
+          <div class="space-y-1.5">
+            <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--text-muted);">Como pedir no prompt:</span>
+            <div class="p-2.5 rounded-xl border text-[11px] text-brand-400 font-mono" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+              "Estética neumórfica fosca sóbria, acabamento matte sem reflexo artificial, sombras duplas sutis."
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Glassmorphism -->
+        <div class="p-6 rounded-3xl border flex flex-col justify-between space-y-5" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+          <div>
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-sm font-bold">3. Glassmorphism (Efeito Vidro)</h3>
+              <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">iOS / VisionOS</span>
+            </div>
+            <p class="text-xs leading-relaxed" style="color: var(--text-muted);">
+              Superfície translúcida com desfoque de fundo (<code class="text-cyan-400 font-mono">backdrop-blur</code>) e borda de 1px simulando vidro lapidado.
+            </p>
+          </div>
+
+          <div class="py-6 flex flex-col items-center justify-center rounded-2xl border" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+            <button class="btn-glass px-6 py-3 rounded-xl text-xs font-semibold flex items-center space-x-2">
+              <svg class="w-4 h-4 text-cyan-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+              <span>Ajustes Rápidos</span>
+            </button>
+            <span class="text-[10px] mt-3 font-mono" style="color: var(--text-light);">Borda fina translúcida + desfoque</span>
+          </div>
+
+          <div class="space-y-1.5">
+            <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--text-muted);">Como pedir no prompt:</span>
+            <div class="p-2.5 rounded-xl border text-[11px] text-brand-400 font-mono" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+              "Design com Glassmorphism refinado, usando backdrop-blur-md, fundo translúcido e micro-borda de 1px reflexiva."
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Neo-Brutalism -->
+        <div class="p-6 rounded-3xl border flex flex-col justify-between space-y-5" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+          <div>
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-sm font-bold">4. Neo-Brutalismo Moderno</h3>
+              <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/30">High Impact</span>
+            </div>
+            <p class="text-xs leading-relaxed" style="color: var(--text-muted);">
+              Bordas retas de 2px de alto contraste com sombra sólida e dura (sem desfoque), que se desloca fisicamente no clique.
+            </p>
+          </div>
+
+          <div class="py-6 flex flex-col items-center justify-center rounded-2xl border" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+            <button class="btn-brutalist px-6 py-2.5 rounded-none text-xs font-black uppercase tracking-wider flex items-center space-x-2">
+              <span>EXPLORAR AGORA</span>
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+            <span class="text-[10px] mt-3 font-mono" style="color: var(--text-light);">Sombra sólida sem blur com offset rígido</span>
+          </div>
+
+          <div class="space-y-1.5">
+            <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--text-muted);">Como pedir no prompt:</span>
+            <div class="p-2.5 rounded-xl border text-[11px] text-brand-400 font-mono" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+              "Estilo Neo-Brutalist: bordas pretas de 2px, sombras duras e retas (box-shadow: 4px 4px 0 currentColor) e tipografia bold."
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Secondary Slate Outline -->
+        <div class="p-6 rounded-3xl border flex flex-col justify-between space-y-5" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+          <div>
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-sm font-bold">5. Ação Secundária (Ardósia Sóbrio)</h3>
+              <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-slate-500/20 text-slate-400 border border-slate-500/30">Equilíbrio</span>
+            </div>
+            <p class="text-xs leading-relaxed" style="color: var(--text-muted);">
+              Serve para ações de apoio (cancelar, voltar, filtros) para não competir com o botão principal da tela.
+            </p>
+          </div>
+
+          <div class="py-6 flex flex-col items-center justify-center rounded-2xl border" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+            <button class="px-6 py-2.5 rounded-xl border text-xs font-semibold active:scale-95 transition-all" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+              Descartar Rascunho
+            </button>
+            <span class="text-[10px] mt-3 font-mono" style="color: var(--text-light);">Fundo neutro que valoriza a ação primária</span>
+          </div>
+
+          <div class="space-y-1.5">
+            <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--text-muted);">Como pedir no prompt:</span>
+            <div class="p-2.5 rounded-xl border text-[11px] text-brand-400 font-mono" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+              "Botões secundários em cinza neutro ardósia, preservando a hierarquia de atenção do CTA principal."
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Ghost Interactive -->
+        <div class="p-6 rounded-3xl border flex flex-col justify-between space-y-5" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+          <div>
+            <div class="flex justify-between items-start mb-2">
+              <h3 class="text-sm font-bold">6. Botão Fantasma (Ghost Action)</h3>
+              <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Navegação</span>
+            </div>
+            <p class="text-xs leading-relaxed" style="color: var(--text-muted);">
+              Invisível em repouso; acende suavemente com uma cápsula de cor ao passar o mouse ou receber foco pelo teclado.
+            </p>
+          </div>
+
+          <div class="py-6 flex flex-col items-center justify-center rounded-2xl border" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+            <button class="px-5 py-2.5 rounded-xl hover:text-cyan-400 hover:bg-cyan-500/10 active:scale-95 text-xs font-semibold transition-all flex items-center space-x-1.5" style="color: var(--text-muted);">
+              <span>Ver mais detalhes</span>
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <span class="text-[10px] mt-3 font-mono" style="color: var(--text-light);">Ideal para linhas de tabelas e menus limpos</span>
+          </div>
+
+          <div class="space-y-1.5">
+            <span class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--text-muted);">Como pedir no prompt:</span>
+            <div class="p-2.5 rounded-xl border text-[11px] text-brand-400 font-mono" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+              "Use botões variantes Ghost (sem borda no estado neutro, com hover:bg-cyan-500/10) em ações repetitivas de lista."
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 3: MENUS E NAVEGAÇÃO RESPONSIVA                      -->
+    <!-- ======================================================== -->
+    <section id="tab-menus" class="tab-pane hidden space-y-8">
+      
+      <div class="border-b pb-4" style="border-color: var(--border-subtle);">
+        <h2 class="text-xl sm:text-2xl font-bold tracking-tight">
+          Padrões de Navegação: Mobile vs. Desktop
+        </h2>
+        <p class="text-xs sm:text-sm mt-1" style="color: var(--text-muted);">
+          Como o menu deve se transformar de acordo com o tamanho da tela para não quebrar a usabilidade.
+        </p>
+      </div>
+
+      <!-- Menu Selector Controls -->
+      <div class="flex flex-wrap gap-2">
+        <button onclick="previewMenu('bottom-bar')" id="btn-menu-bottom-bar" class="px-4 py-2 rounded-xl text-xs font-bold bg-brand-500 text-slate-950 shadow-lg shadow-brand-500/25 transition-all">
+          1. Bottom Navigation Bar (Obrigatório Mobile)
+        </button>
+        <button onclick="previewMenu('sidebar')" id="btn-menu-sidebar" class="px-4 py-2 rounded-xl text-xs font-semibold border transition-all" style="background-color: var(--bg-surface); border-color: var(--border-subtle); color: var(--text-muted);">
+          2. Persistent Sidebar (Desktop)
+        </button>
+        <button onclick="previewMenu('segmented-tabs')" id="btn-menu-segmented-tabs" class="px-4 py-2 rounded-xl text-xs font-semibold border transition-all" style="background-color: var(--bg-surface); border-color: var(--border-subtle); color: var(--text-muted);">
+          3. Segmented Control / Tabs
+        </button>
+        <button onclick="previewMenu('floating-island')" id="btn-menu-floating-island" class="px-4 py-2 rounded-xl text-xs font-semibold border transition-all" style="background-color: var(--bg-surface); border-color: var(--border-subtle); color: var(--text-muted);">
+          4. Floating Island (Ilha Flutuante)
+        </button>
+      </div>
+
+      <!-- Interactive Viewport Simulator Container -->
+      <div class="p-6 sm:p-10 rounded-3xl border flex flex-col items-center justify-center min-h-[380px]" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+        
+        <!-- Live Mockup 1: Mobile Phone Bottom Bar -->
+        <div id="demo-bottom-bar" class="menu-demo w-full max-w-sm rounded-[36px] border-4 p-4 shadow-2xl space-y-8 relative overflow-hidden transition-all" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+          <div class="flex justify-between items-center text-[10px] px-2 pt-1 font-mono" style="color: var(--text-muted);">
+            <span>09:41</span>
+            <div class="flex items-center space-x-1">
+              <span>5G</span>
+              <div class="w-4 h-2 bg-emerald-500 rounded-sm"></div>
+            </div>
+          </div>
+          
+          <div class="p-5 rounded-2xl border text-center space-y-1" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+            <h4 class="text-xs font-bold">Área Útil do Aplicativo</h4>
+            <p class="text-[11px]" style="color: var(--text-muted);">O polegar do usuário alcança facilmente as 4 abas principais fixadas embaixo.</p>
+          </div>
+
+          <!-- Bottom Navigation Bar Simulation -->
+          <div class="backdrop-blur-md rounded-2xl border p-2 flex items-center justify-around shadow-xl" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+            <button class="flex flex-col items-center space-y-1 py-1 px-3 rounded-xl bg-brand-500/20 text-brand-400">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+              <span class="text-[10px] font-bold">Início</span>
+            </button>
+            <button class="flex flex-col items-center space-y-1 py-1 px-3 hover:text-white" style="color: var(--text-muted);">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              <span class="text-[10px]">Receitas</span>
+            </button>
+            <button class="flex flex-col items-center space-y-1 py-1 px-3 hover:text-white" style="color: var(--text-muted);">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+              <span class="text-[10px]">Histórico</span>
+            </button>
+            <button class="flex flex-col items-center space-y-1 py-1 px-3 hover:text-white" style="color: var(--text-muted);">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              <span class="text-[10px]">Perfil</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Live Mockup 2: Desktop Persistent Sidebar -->
+        <div id="demo-sidebar" class="menu-demo hidden w-full max-w-2xl rounded-2xl border p-4 shadow-2xl flex gap-4 min-h-[260px]" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+          <div class="w-52 rounded-xl p-3 border flex flex-col justify-between" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+            <div class="space-y-3">
+              <div class="text-[10px] font-bold uppercase tracking-widest px-2" style="color: var(--text-muted);">Painel Corporativo</div>
+              <div class="space-y-1">
+                <div class="flex items-center space-x-2.5 px-3 py-2 rounded-lg bg-brand-500/10 text-brand-400 border border-brand-500/20 text-xs font-semibold cursor-pointer">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                  <span>Dashboard</span>
+                </div>
+                <div class="flex items-center space-x-2.5 px-3 py-2 rounded-lg text-xs font-medium cursor-pointer transition-colors" style="color: var(--text-muted);">
+                  <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  <span>Clientes</span>
+                </div>
+              </div>
+            </div>
+            <div class="pt-3 border-t flex items-center space-x-2 px-1" style="border-color: var(--border-subtle);">
+              <div class="w-7 h-7 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center text-xs font-bold">DR</div>
+              <div class="text-[11px] leading-tight">
+                <div class="font-bold">Dr. Carlos Mendes</div>
+                <div class="text-[10px]" style="color: var(--text-muted);">CRM/SP 123456</div>
+              </div>
+            </div>
+          </div>
+          <div class="flex-1 rounded-xl border p-4 flex flex-col justify-center items-center text-center" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+            <h5 class="text-sm font-bold">Conteúdo em Grid Fluida</h5>
+            <p class="text-xs max-w-sm mt-1" style="color: var(--text-muted);">No desktop, a sidebar fixa aproveita monitores largos sem tapar os formulários centrais.</p>
+          </div>
+        </div>
+
+        <!-- Live Mockup 3: Segmented Control Tabs -->
+        <div id="demo-segmented-tabs" class="menu-demo hidden w-full max-w-md space-y-4">
+          <div class="text-center text-xs" style="color: var(--text-muted);">Padrão de abas para alternância instantânea de contexto</div>
+          <div class="p-1.5 rounded-2xl border flex shadow-inner" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+            <button class="flex-1 py-2 text-xs font-bold rounded-xl bg-brand-500 text-slate-950 shadow-md transition-all">Prescrição</button>
+            <button class="flex-1 py-2 text-xs font-semibold rounded-xl transition-all" style="color: var(--text-muted);">Exames</button>
+            <button class="flex-1 py-2 text-xs font-semibold rounded-xl transition-all" style="color: var(--text-muted);">Atestado</button>
+            <button class="flex-1 py-2 text-xs font-semibold rounded-xl transition-all" style="color: var(--text-muted);">Encaminhar</button>
+          </div>
+        </div>
+
+        <!-- Live Mockup 4: Floating Island -->
+        <div id="demo-floating-island" class="menu-demo hidden w-full max-w-md flex flex-col items-center space-y-4">
+          <div class="text-center text-xs" style="color: var(--text-muted);">Barra flutuante com efeito cápsula suspensa</div>
+          <div class="backdrop-blur-xl border px-4 py-2.5 rounded-full shadow-2xl flex items-center space-x-4" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+            <button class="p-2 rounded-full bg-brand-500 text-slate-950 shadow-md">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+            </button>
+            <div class="h-4 w-px" style="background-color: var(--border-subtle);"></div>
+            <button class="text-xs font-semibold hover:text-brand-400">Imprimir A4</button>
+            <button class="text-xs font-semibold hover:text-brand-400">WhatsApp</button>
+            <button class="text-xs font-semibold hover:text-brand-400">Exportar PDF</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 4: SOMBRAS, CHANFROS & PROFUNDIDADE Z                -->
+    <!-- ======================================================== -->
+    <section id="tab-shadows" class="tab-pane hidden space-y-8">
+      
+      <div class="border-b pb-4" style="border-color: var(--border-subtle);">
+        <h2 class="text-xl sm:text-2xl font-bold tracking-tight">
+          Calibrador de Sombras & Profundidade Física Z
+        </h2>
+        <p class="text-xs sm:text-sm mt-1" style="color: var(--text-muted);">
+          Ajuste os controles deslizantes para ver em tempo real como sombras de oclusão e chanfros de borda criam elegância sem exageros.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Controls Column -->
+        <div class="lg:col-span-6 p-6 rounded-3xl border space-y-5" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+          <h3 class="text-sm font-bold flex items-center space-x-2">
+            <svg class="w-4 h-4 text-brand-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m12 6 4 6h-8z"/></svg>
+            <span>Parâmetros de Elevação</span>
+          </h3>
+
+          <!-- Presets -->
+          <div class="space-y-1.5">
+            <label class="text-xs font-semibold" style="color: var(--text-muted);">Presets Prontos:</label>
+            <div class="grid grid-cols-3 gap-2">
+              <button onclick="setShadowPreset('flat')" class="px-2.5 py-1.5 rounded-lg border text-xs font-medium" style="background-color: var(--bg-card); border-color: var(--border-subtle);">Flat Sutil</button>
+              <button onclick="setShadowPreset('tactile')" class="px-2.5 py-1.5 rounded-lg bg-brand-500/20 text-brand-400 border border-brand-500/40 text-xs font-bold">3D Tátil Luxo</button>
+              <button onclick="setShadowPreset('neon')" class="px-2.5 py-1.5 rounded-lg border text-xs font-medium" style="background-color: var(--bg-card); border-color: var(--border-subtle);">Glow Cyan</button>
+            </div>
+          </div>
+
+          <!-- Y Offset Slider -->
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs">
+              <span style="color: var(--text-muted);">Projeção Vertical (Offset Y):</span>
+              <span id="val-offset-y" class="font-mono text-cyan-400">8px</span>
+            </div>
+            <input type="range" id="slider-offset-y" min="0" max="30" value="8" oninput="updateShadowLive()" class="w-full accent-cyan-400 cursor-pointer">
+          </div>
+
+          <!-- Blur Slider -->
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs">
+              <span style="color: var(--text-muted);">Dispersão / Desfoque (Blur):</span>
+              <span id="val-blur" class="font-mono text-cyan-400">20px</span>
+            </div>
+            <input type="range" id="slider-blur" min="0" max="50" value="20" oninput="updateShadowLive()" class="w-full accent-cyan-400 cursor-pointer">
+          </div>
+
+          <!-- Opacity Slider -->
+          <div class="space-y-1">
+            <div class="flex justify-between text-xs">
+              <span style="color: var(--text-muted);">Opacidade da Sombra:</span>
+              <span id="val-opacity" class="font-mono text-cyan-400">30%</span>
+            </div>
+            <input type="range" id="slider-opacity" min="0" max="90" value="30" oninput="updateShadowLive()" class="w-full accent-cyan-400 cursor-pointer">
+          </div>
+
+          <!-- Inset Bevel Toggle -->
+          <div class="pt-2 flex items-center justify-between border-t" style="border-color: var(--border-subtle);">
+            <div>
+              <span class="text-xs font-bold block">Chanfro Iluminado Superior (Inset Light)</span>
+              <span class="text-[11px]" style="color: var(--text-muted);">Simula reflexo de corte na aresta de cima</span>
+            </div>
+            <input type="checkbox" id="check-bevel" checked onchange="updateShadowLive()" class="w-5 h-5 accent-cyan-400 cursor-pointer">
+          </div>
+        </div>
+
+        <!-- Live Preview Card Column -->
+        <div class="lg:col-span-6 space-y-4">
+          <div class="p-8 sm:p-12 rounded-3xl border flex items-center justify-center min-h-[280px]" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+            <div id="shadow-preview-card" class="w-full max-w-sm p-6 rounded-2xl border transition-all duration-150" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+              <div class="flex justify-between items-center mb-3">
+                <span class="text-xs font-bold text-brand-400 uppercase tracking-widest">Card Elevado</span>
+                <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+              </div>
+              <h4 class="text-base font-bold">Camada Z Física</h4>
+              <p class="text-xs mt-1" style="color: var(--text-muted);">A elevação suave destaca este elemento do plano de fundo sem agredir os olhos.</p>
+            </div>
+          </div>
+
+          <!-- Generated CSS Output -->
+          <div class="p-4 rounded-2xl border space-y-2" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-bold uppercase tracking-wider font-mono" style="color: var(--text-muted);">Snippet CSS:</span>
+              <button onclick="copyGeneratedCSS()" class="text-xs text-cyan-400 hover:underline font-semibold">Copiar CSS</button>
+            </div>
+            <pre id="shadow-code-output" class="text-[11px] p-3 rounded-xl font-mono overflow-x-auto border" style="background-color: var(--code-bg); color: var(--code-text); border-color: var(--border-subtle);">
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+            </pre>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 5: PALETAS & AVALIADOR DE CONTRASTE WCAG             -->
+    <!-- ======================================================== -->
+    <section id="tab-palettes" class="tab-pane hidden space-y-10">
+      
+      <div class="border-b pb-4" style="border-color: var(--border-subtle);">
+        <div class="inline-flex items-center space-x-2 px-3 py-0.5 rounded-full text-xs font-bold uppercase tracking-wide bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 mb-2">
+          Acessibilidade WCAG 2.1
+        </div>
+        <h2 class="text-xl sm:text-2xl font-bold tracking-tight">
+          Paletas de Cores & Calculadora Matemática de Contraste
+        </h2>
+        <p class="text-xs sm:text-sm mt-1" style="color: var(--text-muted);">
+          Valide taxas de contraste entre texto e fundo em tempo real para conformidade AA e AAA.
+        </p>
+      </div>
+
+      <!-- Real-Time Contrast Evaluator Box -->
+      <div class="p-6 sm:p-8 rounded-3xl border space-y-6" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+        
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h3 class="text-base font-bold flex items-center space-x-2">
+              <span>⚖️ Calculadora de Luminância sRGB</span>
+            </h3>
+            <p class="text-xs mt-0.5" style="color: var(--text-muted);">Fórmula W3C: (L1 + 0.05) / (L2 + 0.05)</p>
+          </div>
+          <button onclick="swapContrastColors()" class="self-start sm:self-auto px-3.5 py-1.5 rounded-xl border text-xs font-semibold flex items-center space-x-1.5 transition-all" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m16 3 4 4-4 4"/><path d="M20 7H4"/><path d="m8 21-4-4 4-4"/><path d="M4 17h16"/></svg>
+            <span>Inverter Cores</span>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          <!-- Pickers Column -->
+          <div class="lg:col-span-5 space-y-4">
+            
+            <!-- Foreground Color Picker -->
+            <div class="p-4 rounded-2xl border space-y-2" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+              <label class="text-xs font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Cor do Texto (Foreground)</label>
+              <div class="flex items-center space-x-3">
+                <input type="color" id="contrast-fg-picker" value="#F8FAFC" oninput="syncColorFromPicker('fg')">
+                <input type="text" id="contrast-fg-hex" value="#F8FAFC" maxlength="7" oninput="syncColorFromInput('fg')" class="flex-1 border rounded-xl px-3 py-2 text-xs font-mono uppercase outline-none" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+              </div>
+            </div>
+
+            <!-- Background Color Picker -->
+            <div class="p-4 rounded-2xl border space-y-2" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+              <label class="text-xs font-bold uppercase tracking-wider block" style="color: var(--text-muted);">Cor de Fundo (Background)</label>
+              <div class="flex items-center space-x-3">
+                <input type="color" id="contrast-bg-picker" value="#0F172A" oninput="syncColorFromPicker('bg')">
+                <input type="text" id="contrast-bg-hex" value="#0F172A" maxlength="7" oninput="syncColorFromInput('bg')" class="flex-1 border rounded-xl px-3 py-2 text-xs font-mono uppercase outline-none" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Score & Sandbox Column -->
+          <div class="lg:col-span-7 space-y-4">
+            
+            <div class="p-5 rounded-2xl border flex flex-col sm:flex-row items-center justify-between gap-4" style="background-color: var(--bg-card); border-color: var(--border-subtle);">
+              <div>
+                <span class="text-xs uppercase font-bold" style="color: var(--text-muted);">Razão de Contraste:</span>
+                <div class="flex items-baseline space-x-2 mt-1">
+                  <span id="contrast-ratio-display" class="text-4xl font-extrabold font-mono">15.8:1</span>
+                  <span id="contrast-score-level" class="text-xs px-2.5 py-1 rounded-full font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40">Excelente</span>
+                </div>
+              </div>
+
+              <!-- Compliance Badges -->
+              <div class="grid grid-cols-2 gap-2 w-full sm:w-auto text-center">
+                <div class="p-2 rounded-xl border text-[11px]" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+                  <div style="color: var(--text-muted);">Texto Normal AA</div>
+                  <div id="badge-aa-normal" class="font-bold text-emerald-400 mt-0.5">✓ (≥4.5)</div>
+                </div>
+                <div class="p-2 rounded-xl border text-[11px]" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+                  <div style="color: var(--text-muted);">Texto Normal AAA</div>
+                  <div id="badge-aaa-normal" class="font-bold text-emerald-400 mt-0.5">✓ (≥7.0)</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Live Text Sandbox -->
+            <div id="contrast-sandbox" class="p-6 rounded-2xl border transition-all space-y-3" style="background-color: #0F172A; color: #F8FAFC;">
+              <span class="text-xs uppercase font-bold tracking-wider opacity-60">Simulador de Legibilidade em Tela</span>
+              <h4 id="sandbox-title" class="text-xl font-bold tracking-tight">Título Principal do Sistema</h4>
+              <p id="sandbox-body" class="text-xs leading-relaxed opacity-90">
+                Este parágrafo testa a legibilidade de dados clínicos ou relatórios em telas de celulares sob luminosidade forte.
+              </p>
+              <button id="sandbox-btn" class="px-4 py-2 rounded-xl text-xs font-bold shadow-md" style="background-color: #F8FAFC; color: #0F172A;">
+                Botão de Ação
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Curated Design System Palettes -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- Palette 1: Dark Slate & Cyan -->
+        <div class="p-5 rounded-3xl border flex flex-col justify-between space-y-4" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+          <div class="space-y-3">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-bold text-cyan-400 uppercase">1. Dark Slate & Ciano</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-300 font-mono font-bold">15.8:1 AAA</span>
+            </div>
+            <p class="text-xs" style="color: var(--text-muted);">Padrão Linear / Stripe para dashboards e fintechs de alto padrão.</p>
+            <div class="grid grid-cols-5 gap-1.5 pt-1">
+              <div class="h-8 rounded bg-[#0F172A] border border-slate-700"></div>
+              <div class="h-8 rounded bg-[#1E293B] border border-slate-700"></div>
+              <div class="h-8 rounded bg-[#38BDF8] border border-slate-700"></div>
+              <div class="h-8 rounded bg-[#94A3B8] border border-slate-700"></div>
+              <div class="h-8 rounded bg-[#F8FAFC] border border-slate-700"></div>
+            </div>
+          </div>
+          <button onclick="loadPaletteIntoEvaluator('#F8FAFC', '#0F172A', 'Dark Slate & Cyan')" class="w-full py-2 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 text-xs font-semibold transition-all">
+            Testar no Avaliador
+          </button>
+        </div>
+
+        <!-- Palette 2: Warm Alabaster Clean (Light Mode) -->
+        <div class="p-5 rounded-3xl border flex flex-col justify-between space-y-4" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+          <div class="space-y-3">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-bold text-amber-500 uppercase">2. Alabastro & Âmbar (Light)</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-500 font-mono font-bold">16.1:1 AAA</span>
+            </div>
+            <p class="text-xs" style="color: var(--text-muted);">Tema claro sem o branco ofuscante (#ffffff puro), ideal para relatórios e leitura longa.</p>
+            <div class="grid grid-cols-5 gap-1.5 pt-1">
+              <div class="h-8 rounded bg-[#F8FAFC] border border-slate-300"></div>
+              <div class="h-8 rounded bg-[#FFFFFF] border border-slate-300"></div>
+              <div class="h-8 rounded bg-[#D97706] border border-slate-300"></div>
+              <div class="h-8 rounded bg-[#64748B] border border-slate-300"></div>
+              <div class="h-8 rounded bg-[#0F172A] border border-slate-300"></div>
+            </div>
+          </div>
+          <button onclick="loadPaletteIntoEvaluator('#0F172A', '#F8FAFC', 'Alabaster & Amber')" class="w-full py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-500 border border-amber-500/30 text-xs font-semibold transition-all">
+            Testar no Avaliador
+          </button>
+        </div>
+
+        <!-- Palette 3: Obsidian & Emerald -->
+        <div class="p-5 rounded-3xl border flex flex-col justify-between space-y-4" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+          <div class="space-y-3">
+            <div class="flex justify-between items-center">
+              <span class="text-xs font-bold text-emerald-400 uppercase">3. Obsidian & Esmeralda</span>
+              <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 font-mono font-bold">14.9:1 AAA</span>
+            </div>
+            <p class="text-xs" style="color: var(--text-muted);">Projetado para sistemas clínicos, prescrições e monitoramento de saúde.</p>
+            <div class="grid grid-cols-5 gap-1.5 pt-1">
+              <div class="h-8 rounded bg-[#060D0D] border border-emerald-950"></div>
+              <div class="h-8 rounded bg-[#0F2321] border border-emerald-900"></div>
+              <div class="h-8 rounded bg-[#10B981] border border-emerald-800"></div>
+              <div class="h-8 rounded bg-[#6EE7B7] border border-emerald-700"></div>
+              <div class="h-8 rounded bg-[#ECFDF5] border border-emerald-600"></div>
+            </div>
+          </div>
+          <button onclick="loadPaletteIntoEvaluator('#ECFDF5', '#060D0D', 'Obsidian & Emerald')" class="w-full py-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-semibold transition-all">
+            Testar no Avaliador
+          </button>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 6: GERADOR INTELIGENTE DE PROMPTS FRONTEND           -->
+    <!-- ======================================================== -->
+    <section id="tab-generator" class="tab-pane hidden space-y-8">
+      
+      <div class="border-b pb-4" style="border-color: var(--border-subtle);">
+        <h2 class="text-xl sm:text-2xl font-bold tracking-tight">
+          Gerador Automatizado de Prompts Front-End
+        </h2>
+        <p class="text-xs sm:text-sm mt-1" style="color: var(--text-muted);">
+          Escolha os parâmetros do seu projeto. O motor montará a especificação sem ambiguidades para colar no seu modelo de IA.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Controls Config -->
+        <div class="lg:col-span-6 space-y-5 p-6 rounded-3xl border" style="background-color: var(--bg-surface); border-color: var(--border-subtle);">
+          
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold uppercase" style="color: var(--text-muted);">1. Tipo de Aplicação</label>
+            <select id="gen-app-type" onchange="buildPromptLive()" class="w-full border rounded-xl p-2.5 text-xs outline-none focus:border-brand-500" style="background-color: var(--bg-card); border-color: var(--border-subtle); color: var(--text-main);">
+              <option value="Dashboard Analítico e Financeiro">Dashboard Analítico & Métricas</option>
+              <option value="Aplicativo Médico / Clínico (Receituários e Doses)">App Clínico / Prescrições e Protocolos</option>
+              <option value="Plataforma SaaS / Sistema de Gestão">SaaS de Gestão com Kanban / Tabelas</option>
+              <option value="E-commerce / Catálogo de Produtos">E-commerce / Vitrine com Carrinho</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold uppercase" style="color: var(--text-muted);">2. Stack Técnica</label>
+              <select id="gen-stack" onchange="buildPromptLive()" class="w-full border rounded-xl p-2.5 text-xs outline-none" style="background-color: var(--bg-card); border-color: var(--border-subtle); color: var(--text-main);">
+                <option value="HTML5 + Tailwind CSS + Vanilla JS (Arquivo Único Autossuficiente)">HTML5 + Tailwind CDN (Arquivo Único)</option>
+                <option value="React 18 + Vite + Tailwind CSS">React + Vite + Tailwind CSS</option>
+                <option value="Next.js 14+ (App Router) + TypeScript">Next.js + TypeScript + Tailwind</option>
+              </select>
+            </div>
+
+            <div class="space-y-1.5">
+              <label class="text-xs font-bold uppercase" style="color: var(--text-muted);">3. Padrão Estético</label>
+              <select id="gen-style" onchange="buildPromptLive()" class="w-full border rounded-xl p-2.5 text-xs outline-none" style="background-color: var(--bg-card); border-color: var(--border-subtle); color: var(--text-main);">
+                <option value="Dark Slate Profundo com Acentos Ciano (#0F172A / #38BDF8)">Dark Slate & Ciano (#0F172A)</option>
+                <option value="Relevo 3D Tátil Neumorphic Matte (Sem saturação)">Relevo 3D Tátil & Matte Luxo</option>
+                <option value="Glassmorphism Translúcido com Backdrop Blur">Glassmorphism / Vidro Lapidado</option>
+                <option value="Clean Light Minimalista (Alabastro / Slate)">Clean Light Sóbrio (Fundo Claro)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Feature Flags & Guardrails -->
+          <div class="space-y-2 pt-2">
+            <label class="text-xs font-bold uppercase" style="color: var(--text-muted);">4. Guardrails e Restrições Obrigatórias</label>
+            <div class="space-y-2 text-xs">
+              <label class="flex items-center space-x-2.5 cursor-pointer">
+                <input type="checkbox" id="check-no-alert" checked onchange="buildPromptLive()" class="w-4 h-4 accent-cyan-400">
+                <span>PROIBIDO usar <code class="text-red-400 font-mono">alert()</code> ou <code class="text-red-400 font-mono">confirm()</code></span>
+              </label>
+              <label class="flex items-center space-x-2.5 cursor-pointer">
+                <input type="checkbox" id="check-no-overflow" checked onchange="buildPromptLive()" class="w-4 h-4 accent-cyan-400">
+                <span>PROIBIDO larguras fixas rígidas que gerem rolagem horizontal</span>
+              </label>
+              <label class="flex items-center space-x-2.5 cursor-pointer">
+                <input type="checkbox" id="check-touch-target" checked onchange="buildPromptLive()" class="w-4 h-4 accent-cyan-400">
+                <span>Área de toque mínima de 48x48px no mobile (WCAG 2.1 AA)</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="space-y-1.5">
+            <label class="text-xs font-bold uppercase" style="color: var(--text-muted);">5. Requisito Customizado Adicional</label>
+            <input type="text" id="gen-custom-req" oninput="buildPromptLive()" placeholder="Ex: Cálculo de doses reativas por peso corporal..." class="w-full border rounded-xl p-2.5 text-xs outline-none" style="background-color: var(--bg-card); border-color: var(--border-subtle); color: var(--text-main);">
+          </div>
+        </div>
+
+        <!-- Generated Output Panel -->
+        <div class="lg:col-span-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider font-mono" style="color: var(--text-muted);">Prompt Estruturado Pronto:</span>
+            <div class="flex items-center space-x-2">
+              <button onclick="downloadMarkdownFile()" class="px-3 py-1.5 rounded-xl border text-xs font-semibold flex items-center space-x-1" style="background-color: var(--bg-surface); border-color: var(--border-subtle); color: var(--text-main);">
+                <span>Baixar .md</span>
+              </button>
+              <button onclick="copyGeneratedPrompt()" class="px-4 py-1.5 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 text-xs font-bold shadow-md shadow-cyan-400/25 flex items-center space-x-1.5 transition-all">
+                <span>Copiar Prompt</span>
+              </button>
+            </div>
+          </div>
+
+          <textarea id="prompt-output" readonly rows="20" class="w-full border rounded-2xl p-4 text-xs font-mono outline-none resize-none leading-relaxed shadow-xl" style="background-color: var(--code-bg); color: var(--code-text); border-color: var(--border-subtle);"></textarea>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Sticky Mobile Bottom Navigation Bar (Ultra-responsive for phones) -->
+  <nav id="mobile-bottom-nav" class="lg:hidden fixed bottom-0 left-0 right-0 z-40 backdrop-blur-xl border-t px-3 py-2 flex items-center justify-around shadow-2xl transition-colors" style="background-color: var(--nav-glass); border-color: var(--border-subtle);">
+    <button onclick="switchTab('glossary')" class="mobile-nav-btn flex flex-col items-center space-y-1 py-1 px-2.5 rounded-xl text-brand-400">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>
+      <span class="text-[10px] font-bold">Dicionário</span>
+    </button>
+    <button onclick="switchTab('buttons')" class="mobile-nav-btn flex flex-col items-center space-y-1 py-1 px-2.5 rounded-xl text-slate-400">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="12" rx="4"/><circle cx="8" cy="12" r="1.5"/></svg>
+      <span class="text-[10px]">Botões</span>
+    </button>
+    <button onclick="switchTab('menus')" class="mobile-nav-btn flex flex-col items-center space-y-1 py-1 px-2.5 rounded-xl text-slate-400">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      <span class="text-[10px]">Menus</span>
+    </button>
+    <button onclick="switchTab('shadows')" class="mobile-nav-btn flex flex-col items-center space-y-1 py-1 px-2.5 rounded-xl text-slate-400">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="8" y1="8" x2="16" y2="16"/></svg>
+      <span class="text-[10px]">Sombras</span>
+    </button>
+    <button onclick="switchTab('palettes')" class="mobile-nav-btn flex flex-col items-center space-y-1 py-1 px-2.5 rounded-xl text-slate-400">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a7 7 0 0 0 7 7c0 3.866-3.134 7-7 7a7 7 0 0 1-7-7c0-3.866 3.134-7 7-7z"/></svg>
+      <span class="text-[10px]">Cores</span>
+    </button>
+    <button onclick="switchTab('generator')" class="mobile-nav-btn flex flex-col items-center space-y-1 py-1 px-2.5 rounded-xl text-cyan-400">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+      <span class="text-[10px] font-bold">Prompt</span>
+    </button>
+  </nav>
+
+  <!-- Footer -->
+  <footer class="border-t mt-12 py-8 transition-colors no-print" style="border-color: var(--border-subtle); background-color: var(--bg-surface);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs" style="color: var(--text-muted);">
+      <div class="flex items-center space-x-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+        <span class="font-semibold text-white">FrontCraft Master Guide & Prompt Studio</span>
+      </div>
+      <div>
+        Design System Modular • WCAG 2.1 AA • Suporte a PDF e Markdown
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======================================================== -->
+  <!-- JAVASCRIPT CONTROLLERS: TABS, THEMES, EXPORTS & LOGIC    -->
+  <!-- ======================================================== -->
+  <script>
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-pane').forEach(el => {
+        el.classList.add('hidden');
+        el.classList.remove('block');
+      });
+
+      const target = document.getElementById('tab-' + tabId);
+      if (target) {
+        target.classList.remove('hidden');
+        target.classList.add('block');
+      }
+
+      // Update Desktop Nav styles
+      document.querySelectorAll('.nav-tab').forEach(btn => {
+        btn.classList.remove('bg-brand-500', 'text-slate-950', 'shadow-md');
+        btn.style.color = 'var(--text-muted)';
+      });
+      const activeNav = document.getElementById('nav-' + tabId);
+      if (activeNav) {
+        activeNav.classList.add('bg-brand-500', 'text-slate-950', 'shadow-md');
+        activeNav.style.color = '#090d16';
+      }
+
+      // Update Mobile Nav styles
+      const mobileBtns = document.querySelectorAll('.mobile-nav-btn');
+      const tabs = ['glossary', 'buttons', 'menus', 'shadows', 'palettes', 'generator'];
+      const activeIndex = tabs.indexOf(tabId);
+      mobileBtns.forEach((btn, idx) => {
+        if (idx === activeIndex) {
+          btn.className = "mobile-nav-btn flex flex-col items-center space-y-1 py-1 px-2.5 rounded-xl text-brand-400 font-bold";
+        } else {
+          btn.className = "mobile-nav-btn flex flex-col items-center space-y-1 py-1 px-2.5 rounded-xl text-slate-400";
+        }
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.classList.contains('dark');
+      const sun = document.getElementById('theme-sun-icon');
+      const moon = document.getElementById('theme-moon-icon');
+      const text = document.getElementById('theme-text-status');
+
+      if (isDark) {
+        html.classList.remove('dark');
+        sun.classList.add('hidden');
+        moon.classList.remove('hidden');
+        if (text) text.innerText = 'Claro';
+        showToast('Modo Claro Ativado', 'Superfície de alto contraste com fundo alabastro.');
+      } else {
+        html.classList.add('dark');
+        sun.classList.remove('hidden');
+        moon.classList.add('hidden');
+        if (text) text.innerText = 'Escuro';
+        showToast('Modo Escuro Ativado', 'Superfície Dark Slate relaxante para os olhos.');
+      }
+      updateContrastLive();
+    }
+
+    function previewMenu(type) {
+      document.querySelectorAll('.menu-demo').forEach(el => el.classList.add('hidden'));
+      const activeDemo = document.getElementById('demo-' + type);
+      if (activeDemo) activeDemo.classList.remove('hidden');
+
+      ['bottom-bar', 'sidebar', 'segmented-tabs', 'floating-island'].forEach(id => {
+        const btn = document.getElementById('btn-menu-' + id);
+        if (id === type) {
+          btn.className = "px-4 py-2 rounded-xl text-xs font-bold bg-brand-500 text-slate-950 shadow-lg shadow-brand-500/25 transition-all";
+        } else {
+          btn.className = "px-4 py-2 rounded-xl text-xs font-semibold border transition-all";
+          btn.style.backgroundColor = "var(--bg-surface)";
+          btn.style.color = "var(--text-muted)";
+        }
+      });
+    }
+
+    function updateShadowLive() {
+      const offsetY = document.getElementById('slider-offset-y').value;
+      const blur = document.getElementById('slider-blur').value;
+      const opacityVal = document.getElementById('slider-opacity').value / 100;
+      const hasBevel = document.getElementById('check-bevel').checked;
+
+      document.getElementById('val-offset-y').innerText = offsetY + 'px';
+      document.getElementById('val-blur').innerText = blur + 'px';
+      document.getElementById('val-opacity').innerText = Math.round(opacityVal * 100) + '%';
+
+      const outerShadow = `0 ${offsetY}px ${blur}px rgba(0, 0, 0, ${opacityVal})`;
+      const insetShadow = hasBevel ? `, inset 0 1px 1px rgba(255, 255, 255, 0.2)` : ``;
+      const fullCss = `box-shadow: ${outerShadow}${insetShadow};`;
+
+      const previewCard = document.getElementById('shadow-preview-card');
+      if (previewCard) previewCard.style.boxShadow = `${outerShadow}${insetShadow}`;
+
+      const codeOutput = document.getElementById('shadow-code-output');
+      if (codeOutput) codeOutput.innerText = fullCss;
+    }
+
+    function setShadowPreset(preset) {
+      if (preset === 'flat') {
+        document.getElementById('slider-offset-y').value = 2;
+        document.getElementById('slider-blur').value = 4;
+        document.getElementById('slider-opacity').value = 20;
+        document.getElementById('check-bevel').checked = false;
+      } else if (preset === 'tactile') {
+        document.getElementById('slider-offset-y').value = 10;
+        document.getElementById('slider-blur').value = 24;
+        document.getElementById('slider-opacity').value = 35;
+        document.getElementById('check-bevel').checked = true;
+      } else if (preset === 'neon') {
+        document.getElementById('slider-offset-y').value = 0;
+        document.getElementById('slider-blur').value = 35;
+        document.getElementById('slider-opacity').value = 50;
+        document.getElementById('check-bevel').checked = true;
+      }
+      updateShadowLive();
+    }
+
+    function copyGeneratedCSS() {
+      const css = document.getElementById('shadow-code-output').innerText;
+      copyToClipboardText(css, 'CSS de Sombra Copiado!', 'Cole no seu arquivo CSS ou bloco :root.');
+    }
+
+    function hexToRgb(hex) {
+      let clean = hex.replace('#', '');
+      if (clean.length === 3) clean = clean.split('').map(c => c + c).join('');
+      const num = parseInt(clean, 16);
+      return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
+    }
+
+    function getRelativeLuminance(r, g, b) {
+      const srgb = [r, g, b].map(val => {
+        const c = val / 255;
+        return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+      });
+      return 0.2126 * srgb[0] + 0.7152 * srgb[1] + 0.0722 * srgb[2];
+    }
+
+    function calculateContrastRatio(hex1, hex2) {
+      try {
+        const rgb1 = hexToRgb(hex1);
+        const rgb2 = hexToRgb(hex2);
+        const l1 = getRelativeLuminance(rgb1.r, rgb1.g, rgb1.b);
+        const l2 = getRelativeLuminance(rgb2.r, rgb2.g, rgb2.b);
+        return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+      } catch (e) {
+        return 1;
+      }
+    }
+
+    function updateContrastLive() {
+      const fgHex = document.getElementById('contrast-fg-hex').value.trim();
+      const bgHex = document.getElementById('contrast-bg-hex').value.trim();
+
+      if (!/^#[0-9A-Fa-f]{6}$/.test(fgHex) || !/^#[0-9A-Fa-f]{6}$/.test(bgHex)) return;
+
+      const ratio = calculateContrastRatio(fgHex, bgHex);
+      document.getElementById('contrast-ratio-display').innerText = ratio.toFixed(1) + ':1';
+
+      const statusPill = document.getElementById('contrast-score-level');
+      if (ratio >= 7.0) {
+        statusPill.className = "text-xs px-2.5 py-1 rounded-full font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/40";
+        statusPill.innerText = "Excelente (AAA)";
+      } else if (ratio >= 4.5) {
+        statusPill.className = "text-xs px-2.5 py-1 rounded-full font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40";
+        statusPill.innerText = "Bom (AA)";
+      } else {
+        statusPill.className = "text-xs px-2.5 py-1 rounded-full font-bold bg-rose-500/20 text-rose-400 border border-rose-500/40";
+        statusPill.innerText = "Reprovado";
+      }
+
+      const updateBadge = (id, passes) => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.className = passes ? "font-bold text-emerald-400 mt-0.5" : "font-bold text-rose-400 mt-0.5";
+          el.innerText = passes ? "✓ PASSOU" : "✗ FALHOU";
+        }
+      };
+      updateBadge('badge-aa-normal', ratio >= 4.5);
+      updateBadge('badge-aaa-normal', ratio >= 7.0);
+
+      const sandbox = document.getElementById('contrast-sandbox');
+      if (sandbox) {
+        sandbox.style.backgroundColor = bgHex;
+        sandbox.style.color = fgHex;
+      }
+      const sandboxBtn = document.getElementById('sandbox-btn');
+      if (sandboxBtn) {
+        sandboxBtn.style.backgroundColor = fgHex;
+        sandboxBtn.style.color = bgHex;
+      }
+    }
+
+    function syncColorFromPicker(type) {
+      const picker = document.getElementById('contrast-' + type + '-picker');
+      const hexInput = document.getElementById('contrast-' + type + '-hex');
+      hexInput.value = picker.value.toUpperCase();
+      updateContrastLive();
+    }
+
+    function syncColorFromInput(type) {
+      const hexInput = document.getElementById('contrast-' + type + '-hex');
+      const picker = document.getElementById('contrast-' + type + '-picker');
+      let val = hexInput.value.trim();
+      if (!val.startsWith('#')) val = '#' + val;
+      if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
+        picker.value = val;
+        updateContrastLive();
+      }
+    }
+
+    function swapContrastColors() {
+      const fg = document.getElementById('contrast-fg-hex').value;
+      const bg = document.getElementById('contrast-bg-hex').value;
+      document.getElementById('contrast-fg-picker').value = bg;
+      document.getElementById('contrast-fg-hex').value = bg;
+      document.getElementById('contrast-bg-picker').value = fg;
+      document.getElementById('contrast-bg-hex').value = fg;
+      updateContrastLive();
+      showToast('Cores Invertidas', 'O texto assumiu o fundo e vice-versa.');
+    }
+
+    function loadPaletteIntoEvaluator(fg, bg, name) {
+      document.getElementById('contrast-fg-picker').value = fg;
+      document.getElementById('contrast-fg-hex').value = fg;
+      document.getElementById('contrast-bg-picker').value = bg;
+      document.getElementById('contrast-bg-hex').value = bg;
+      updateContrastLive();
+      showToast('Paleta Carregada!', `Testando "${name}" no avaliador.`);
+      document.getElementById('contrast-sandbox').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    function buildPromptLive() {
+      const appType = document.getElementById('gen-app-type').value;
+      const stack = document.getElementById('gen-stack').value;
+      const style = document.getElementById('gen-style').value;
+      const noAlert = document.getElementById('check-no-alert').checked;
+      const noOverflow = document.getElementById('check-no-overflow').checked;
+      const touchTarget = document.getElementById('check-touch-target').checked;
+      const customReq = document.getElementById('gen-custom-req').value.trim();
+
+      let prompt = `# SYSTEM ROLE & CONTEXT
+Você é um Arquiteto Frontend Sênior e Especialista em Design Systems. Sua missão é projetar e implementar o código completo da interface para: **${appType}**.
+
+---
+
+## 1. ESPECIFICAÇÃO DE TECNOLOGIA & TOOLING
+- **Tech Stack:** ${stack}.
+- **Padrão Visual:** ${style}.
+- **Arquitetura de Navegação:** Mobile-First estrito com Bottom Navigation Bar fixa no mobile e Sidebar no Desktop.
+
+---
+
+## 2. DESIGN SYSTEM & REQUISITOS TÁTEIS
+- **Botões e Ações:** Botão Primário (CTA) com relevo tátil sutil (chanfro iluminado com inset shadow superior de 1px e sombra de oclusão curta), botão secundário em ardósia neutra e botões ghost para navegação.
+- **Micro-interações:** Todos os elementos interativos DEVEM possuir estados claros de :hover (translateY(-1px)) e :active (pressão mecânica com translateY(1px)).
+- **Hierarquia de Elevação:** Uso de camadas Z físicas (cards elevados do fundo com sombras suaves e micro-bordas translúcidas de 1px).
+
+---
+
+## 3. GUARDRAILS TÉCNICOS & ANTI-PADRÕES (RESTRIÇÕES OBRIGATÓRIAS)
+`;
+
+      if (noAlert) {
+        prompt += `- NUNCA use alert() ou confirm() nativos do navegador. Crie modais estilizados in-page ou toasts com animação suave.\n`;
+      }
+      if (noOverflow) {
+        prompt += `- PROIBIDO larguras fixas rígidas em pixels (ex: w-[1200px]) que provoquem rolagem horizontal quebrada no mobile. Utilize w-full, max-w-* e padding fluido.\n`;
+      }
+      if (touchTarget) {
+        prompt += `- No modo mobile, garanta alvos de toque mínimos de 48x48px (padrão WCAG 2.1 AA) para todos os ícones e botões.\n`;
+      }
+
+      if (customReq) {
+        prompt += `\n---
+
+## 4. REGRA DE NEGÓCIO OU MÓDULO ESPECÍFICO
+- ${customReq}\n`;
+      }
+
+      prompt += `\n---
+
+## 5. FORMATO DE ENTREGA
+Entregue o código completo, 100% funcional, limpo, semântico e autossuficiente em arquivo único, pronto para testar diretamente.`;
+
+      document.getElementById('prompt-output').value = prompt;
+    }
+
+    function copyGeneratedPrompt() {
+      const text = document.getElementById('prompt-output').value;
+      copyToClipboardText(text, 'Prompt Perfeito Copiado!', 'Cole no ChatGPT, Claude, Cursor IDE ou Gemini.');
+    }
+
+    function openExportModal() {
+      document.getElementById('export-modal').classList.remove('hidden');
+    }
+
+    function closeExportModal() {
+      document.getElementById('export-modal').classList.add('hidden');
+    }
+
+    function exportToPDF() {
+      closeExportModal();
+      document.getElementById('print-date').innerText = new Date().toLocaleDateString('pt-BR');
+      window.print();
+    }
+
+    function generateMarkdownContent() {
+      const appType = document.getElementById('gen-app-type')?.value || 'Dashboard Analítico';
+      const stack = document.getElementById('gen-stack')?.value || 'React + Vite + Tailwind';
+      const style = document.getElementById('gen-style')?.value || 'Dark Slate & Ciano';
+      const prompt = document.getElementById('prompt-output')?.value || '';
+      const shadowCss = document.getElementById('shadow-code-output')?.innerText || '';
+      const fg = document.getElementById('contrast-fg-hex')?.value || '#F8FAFC';
+      const bg = document.getElementById('contrast-bg-hex')?.value || '#0F172A';
+      const ratio = document.getElementById('contrast-ratio-display')?.innerText || '15.8:1';
+
+      return `# ESPECIFICAÇÃO DE DESIGN SYSTEM & FRONTEND MASTER
+**Gerado por:** FrontCraft Master v2.5
+**Data de Emissão:** ${new Date().toLocaleString('pt-BR')}
+
+---
+
+## 1. VISÃO GERAL DO PROJETO
+- **Aplicação Alvo:** ${appType}
+- **Stack Tecnológica:** ${stack}
+- **Padrão Estético:** ${style}
+- **Auditoria de Contraste WCAG 2.1:** ${ratio} (Texto: \`${fg}\` sobre Fundo: \`${bg}\`)
+
+---
+
+## 2. TOKENS DE DESIGN & VARIÁVEIS CSS
+\`\`\`css
+:root {
+  --bg-app: ${bg};
+  --text-main: ${fg};
+  --accent-primary: #0284C7;
+  --accent-cyan: #38BDF8;
+  --border-physical: 1px solid rgba(255, 255, 255, 0.12);
+  --elevation-card: ${shadowCss}
+}
+\`\`\`
+
+---
+
+## 3. PROMPT ESTRUTURADO PARA AGENTES E IAs
+\`\`\`markdown
+${prompt}
+\`\`\`
+
+---
+*Documento gerado automaticamente pelo FrontCraft Master.*`;
+    }
+
+    function downloadMarkdownFile() {
+      closeExportModal();
+      const content = generateMarkdownContent();
+      const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'especificacao-frontend-master.md';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      showToast('Arquivo .md Baixado!', 'Salvo com sucesso nos seus downloads.');
+    }
+
+    function copyMarkdownDirect() {
+      closeExportModal();
+      const content = generateMarkdownContent();
+      copyToClipboardText(content, 'Especificação Copiada!', 'Markdown completo pronto para colar.');
+    }
+
+    function copyToClipboardText(text, title, desc) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast(title, desc);
+      } catch (err) {
+        showToast('Selecione para copiar', 'Permissão restrita no navegador');
+      }
+      document.body.removeChild(textarea);
+    }
+
+    function showToast(title, desc) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-title').innerText = title;
+      document.getElementById('toast-desc').innerText = desc;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-24', 'opacity-0');
+      }, 3000);
+    }
+
+    window.onload = function() {
+      buildPromptLive();
+      updateShadowLive();
+      updateContrastLive();
+      switchTab('glossary');
+    };
+  </script>
+</body>
+</html>
