@@ -38,7 +38,9 @@ O design do Scoreboard App adota as diretrizes do **FrontCraft Master v2.0**, co
   - **Emergência / Alto Risco / Crítico:** `#EF4444` (Red 500)
   - **Contraste Rígido:** Verificação de luminosidade relativa $L = 0.2126R + 0.7152G + 0.0722B$ para legibilidade garantida sob iluminação hospitalar intensa.
 - **Teclado Adaptado com Validação Instantânea:** Campos numéricos com máscaras automáticas nas unidades padrão brasileiras (mg/dL, mmHg, mL/min), prevenindo valores aberrantes.
-- **Fluxo em 3 Toques:** Seleção da Especialidade $\rightarrow$ Escolha da Calculadora $\rightarrow$ Entrega da Conduta e Prescrição Completa.
+- **Modo Score Avulso Direto:** O médico pode selecionar diretamente qualquer escore individual (ex.: apenas HEART, apenas CURB-65 ou apenas Cockcroft-Gault) e preencher estritamente seus parâmetros, obtendo o resultado em poucos segundos sem etapas desnecessárias.
+- **Favoritos do Dia a Dia (Quick-Pins ⭐):** Sistema de fixação com estrela na tela principal para acesso imediato em 1 toque aos escores mais frequentes do plantão (ex.: SOFA na UTI, HEART na Sala Vermelha, KDIGO na enfermaria), mantidos localmente no navegador via IndexedDB/localStorage.
+- **Fluxo em 3 Toques:** Seleção da Especialidade/Favorito $\rightarrow$ Escolha da Calculadora $\rightarrow$ Entrega da Conduta e Prescrição Completa.
 
 ---
 

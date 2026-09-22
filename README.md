@@ -35,6 +35,8 @@ flowchart LR
 
 Interface ergonômica projetada especificamente para uso com uma só mão em ambientes móveis críticos:
 
+- **Modo Score Avulso & Isolado:** Liberdade total para selecionar qualquer calculadora isoladamente (ex.: preencher apenas o HEART Score ou apenas o Clearance de Cockcroft-Gault), sem obrigatoriedade de percorrer formulários longos ou baterias complexas.
+- **Favoritos do Dia a Dia (Quick-Pins ⭐):** O médico pode favoritar com uma estrela os escores mais frequentes do seu dia a dia (ex.: SOFA na UTI, HEART na emergência, CURB-65 na enfermaria), deixando-os fixados no topo da tela inicial para abertura em 1 toque. Salvos localmente no dispositivo (IndexedDB/localStorage).
 - **Operação One-Thumb:** Elementos de ação prioritária concentrados na metade inferior da tela, com Bottom Navigation de alvos táteis amplos ($\ge 48\times 48\text{px}$).
 - **Física Tátil Realista:** Superfícies com chanfro físico superior de 1px (`shadow-bevel`) e sombras volumétricas em multicamada combinando sombra de oclusão e dispersão difusa.
 - **Cores Semânticas de Alto Contraste Clínico (WCAG 2.1 AA/AAA):**
