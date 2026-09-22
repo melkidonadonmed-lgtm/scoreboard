@@ -13,16 +13,41 @@
 
 ---
 
-## 💡 Visão Geral e Proposta de Valor
+## 💡 Visão Geral e Proposta de Valor: Feito para Qualquer Médico
 
-Na rotina médica sob estresse agudo — Salas Vermelhas, Prontos-Socorros, Enfermarias e Unidades de Terapia Intensiva (UTI) —, calculadoras médicas tradicionais (como MDCalc e QxMD) comportam-se como ferramentas unidimensionais e fragmentadas: recebem parâmetros do paciente e retornam apenas um valor numérico ou uma classificação abstrata ("Risco Moderado"), abandonando o profissional no momento mais crítico: **a tomada de decisão terapêutica imediata**.
+### 🩺 Democratização da Decisão Clínica: Da Atenção Básica e UPA à Terapia Intensiva
 
-O **Scoreboard App** foi concebido por e para médicos intensivistas e emergencistas para superar essa barreira. Qualquer escore calculado é traduzido em tempo real em **quatro dimensões clínicas simultâneas**:
+O **Scoreboard App** **não foi feito apenas para médicos intensivistas**. Ele foi desenhado para facilitar e transformar a prática diária de **qualquer médico**, em qualquer nível de atenção:
+
+- **Médicos Generalistas e Recém-formados em UPAs e Prontos-Atendimentos:** Segurança diagnóstica imediata para saber se o paciente pode ter alta assistida com receita na mão ou se necessita de internação/vaga de emergência (ex.: HEART Score, CURB-65, Wells, Alvarado).
+- **Médicos Residentes e Hospitalistas em Enfermarias Clínicas e Cirúrgicas:** Acompanhamento rápido da evolução diária, estratificação de gravidade (SOFA, Ranson, Child-Pugh), ajuste posológico de antimicrobianos pelo clearance renal (CKD-EPI / Cockcroft-Gault) e prevenção de deterioração clínica.
+- **Médicos Ambulatoriais e de Medicina de Família:** Decisões terapêuticas rápidas sem perda de tempo com busca manual — ex.: decidir anticoagulação plena na Fibrilação Atrial balanceando risco isquêmico e hemorrágico (`CHA2DS2-VASc` vs. `HAS-BLED`), estadiamento do DPOC (`GOLD ABE 2024/2025`) ou estratificação de Insuficiência Cardíaca (`MAGGIC`).
+- **Cirurgiões e Anestesiologistas:** Avaliação ágil de risco cardiovascular pré-operatório (`RCRI de Lee`, `Goldman`, `ASA`) e profilaxia individualizada mecânica e química de TEV (`Caprini`).
+- **Emergencistas e Intensivistas:** Condução avançada de choque séptico, falência orgânica seriada, ressuscitação volêmica guiada em queimados e titulação fina de drogas vasoativas em Bomba de Infusão Contínua (BIC).
+
+---
+
+### 🚫 O Fim do "Garimpo de Tabelas": Hub Prático de Condutas em Tempo Real
+
+Na rotina médica sob estresse e sobrecarga de atendimentos, calculadoras médicas tradicionais (como MDCalc e QxMD) funcionam de forma isolada e incompleta: recebem números e retornam apenas uma pontuação abstrata ("Pontuação: 4 - Risco Intermediário"), **abandonando o médico justamente no momento mais decisivo da conduta**.
+
+Para fechar o atendimento, o profissional é obrigado a:
+1. Interromper o raciocínio clínico para garimpar diretrizes em PDFs no celular;
+2. Pesquisar tabela por tabela na internet para encontrar doses pediátricas/adulto;
+3. Buscar em outra fonte a diluição correta, a via de infusão e os ajustes por função renal.
+
+O **Scoreboard App elimina esse retrabalho**. Em vez de garimpar tabelas dispersas, o médico dispõe de uma **fonte prática, centralizada e rigorosamente atualizada de condutas gerais baseadas em scores e calculadoras**:
+
+```
+[Variáveis do Paciente] ➔ [Cálculo Instantâneo] ➔ [Conduta Terapêutica Completa na Mesma Tela]
+```
+
+Toda pontuação calculada traduz-se automaticamente em **quatro dimensões clínicas simultâneas**:
 
 1. **Estratificação Estatística Validada:** Desfechos empíricos concretos baseados na literatura (ex.: mortalidade intra-hospitalar em 28 dias, risco de MACE em 6 semanas, probabilidade pré-teste de TEP/TVP).
-2. **Dashboard de Desvio Fisiológico (Normal vs. Paciente):** Gráfico Radar multidimensional em SVG puro a 60fps, contrastando a homeostase basal de um adulto saudável (polígono verde central) com a distorção patológica dos eixos do paciente.
-3. **Conduta Terapêutica Estruturada:** Fármacos de primeira linha com doses de ataque e manutenção, diluições padronizadas pela farmácia hospitalar, matriz de titulação de drogas vasoativas em Bomba de Infusão Contínua (BIC) e ajustes obrigatórios por peso e função renal (ClCr).
-4. **Exportação Instantânea para PEP (1 Toque):** Minuta clínica pré-formatada em modelo SOAP/SBAR pronta para cópia e colagem nos principais Prontuários Eletrônicos do Paciente do mercado brasileiro (**Philips Tasy, MV Soul, Epimed, Pixeon**).
+2. **Dashboard de Desvio Fisiológico (Normal vs. Paciente):** Gráfico Radar multidimensional em SVG puro a 60fps, contrastando a homeostase basal de um indivíduo saudável (polígono verde central) com a distorção patológica dos eixos do paciente.
+3. **Conduta Terapêutica Estruturada (Sem Garimpar Tabelas):** Fármacos de primeira linha com doses de ataque e manutenção, diluições hospitalares padronizadas, matriz de titulação de drogas vasoativas em Bomba de Infusão Contínua (BIC) e ajustes mandatários por peso e função renal (ClCr).
+4. **Exportação Instantânea para PEP (1 Toque):** Minuta clínica estruturada no modelo SOAP/SBAR pronta para cópia e colagem nos principais Prontuários Eletrônicos do Paciente (**Philips Tasy, MV Soul, Epimed, Pixeon**).
 
 ---
 
@@ -80,11 +105,11 @@ flowchart LR
         P --> V --> M
     end
 
-    subgraph OUTPUTS["3. As 4 Dimensões Simultâneas"]
+    subgraph OUTPUTS["3. As 4 Dimensões Simultâneas (Zero Garimpo de Tabelas)"]
         direction TB
         O1["1. Estratificação Estatística<br/>(Mortalidade, MACE, Desfecho Validado)"]
         O2["2. Dashboard de Desvio Fisiológico<br/>(Radar SVG 60fps: Normal vs. Paciente)"]
-        O3["3. Prescrição Hospitalar & BIC<br/>(Diluições Padrão AMIB, Vazão mL/h)"]
+        O3["3. Prescrição Hospitalar & BIC<br/>(Diluições Padrão AMIB, Doses de Ataque/Manutenção, mL/h)"]
         O4["4. Exportação em 1 Toque para PEP<br/>(Minuta SOAP/SBAR para Tasy, MV Soul)"]
     end
 
@@ -94,12 +119,12 @@ flowchart LR
     M --> O4
 ```
 
-### Diagrama 3: Jornada Operacional do Médico no Plantão (Mobile One-Thumb)
+### Diagrama 3: Jornada de Qualquer Médico no Atendimento (Mobile One-Thumb)
 ```mermaid
 flowchart TD
-    Start(["Início do Atendimento"]) --> A1{"Ponto de Entrada"}
-    A1 -->|"Plantão Habitual"| A2["Quick-Pins ⭐ Fixados<br/>(Ex.: HEART, SOFA, CURB-65)"]
-    A1 -->|"Consulta Específica"| A3["Taxonomia Clínica<br/>(9 Blocos / 20 Módulos)"]
+    Start(["Médico no Atendimento: UPA, PS, Enfermaria, Ambulatório ou UTI"]) --> A1{"Ponto de Entrada"}
+    A1 -->|"Favoritos do Dia a Dia"| A2["Quick-Pins ⭐ Fixados<br/>(Ex.: HEART, CURB-65, CHA2DS2-VASc, SOFA)"]
+    A1 -->|"Consulta Específica"| A3["Taxonomia Clínica Unificada<br/>(9 Blocos / 20 Módulos sem caçar tabelas)"]
     A1 -->|"Busca Dinâmica"| A4["Search Omnibox<br/>(Localização Instantânea < 100ms)"]
 
     A2 --> B["Preenchimento Ágil One-Thumb<br/>(Alvos Táteis ≥ 48px, Teclado Numérico Otimizado)"]
@@ -108,10 +133,11 @@ flowchart TD
 
     B --> C["Resultado Imediato Multidimensional<br/>(Estratificação + Radar SVG + Barra de Severidade)"]
 
-    C --> D{"Conduta Médica"}
-    D -->|"Drogas Vasoativas"| E1["Calculadora de BIC Integrada<br/>(Dose μg/kg/min ➔ Vazão mL/h com Alertas)"]
-    D -->|"Registro em Prontuário"| E2["Botão 'Copiar para PEP'<br/>(Formatação SOAP/SBAR copiada para clipboard)"]
-    D -->|"Monitoramento Serial"| E3["Salvar no Leito Local<br/>('Leito 04 - UTI' no IndexedDB sem nuvem)"]
+    C --> D{"Tomada de Conduta Imediata"}
+    D -->|"Prescrição Estruturada"| E1["Conduta Geral & Farmacológica<br/>(Fármacos de escolha, doses de ataque/manutenção e ajustes)"]
+    D -->|"Drogas Vasoativas / BIC"| E2["Calculadora de BIC Integrada<br/>(Dose μg/kg/min ➔ Vazão mL/h com Alertas)"]
+    D -->|"Registro em Prontuário"| E3["Botão 'Copiar para PEP'<br/>(Formatação SOAP/SBAR copiada para clipboard em 1 toque)"]
+    D -->|"Acompanhamento Serial"| E4["Salvar no Leito Local<br/>('Leito 04' no IndexedDB sem expor dados)"]
 ```
 
 ---
@@ -135,10 +161,10 @@ flowchart TD
 
 ## 🎨 Design System: FrontCraft Master v2.0
 
-Projetado especificamente para as condições de estresse físico e visual das emergências e plantões noturnos:
+Projetado especificamente para as condições reais de sobrecarga física e visual dos atendimentos — em UPAs, enfermarias, ambulatórios, centros cirúrgicos e plantões de UTI:
 
 - **Modo Score Avulso & Isolado:** Acesso direto a qualquer calculadora sem a obrigação de preencher formulários longos ou baterias complexas.
-- **Favoritos do Dia a Dia (Quick-Pins ⭐):** Fixação dos escores mais comuns de cada plantão no topo da tela inicial para abertura em 1 toque, salvos localmente via IndexedDB.
+- **Favoritos do Dia a Dia (Quick-Pins ⭐):** Fixação dos escores mais frequentes da rotina de cada profissional no topo da tela inicial para abertura em 1 toque (ex.: `HEART` no pronto-atendimento, `CHA2DS2-VASc` no ambulatório, `CURB-65` na enfermaria, `Caprini` no pré-op, `SOFA` na UTI), salvos localmente via IndexedDB.
 - **Ergonomia One-Thumb:** Elementos de ação concentrados na metade inferior da tela do smartphone, com alvos de toque amplos ($\ge 48\times 48\text{px}$).
 - **Física Tátil Realista:** Superfícies com chanfro físico superior de 1px (`shadow-bevel`) e sombras volumétricas em multicamada.
 - **Cores Semânticas de Alto Contraste Clínico (Conformidade WCAG 2.1 AA/AAA):**
