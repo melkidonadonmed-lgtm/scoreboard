@@ -6,23 +6,18 @@
 
 ## 1. Visão Geral do Produto e Proposta de Valor
 
-### 1.1 Declaração do Problema
-A prática médica contemporânea em setores críticos (Unidades de Pronto Atendimento, Salas Vermelhas, Enfermarias e Unidades de Terapia Intensiva) exige decisões rápidas fundamentadas em estratificações de risco estatísticas. No entanto, as calculadoras clínicas comerciais vigentes (como MDCalc e QxMD) funcionam como sistemas estáticos e "cegos": recebem variáveis laboratoriais e clínicas e devolvem um número isolado ou uma categoria vaga, abandonando o médico no momento mais crítico da assistência. 
+### 1.1 Declaração do Problema: O Fim do "Garimpo de Tabelas"
+A prática médica contemporânea em qualquer nível de assistência — Unidades de Pronto Atendimento (UPAs), Prontos-Socorros, Enfermarias Clínicas e Cirúrgicas, Ambulatórios e Unidades de Terapia Intensiva (UTI) — exige decisões rápidas fundamentadas em estratificações de risco estatísticas. No entanto, as calculadoras clínicas comerciais vigentes (como MDCalc e QxMD) funcionam como sistemas estáticos e "cegos": recebem variáveis laboratoriais e clínicas e devolvem apenas um número isolado ou uma categoria vaga ("Pontuação: 4 - Risco Intermediário"), abandonando o profissional no momento mais crítico da assistência. 
 
-O médico assistente necessita consultar múltiplos manuais, PDFs e bulários para encontrar:
-1. O fármaco de escolha na dose de ataque e manutenção;
-2. As diluições hospitalares padronizadas para bomba de infusão contínua (BIC);
-3. As correções obrigatórias por função renal (Clearance de Creatinina) e peso;
-4. As contraindicações absolutas e metas da janela de ouro;
-5. A redação padronizada para colar no prontuário eletrônico (PEP).
+Para fechar a conduta, o médico é forçado a garimpar diretrizes em múltiplos PDFs no celular, pesquisar tabela por tabela na internet para encontrar doses e diluições corretas e calcular manualmente vazões de infusão e ajustes por função renal, gerando atrasos e sobrecarga cognitiva desnecessária.
 
-### 1.2 A Solução: Scoreboard App
-O **Scoreboard App** é um Sistema Móvel de Suporte à Decisão Clínica (*Mobile-First CDSS*) de alta velocidade e operação offline-first que converte automaticamente qualquer pontuação clínica em quatro pilares imediatos:
+### 1.2 A Solução: Scoreboard App (Feito para Qualquer Médico)
+O **Scoreboard App** é um Sistema Móvel de Suporte à Decisão Clínica (*Mobile-First CDSS*) de alta velocidade e operação offline-first projetado para democratizar a segurança clínica e facilitar o dia a dia de **qualquer médico**. Toda pontuação calculada converte-se automaticamente em quatro pilares imediatos na mesma tela, eliminando o garimpo de tabelas:
 
-1. **Estratificação de Risco e Desfecho Estatístico Concreto:** Probabilidade empírica validada na literatura primária (ex.: mortalidade intra-hospitalar, risco de MACE em 6 semanas, probabilidade de TEP).
-2. **Conduta Farmacológica Acionável:** Fármacos com posologia estrita, vias de administração, diluições padronizadas, titulação de drogas vasoativas e alertas de ajuste renal.
-3. **Conduta Não Farmacológica e Intervencionista:** Destino assistencial (alta orientada, observação clínica, enfermaria com telemetria ou vaga imediata em UTI), suporte ventilatório protetor, linha arterial, monitorização seriada e tempo porta-procedimento.
-4. **Dashboard de Desvio Fisiológico:** Visualização gráfica espacial em tempo real comparando a homeostase de um indivíduo sadio de referência com o desvio orgânico multieixo do paciente.
+1. **Estratificação de Risco e Desfecho Estatístico Concreto:** Probabilidade empírica validada na literatura primária (ex.: mortalidade intra-hospitalar em 28 dias, risco de MACE em 6 semanas, probabilidade de TEP).
+2. **Conduta Farmacológica Acionável na Mesma Tela:** Fármacos de primeira linha com doses de ataque e manutenção, diluições hospitalares padronizadas, vazão em BIC (mL/h) e alertas obrigatórios de ajuste renal/peso.
+3. **Conduta Não Farmacológica e Destino Assistencial:** Orientação imediata de alta assistida, observação clínica, enfermaria com telemetria ou vaga em UTI, suporte ventilatório protetor e tempo porta-procedimento.
+4. **Dashboard de Desvio Fisiológico (Radar SVG 60fps):** Visualização gráfica espacial em tempo real comparando a homeostase de um indivíduo sadio de referência (verde central) com a distorção multieixo do paciente.
 
 ---
 
