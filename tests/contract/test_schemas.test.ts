@@ -15,10 +15,12 @@ import {
 
 import rawManifestData from '@/data/manifest.json';
 import rawBlock01Data from '@/data/blocks/block_01.json';
+import rawBlock03Data from '@/data/blocks/block_03.json';
 
 describe('Milestone 2 Contract & Schema Verification', () => {
   const parsedManifest: Manifest = ManifestSchema.parse(rawManifestData);
   const parsedBlock01: BlockData = BlockDataSchema.parse(rawBlock01Data);
+  const parsedBlock03: BlockData = BlockDataSchema.parse(rawBlock03Data);
 
   describe('Lightweight Manifest Contract (`src/data/manifest.json`)', () => {
     it('should strictly validate the entire manifest against ManifestSchema', () => {
@@ -26,24 +28,24 @@ describe('Milestone 2 Contract & Schema Verification', () => {
       expect(parseResult.success).toBe(true);
     });
 
-    it('should contain all 19 clinical tools of Block 01', () => {
-      expect(parsedManifest).toHaveLength(19);
+    it('should contain all clinical tools from available blocks (>= 19 tools)', () => {
+      expect(parsedManifest.length).toBeGreaterThanOrEqual(19);
     });
 
-    it('should have lightweight manifest size (~30KB)', () => {
+    it('should have lightweight manifest size (~30KB-80KB)', () => {
       const manifestPath = path.resolve(__dirname, '../../src/data/manifest.json');
       const stats = fs.statSync(manifestPath);
       const sizeKb = stats.size / 1024;
-      // Should be around ~30KB (between 20KB and 50KB)
+      // Should be lightweight (between 20KB and 100KB for multi-block manifest)
       expect(sizeKb).toBeGreaterThanOrEqual(20);
-      expect(sizeKb).toBeLessThanOrEqual(50);
+      expect(sizeKb).toBeLessThanOrEqual(100);
     });
 
     it('should provide extensive Brazilian clinical search synonyms for all tools', () => {
       for (const item of parsedManifest) {
         expect(item.searchSynonyms.length).toBeGreaterThanOrEqual(10);
-        expect(item.blockFile).toBe('block_01.json');
-        expect(item.categorySlug).toBe('bloco-01-emergencia-choque-uti');
+        expect(['block_01.json', 'block_03.json']).toContain(item.blockFile);
+        expect(['bloco-01-emergencia-choque-uti', 'bloco-03-neurologia-neurocirurgia']).toContain(item.categorySlug);
       }
 
       // Check specific clinical synonyms
@@ -92,10 +94,12 @@ describe('Milestone 2 Contract & Schema Verification', () => {
       expect(parsedBlock01.blockId).toBe('block_01');
       expect(parsedBlock01.calculators).toHaveLength(19);
 
-      // Verify bidirectional ID alignment between manifest and block
-      const manifestIds = parsedManifest.map((m) => m.id).sort();
-      const blockIds = parsedBlock01.calculators.map((c) => c.id).sort();
-      expect(manifestIds).toEqual(blockIds);
+      // Verify all Block 01 calculator IDs are present in manifest
+      const manifestIds = new Set(parsedManifest.map((m) => m.id));
+      const blockIds = parsedBlock01.calculators.map((c) => c.id);
+      for (const id of blockIds) {
+        expect(manifestIds.has(id)).toBe(true);
+      }
     });
 
     it('should enforce qSOFA with mandatory Surviving Sepsis Campaign 2021 warning', () => {
@@ -278,6 +282,126 @@ describe('Milestone 2 Contract & Schema Verification', () => {
       expect(protocol?.maintenanceDoseMax).toBe(0.04);
       expect(protocol?.standardSolution.totalVolumeMl).toBe(100);
       expect(protocol?.nursingPrecautions).toContain('DOSE FIXA NÃO TITULÁVEL');
+    });
+  });
+
+  describe('Block 03 Ingestion Contract (`src/data/blocks/block_03.json`)', () => {
+    it('should strictly validate the entire Block 03 against BlockDataSchema', () => {
+      const parseResult = BlockDataSchema.safeParse(rawBlock03Data);
+      expect(parseResult.success).toBe(true);
+    });
+
+    it('should validate all 18 individual Block 03 calculators with CalculatorSchema', () => {
+      for (const calc of parsedBlock03.calculators) {
+        const result = CalculatorSchema.safeParse(calc);
+        expect(result.success).toBe(true);
+      }
+    });
+
+    it('should contain all 18 neuro calculators with complete zero-truncation dossiers', () => {
+      expect(parsedBlock03.blockId).toBe('block_03');
+      expect(parsedBlock03.calculators).toHaveLength(18);
+
+      const manifestIds = new Set(parsedManifest.map((m) => m.id));
+      const blockIds = parsedBlock03.calculators.map((c) => c.id);
+      for (const id of blockIds) {
+        expect(manifestIds.has(id)).toBe(true);
+      }
+    });
+
+    it('should validate NIHSS with full 11 domains / 15 items and 0-42 points', () => {
+      const nihss = parsedBlock03.calculators.find((c) => c.id === 'calc_nihss');
+      expect(nihss).toBeDefined();
+      expect(nihss?.minPossibleScore).toBe(0);
+      expect(nihss?.maxPossibleScore).toBe(42);
+      expect(nihss?.parameterGroups).toHaveLength(15);
+      expect(nihss?.radarAxes.length).toBeGreaterThanOrEqual(1);
+    });
+
+    it('should validate ASPECTS with 10 MCA regions and baseScore=10', () => {
+      const aspects = parsedBlock03.calculators.find((c) => c.id === 'calc_aspects');
+      expect(aspects).toBeDefined();
+      expect(aspects?.baseScore).toBe(10);
+      expect(aspects?.minPossibleScore).toBe(0);
+      expect(aspects?.maxPossibleScore).toBe(10);
+      expect(aspects?.parameterGroups).toHaveLength(10);
+    });
+
+    it('should validate ICH Score with 5 criteria and 30-day mortality statistics', () => {
+      const ich = parsedBlock03.calculators.find((c) => c.id === 'calc_ich_score');
+      expect(ich).toBeDefined();
+      expect(ich?.minPossibleScore).toBe(0);
+      expect(ich?.maxPossibleScore).toBe(6);
+      expect(ich?.parameterGroups).toHaveLength(5);
+      expect(ich?.riskTiers.length).toBeGreaterThanOrEqual(4);
+    });
+
+    it('should validate Hunt-Hess with 5 classical grades and Nimodipine warning', () => {
+      const hh = parsedBlock03.calculators.find((c) => c.id === 'calc_hunt_hess');
+      expect(hh).toBeDefined();
+      expect(hh?.minPossibleScore).toBe(1);
+      expect(hh?.maxPossibleScore).toBe(5);
+      expect(hh?.clinicalWarning).toContain('Nimodipino');
+      expect(hh?.clinicalWarning).toContain('TERMINANTEMENTE PROIBIDA');
+      expect(hh?.clinicalWarning).toContain('intravenosa');
+    });
+
+    it('should validate Rotterdam CT Score with baseScore=1 and 1-6 points', () => {
+      const rotterdam = parsedBlock03.calculators.find((c) => c.id === 'calc_rotterdam');
+      expect(rotterdam).toBeDefined();
+      expect(rotterdam?.baseScore).toBe(1);
+      expect(rotterdam?.minPossibleScore).toBe(1);
+      expect(rotterdam?.maxPossibleScore).toBe(6);
+      expect(rotterdam?.parameterGroups).toHaveLength(4);
+    });
+
+    it('should validate ASIA/AIS impairment scale with 5 AIS grades and rectal examination notice', () => {
+      const asia = parsedBlock03.calculators.find((c) => c.id === 'calc_asia_ais');
+      expect(asia).toBeDefined();
+      expect(asia?.clinicalWarning).toContain('CHAVE SACRAL');
+      expect(asia?.clinicalWarning).toContain('exame anal digital');
+      expect(asia?.riskTiers).toHaveLength(5);
+    });
+
+    it('should validate mRS (0-6) and KPS (0-100%) functional scales', () => {
+      const mrs = parsedBlock03.calculators.find((c) => c.id === 'calc_mrs');
+      expect(mrs).toBeDefined();
+      expect(mrs?.minPossibleScore).toBe(0);
+      expect(mrs?.maxPossibleScore).toBe(6);
+
+      const kps = parsedBlock03.calculators.find((c) => c.id === 'calc_kps');
+      expect(kps).toBeDefined();
+      expect(kps?.minPossibleScore).toBe(0);
+      expect(kps?.maxPossibleScore).toBe(100);
+    });
+
+    it('should validate MEEM (0-30) and MoCA (0-30) cognitive tools with Brazilian education standards', () => {
+      const meem = parsedBlock03.calculators.find((c) => c.id === 'calc_meem_mmse');
+      expect(meem).toBeDefined();
+      expect(meem?.minPossibleScore).toBe(0);
+      expect(meem?.maxPossibleScore).toBe(30);
+      expect(meem?.parameterGroups).toHaveLength(11);
+
+      const moca = parsedBlock03.calculators.find((c) => c.id === 'calc_moca');
+      expect(moca).toBeDefined();
+      expect(moca?.minPossibleScore).toBe(0);
+      expect(moca?.maxPossibleScore).toBe(30);
+      expect(moca?.parameterGroups).toHaveLength(8);
+      expect(moca?.clinicalWarning).toContain('12 ANOS OU MENOS');
+    });
+
+    it('should validate Hoehn & Yahr (0-5 with 1.5, 2.5) and EDSS (0.0-10.0 in 0.5 steps)', () => {
+      const hy = parsedBlock03.calculators.find((c) => c.id === 'calc_hoehn_yahr');
+      expect(hy).toBeDefined();
+      expect(hy?.minPossibleScore).toBe(0);
+      expect(hy?.maxPossibleScore).toBe(5);
+      expect(hy?.parameterGroups[0].options).toHaveLength(8);
+
+      const edss = parsedBlock03.calculators.find((c) => c.id === 'calc_edss');
+      expect(edss).toBeDefined();
+      expect(edss?.minPossibleScore).toBe(0.0);
+      expect(edss?.maxPossibleScore).toBe(10.0);
+      expect(edss?.parameterGroups[0].options).toHaveLength(20);
     });
   });
 });

@@ -21,21 +21,23 @@ export function calculateScore(
   calculator: Calculator,
   inputs: Record<string, any>
 ): CalculationResult {
-  let rawScore = 0;
+  const calc = ((calculator as any)?.calculator ?? calculator) as Calculator;
+  const rawBaseScore = (calculator as any)?.calculator?.baseScore ?? calc.baseScore ?? 0;
+  let rawScore = typeof rawBaseScore === 'number' ? rawBaseScore : (Number(rawBaseScore) || 0);
   const radarValues: Record<string, number> = {};
 
   // Initialize all defined radar axes with 0 (normal baseline)
-  for (const axis of calculator.radarAxes) {
+  for (const axis of calc.radarAxes) {
     radarValues[axis.id] = 0;
   }
 
   // Branching decision specific to Glasgow-P: GCS (3-15) - Pupil Score (0-2)
-  if (calculator.id === 'calc_glasgow_p' || calculator.slug === 'glasgow-p') {
-    return calculateGlasgowPFromCalculator(calculator, inputs);
+  if (calc.id === 'calc_glasgow_p' || calc.slug === 'glasgow-p') {
+    return calculateGlasgowPFromCalculator(calc, inputs);
   }
 
   // Process parameter groups
-  for (const group of calculator.parameterGroups) {
+  for (const group of calc.parameterGroups) {
     const selectedOption = resolveSelectedOption(group, inputs);
 
     if (selectedOption) {
@@ -64,23 +66,23 @@ export function calculateScore(
   }
 
   // Clamping score if boundaries are defined
-  if (calculator.minPossibleScore !== undefined && rawScore < calculator.minPossibleScore) {
-    rawScore = calculator.minPossibleScore;
+  if (calc.minPossibleScore !== undefined && rawScore < calc.minPossibleScore) {
+    rawScore = calc.minPossibleScore;
   }
-  if (calculator.maxPossibleScore !== undefined && rawScore > calculator.maxPossibleScore) {
-    rawScore = calculator.maxPossibleScore;
+  if (calc.maxPossibleScore !== undefined && rawScore > calc.maxPossibleScore) {
+    rawScore = calc.maxPossibleScore;
   }
 
-  const activeRiskTier = matchRiskTier(calculator.riskTiers, rawScore);
+  const activeRiskTier = matchRiskTier(calc.riskTiers, rawScore);
   const warnings: string[] = [];
 
   let sscWarning: string | undefined;
-  if (calculator.ssc2021Warning || calculator.id === 'calc_qsofa' || calculator.slug === 'qsofa') {
+  if (calc.ssc2021Warning || calc.id === 'calc_qsofa' || calc.slug === 'qsofa') {
     sscWarning = SSC_2021_QSOFA_WARNING;
     warnings.push(SSC_2021_QSOFA_WARNING);
   }
 
-  const clinicalWarning = calculator.clinicalWarning;
+  const clinicalWarning = calc.clinicalWarning;
   if (clinicalWarning && !warnings.includes(clinicalWarning)) {
     warnings.push(clinicalWarning);
   }

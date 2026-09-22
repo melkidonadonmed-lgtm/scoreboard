@@ -300,7 +300,9 @@
             "weaningCriteria": "Iniciar desmame somente após estabilização hemodinâmica persistente por >= 6-12h com lactato em queda e débito urinário > 0,5 mL/kg/h."
           }
         }
-      ]
+      ],
+      "blockId": "block_01",
+      "blockFile": "block_01.json"
     },
     {
       "id": "calc_sofa",
@@ -995,7 +997,9 @@
             "weaningCriteria": "Iniciar desmame somente após estabilização hemodinâmica persistente por >= 6-12h com lactato em queda e débito urinário > 0,5 mL/kg/h."
           }
         }
-      ]
+      ],
+      "blockId": "block_01",
+      "blockFile": "block_01.json"
     },
     {
       "id": "calc_apache_ii",
@@ -1397,7 +1401,9 @@
             }
           ]
         }
-      ]
+      ],
+      "blockId": "block_01",
+      "blockFile": "block_01.json"
     },
     {
       "id": "calc_saps_3",
@@ -1685,7 +1691,9 @@
             }
           ]
         }
-      ]
+      ],
+      "blockId": "block_01",
+      "blockFile": "block_01.json"
     },
     {
       "id": "calc_wells_tep",
@@ -2021,7 +2029,9 @@
             }
           ]
         }
-      ]
+      ],
+      "blockId": "block_01",
+      "blockFile": "block_01.json"
     },
     {
       "id": "calc_wells_tvp",
@@ -2381,7 +2391,9 @@
             }
           ]
         }
-      ]
+      ],
+      "blockId": "block_01",
+      "blockFile": "block_01.json"
     },
     {
       "id": "calc_geneva",
@@ -2617,7 +2629,9 @@
             }
           ]
         }
-      ]
+      ],
+      "blockId": "block_01",
+      "blockFile": "block_01.json"
     },
     {
       "id": "calc_perc",
@@ -2911,7 +2925,9 @@
             }
           ]
         }
-      ]
+      ],
+      "blockId": "block_01",
+      "blockFile": "block_01.json"
     },
     {
       "id": "calc_pesi",
@@ -3138,7 +3154,9 @@
             }
           ]
         }
-      ]
+      ],
+      "blockId": "block_01",
+      "blockFile": "block_01.json"
     },
     {
       "id": "calc_spesi",
@@ -3385,7 +3403,9 @@
             }
           ]
         }
-      ]
+      ],
+      "blockId": "block_01",
+      "blockFile": "block_01.json"
     },
     {
       "id": "calc_glasgow_p",
@@ -3729,7 +3749,9 @@
             }
           ]
         }
-      ]
+      ],
+      "blockId": "block_01",
+      "blockFile": "block_01.json"
     },
     {
       "id": "calc_four",
@@ -4048,7 +4070,9 @@
             }
           ]
         }
-      ]
+      ],
+      "blockId": "block_01",
+      "blockFile": "block_01.json"
     },
     {
       "id": "calc_rass",
@@ -4237,7 +4261,9 @@
             }
           ]
         }
-      ]
+      ],
+      "blockId": "block_01",
+      "blockFile": "block_01.json"
     },
     {
       "id": "calc_sas",
@@ -4393,7 +4419,9 @@
             }
           ]
         }
-      ]
+      ],
+      "blockId": "block_01",
+      "blockFile": "block_01.json"
     },
     {
       "id": "calc_cam_icu",
@@ -4588,7 +4616,9 @@
             }
           ]
         }
-      ]
+      ],
+      "blockId": "block_01",
+      "blockFile": "block_01.json"
     },
     {
       "id": "calc_ranson",
@@ -5022,7 +5052,9 @@
             }
           ]
         }
-      ]
+      ],
+      "blockId": "block_01",
+      "blockFile": "block_01.json"
     },
     {
       "id": "calc_bisap",
@@ -5282,7 +5314,9 @@
             }
           ]
         }
-      ]
+      ],
+      "blockId": "block_01",
+      "blockFile": "block_01.json"
     },
     {
       "id": "calc_balthazar_ctsi",
@@ -5466,7 +5500,9 @@
             }
           ]
         }
-      ]
+      ],
+      "blockId": "block_01",
+      "blockFile": "block_01.json"
     },
     {
       "id": "calc_marshall_mod",
@@ -5706,7 +5742,9 @@
             }
           ]
         }
-      ]
+      ],
+      "blockId": "block_01",
+      "blockFile": "block_01.json"
     }
   ]
 }

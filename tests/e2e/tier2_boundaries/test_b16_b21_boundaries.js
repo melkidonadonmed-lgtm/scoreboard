@@ -4,6 +4,8 @@
  */
 
 import { describe, it, expect, adapter, envShim } from '../harness/index.js';
+import http from 'node:http';
+import https from 'node:https';
 
 describe('Tier 2 — Feature 16 Boundaries: SVG Radar Extreme Geometries', () => {
   it('B16-1: NaN physiological axis values fall back safely to 0 without breaking SVG path', () => {
@@ -272,8 +274,105 @@ describe('Tier 2 — Feature 21 Boundaries: Adversarial & Security Hardening', (
     expect(catalog2.length).toBe(7);
   });
 
-  it('B21-5: Zero external network requests made during storage or calculation', () => {
+  it('B21-5: Zero external network requests made during storage or calculation', async () => {
     // Verified: all calculations and IndexedDB calls occur entirely in memory/local IndexedDB
-    expect(true).toBe(true);
+    const interceptedCalls = [];
+    const origFetch = globalThis.fetch;
+    const origHttpRequest = http.request;
+    const origHttpGet = http.get;
+    const origHttpsRequest = https.request;
+    const origHttpsGet = https.get;
+
+    // Spy and intercept all global and Node HTTP/HTTPS network entrypoints
+    globalThis.fetch = async (...args) => {
+      interceptedCalls.push({ method: 'fetch', url: String(args[0]) });
+      throw new Error('Network disabled: offline-only clinical CDSS');
+    };
+    http.request = (...args) => {
+      interceptedCalls.push({ method: 'http.request', target: String(args[0]) });
+      throw new Error('Network disabled: offline-only clinical CDSS');
+    };
+    http.get = (...args) => {
+      interceptedCalls.push({ method: 'http.get', target: String(args[0]) });
+      throw new Error('Network disabled: offline-only clinical CDSS');
+    };
+    https.request = (...args) => {
+      interceptedCalls.push({ method: 'https.request', target: String(args[0]) });
+      throw new Error('Network disabled: offline-only clinical CDSS');
+    };
+    https.get = (...args) => {
+      interceptedCalls.push({ method: 'https.get', target: String(args[0]) });
+      throw new Error('Network disabled: offline-only clinical CDSS');
+    };
+
+    try {
+      // 1. Execute multiple clinical calculation runs (qSOFA, SOFA, Wells PE)
+      const qsofaResult = adapter.calculateScore('qsofa', {
+        rr_22: true,
+        sbp_100: true,
+        ams_gcs: true
+      });
+      expect(qsofaResult.score).toBe(3);
+
+      const sofaResult = adapter.calculateScore('sofa', {
+        respiration: 3,
+        coagulation: 2,
+        liver: 1,
+        cardiovascular: 2,
+        cns: 2,
+        renal: 1
+      });
+      expect(sofaResult.score).toBe(11);
+
+      const wellsResult = adapter.calculateScore('wells_pe', {
+        dvt_signs: true,
+        pe_most_likely: true,
+        heartRate: 110
+      });
+      expect(wellsResult.score).toBe(7.5);
+
+      // 2. Execute IndexedDB local storage operations (anonymous bed persistence, favorites)
+      envShim.reset();
+      const storage = adapter.createStorageService();
+
+      await storage.toggleFavorite('calc_qsofa');
+      await storage.toggleFavorite('calc_sofa');
+      const favs = await storage.getFavorites();
+      expect(favs).toContain('calc_qsofa');
+      expect(favs).toContain('calc_sofa');
+
+      await storage.saveBedRecord({
+        id: 'bed_offline_audit',
+        bedLabel: 'Leito 04 - UTI',
+        notes: 'Paciente hemodinamicamente estável em ar ambiente',
+        scoreSnapshots: [
+          { scoreId: 'calc_qsofa', score: 3, timestamp: new Date().toISOString() },
+          { scoreId: 'calc_sofa', score: 11, timestamp: new Date().toISOString() }
+        ]
+      });
+
+      // 3. Genuine verification: verify zero outbound network calls were attempted
+      expect(interceptedCalls.length).toBe(0);
+      expect(interceptedCalls).toEqual([]);
+
+      // 4. Verify that our spy genuinely intercepts outbound network requests if attempted
+      let spyCaughtNetwork = false;
+      try {
+        await globalThis.fetch('https://api.external-tracking.com/telemetry');
+      } catch (err) {
+        spyCaughtNetwork = true;
+      }
+      expect(spyCaughtNetwork).toBe(true);
+      expect(interceptedCalls.length).toBe(1);
+      expect(interceptedCalls[0].method).toBe('fetch');
+      expect(interceptedCalls[0].url).toContain('external-tracking.com');
+    } finally {
+      // Restore original network functions
+      globalThis.fetch = origFetch;
+      http.request = origHttpRequest;
+      http.get = origHttpGet;
+      https.request = origHttpsRequest;
+      https.get = origHttpsGet;
+    }
   });
 });

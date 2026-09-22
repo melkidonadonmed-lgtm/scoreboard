@@ -127,6 +127,7 @@ export const CalculatorSchema = z.object({
   evidenceSource: z.string(),
   minPossibleScore: z.number(),
   maxPossibleScore: z.number(),
+  baseScore: z.number().default(0),
   ssc2021Warning: z.boolean().optional(),
   clinicalWarning: z.string().optional(),
   badge: z.string().optional(),
@@ -139,6 +140,8 @@ export const CalculatorSchema = z.object({
 
 export type Calculator = z.infer<typeof CalculatorSchema>;
 export type CalculatorDefinition = Calculator;
+export const ClinicalToolSchema = CalculatorSchema;
+export type ClinicalTool = Calculator;
 
 export const BlockDataSchema = z.object({
   blockId: z.string(),

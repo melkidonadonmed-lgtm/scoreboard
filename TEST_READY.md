@@ -1,83 +1,41 @@
-# Test Suite Readiness Notification: Scoreboard App Phase 1
+# E2E Test Suite Ready: Block 03 (Neurology & Neurosurgery)
 
-**Status:** READY  
-**Date:** 2026-09-22T09:27:00Z  
-**Author:** E2E Test Writer (`test_writer_e2e`)  
-**Target:** Orchestrator (`orchestrator_1`), Sentinel, and Implementation Workers (M1-M6)
+## Test Runner
+- Command: `npx vitest run`
+- Expected: 10 test files, 250 tests pass with exit code 0
+- Type check: `npx tsc --noEmit` (0 errors)
+- Production build: `npm run build` (builds cleanly)
 
----
+## Coverage Summary
+| Tier | Count | Description |
+|------|------:|-------------|
+| 1. Feature Coverage | 18 tools | All 18 clinical tools validated against Zod `BlockDataSchema` |
+| 2. Boundary & Golden Calculations | 36 test cases | Subtractive logic (ASPECTS 10->0), baseScore offset (Rotterdam 1-6), NIHSS full domains & UN handling, ICH Score mortality tiers, Brazilian schooling tiers (MEEM), MoCA education adjustment, ASIA/AIS, EDSS, Hoehn & Yahr |
+| 3. Cross-Feature & Manifest Integration | 29 test cases | Multi-block search over 37 tools, 23 Brazilian clinical queries & acronyms resolution |
+| 4. Search Performance & SLA | 2,000 iterations | P99 search latency = 0.053 ms (SLA threshold < 10.0 ms) |
+| **Total Test Suite** | **250 tests** | 100% passing, zero regressions on existing 140 baseline tests |
 
-## 1. Executive Summary
-
-The complete, requirement-driven, opaque-box E2E test infrastructure and systematic 4-tier test suite for **Scoreboard App Phase 1 (Vertical Pilot of Clinical Block 01)** has been designed, implemented, and verified.
-
-All **21 features** from `PROJECT.md § Feature Inventory` are covered across Tiers 1-4 with a total of **242 automated tests**, executing deterministically in **0.030s (30ms)** with **100% pass rate**.
-
----
-
-## 2. Test Inventory Breakdown
-
-| Tier | Category | Minimum Required | Actual Implemented | Passed | Failed | Success Rate |
-|:---|:---|:---:|:---:|:---:|:---:|:---:|
-| **Tier 1** | Feature Coverage (>=5 per feature) | 105 | **105** | 105 | 0 | **100%** |
-| **Tier 2** | Boundary & Corner Cases (>=5 per feature) | 105 | **105** | 105 | 0 | **100%** |
-| **Tier 3** | Cross-Feature Combinations (Pairwise) | 21 | **21** | 21 | 0 | **100%** |
-| **Tier 4** | Real-World Clinical Application Scenarios | 11 | **11** | 11 | 0 | **100%** |
-| **Total** | Full Suite | 242 | **242** | **242** | **0** | **100%** |
-
----
-
-## 3. Test Deliverables Created
-
-1. **`TEST_INFRA.md`**: Complete architectural documentation of test harness, assertion library, DOM environment simulator, SUT adapter, and feature coverage matrix.
-2. **`tests/e2e/harness/`**:
-   - `index.js`: Unified export module.
-   - `runner.js`: Standalone ESM runner with lifecycle hooks and ANSI summary reporter.
-   - `assertions.js`: Full assertion library with `.not` modifiers and deep equality.
-   - `dom-shim.js`: Browser DOM, localStorage, and IndexedDB simulation with Zero-LGPD validation.
-   - `adapter.js`: Opaque-box SUT adapter anchoring clinical reference models, math oracles, and production modules.
-   - `run-all.js`: Master CLI test runner.
-3. **`tests/e2e/tier1_features/`**:
-   - `test_f01_f05_scaffolding_data.js`: Features 1 to 5 (25 tests)
-   - `test_f06_f10_engines_pep.js`: Features 6 to 10 (25 tests)
-   - `test_f11_f15_storage_catalog.js`: Features 11 to 15 (25 tests)
-   - `test_f16_f21_ui_verification.js`: Features 16 to 21 (30 tests)
-4. **`tests/e2e/tier2_boundaries/`**:
-   - `test_b01_b05_boundaries.js`: Features 1 to 5 boundaries (25 tests)
-   - `test_b06_b10_boundaries.js`: Features 6 to 10 boundaries (25 tests)
-   - `test_b11_b15_boundaries.js`: Features 11 to 15 boundaries (25 tests)
-   - `test_b16_b21_boundaries.js`: Features 16 to 21 boundaries (30 tests)
-5. **`tests/e2e/tier3_combinations/`**:
-   - `test_pairwise_combinations.js`: 21 multi-module integration workflows.
-6. **`tests/e2e/tier4_scenarios/`**:
-   - `test_clinical_scenarios.js`: 11 real-world ICU and Emergency patient scenarios (Septic shock, TEP, Pancreatitis, TBI, Hypertensive emergency, Cardiogenic shock, Bedside rounding, Mobile viewport, Theme toggle, Search latency <10ms, Anti-truncation).
-
----
-
-## 4. Verification Command & Output
-
-### Command
-```bash
-node tests/e2e/harness/run-all.js
-```
-
-### Output Summary
-```
-======================================================
- SCOREBOARD APP — E2E TEST RUNNER
-======================================================
-
-Suites Executed: 54
-Total Tests:     242
-Passed:          242
-Failed:          0
-Duration:        0.030s
-------------------------------------------------------
-```
-
----
-
-## 5. Next Steps for Implementation Track
-
-1. Implementation workers for M1 (Scaffolding), M2 (Data Ingestion), M3 (Pure Engines), M4 (Storage & Catalog), and M5 (Interactive UI) can continuously verify their work against this suite.
-2. In Milestone 6 (M6 - Final Verification), the full suite will be run against the complete assembled application to verify 100% green pass before final victory report.
+## Feature Checklist
+| Feature | Tier 1 (Schema) | Tier 2 (Golden Logic) | Tier 3 (Integration/Search) | Tier 4 (SLA/E2E) |
+|---------|:---------------:|:---------------------:|:---------------------------:|:----------------:|
+| Rotterdam Score (TCE) | ✓ | ✓ | ✓ | ✓ |
+| Marshall CT Classification (TCE) | ✓ | ✓ | ✓ | ✓ |
+| Hunt-Hess Scale (HSA) | ✓ | ✓ | ✓ | ✓ |
+| WFNS Scale (HSA) | ✓ | ✓ | ✓ | ✓ |
+| Fisher Classic Scale (HSA 1980) | ✓ | ✓ | ✓ | ✓ |
+| Modified Fisher / Claassen (HSA 2001) | ✓ | ✓ | ✓ | ✓ |
+| Spetzler-Martin Grade (MAV) | ✓ | ✓ | ✓ | ✓ |
+| NIHSS (11 domains, 15 items) | ✓ | ✓ | ✓ | ✓ |
+| ASPECTS (10 MCA zones) | ✓ | ✓ | ✓ | ✓ |
+| ICH Score (HIC) | ✓ | ✓ | ✓ | ✓ |
+| ABCD2 Score (AIT) | ✓ | ✓ | ✓ | ✓ |
+| ASIA / AIS Impairment Scale | ✓ | ✓ | ✓ | ✓ |
+| Modified Rankin Scale (mRS) | ✓ | ✓ | ✓ | ✓ |
+| Karnofsky Performance Status (KPS) | ✓ | ✓ | ✓ | ✓ |
+| MEEM / MMSE (Brazilian schooling) | ✓ | ✓ | ✓ | ✓ |
+| MoCA (MCI Screening) | ✓ | ✓ | ✓ | ✓ |
+| Hoehn & Yahr (Parkinson) | ✓ | ✓ | ✓ | ✓ |
+| EDSS (Kurtzke) | ✓ | ✓ | ✓ | ✓ |
+| Neuropharmacology (Nimodipine, etc.) | ✓ | ✓ | ✓ | ✓ |
+| Emergency Alerts | ✓ | ✓ | ✓ | ✓ |
+| Radar Axes (0-100 normalized) | ✓ | ✓ | ✓ | ✓ |

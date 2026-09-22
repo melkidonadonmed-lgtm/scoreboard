@@ -3,6 +3,7 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 
 import block01Data from '@/data/blocks/block_01.json';
+import block03Data from '@/data/blocks/block_03.json';
 import type { Calculator } from '@/types/clinical';
 
 import { PhysiologicalRadar } from '@/components/calculator/PhysiologicalRadar';
@@ -572,5 +573,21 @@ describe('App Integration', () => {
     expect(html).toContain('data-testid="az-score-list"');
     expect(html).toContain('role="searchbox"');
     expect(html).toContain('Buscar escore, sigla ou sintoma');
+  });
+
+  it('renders active interactive calculator view for Block 03 tools instead of Calculadora em Preparação', () => {
+    const rotterdam = (block03Data as any).calculators.find((c: any) => c.id === 'calc_rotterdam');
+    expect(rotterdam).toBeDefined();
+
+    const html = renderToString(
+      h(CalculatorView, {
+        calculator: rotterdam,
+        onBack: () => {}
+      })
+    );
+
+    expect(html).not.toContain('Calculadora em Preparação');
+    expect(html).toContain('Rotterdam');
+    expect(html).toContain('ponto');
   });
 });

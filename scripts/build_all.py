@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
-Assemble Block 01 JSON and Manifest JSON for Scoreboard App.
+Assemble Block 01, Block 03 JSONs and Unified Manifest JSON for Scoreboard App.
 Outputs:
-- src/data/blocks/block_01.json
-- src/data/manifest.json (~30KB)
+- src/data/blocks/block_01.json (19 calculators)
+- src/data/blocks/block_03.json (18 calculators)
+- src/data/manifest.json (37 lightweight index items)
 """
 
 import json
@@ -17,15 +18,18 @@ from calculators.mod1_sepsis import get_qsofa, get_sofa, get_apache_ii, get_saps
 from calculators.mod2_vte import get_wells_tep, get_wells_tvp, get_geneva, get_perc, get_pesi, get_spesi
 from calculators.mod3_coma import get_glasgow_p, get_four, get_rass, get_sas, get_cam_icu
 from calculators.mod4_pancreatitis import get_ranson, get_bisap, get_balthazar_ctsi, get_marshall_mod
+from calculators.mod8_neuro import get_block_03_calculators
 
 def build_manifest_item(calc, search_synonyms, starred_default=False):
+    block_id = calc.get("blockId", "block_01")
+    block_file = calc.get("blockFile", f"{block_id}.json")
     return {
         "id": calc["id"],
         "slug": calc["slug"],
         "name": calc["name"],
         "acronym": calc["acronym"],
-        "category": calc.get("category", "Emergência, Choque e Terapia Intensiva"),
-        "subcategory": calc.get("subcategory", calc["moduleName"]),
+        "category": calc.get("category", calc.get("categoryName", "Medicina Clínica")),
+        "subcategory": calc.get("subcategory", calc.get("moduleName", "")),
         "categorySlug": calc["categorySlug"],
         "categoryName": calc["categoryName"],
         "moduleName": calc["moduleName"],
@@ -34,16 +38,43 @@ def build_manifest_item(calc, search_synonyms, starred_default=False):
         "synonyms": search_synonyms,
         "searchSynonyms": search_synonyms,
         "calculationType": calc["calculationType"],
-        "blockId": "block_01",
-        "blockFile": "block_01.json",
+        "blockId": block_id,
+        "blockFile": block_file,
         "evidenceSource": calc["evidenceSource"],
-        "badge": calc.get("badge", "emergencia"),
+        "badge": calc.get("badge", "clinica"),
         "hasInfusionProtocol": bool(calc.get("riskTiers", [{}])[-1].get("infusionProtocol") or calc.get("hasInfusionProtocol")),
         "starredDefault": starred_default
     }
 
+def validate_calculator_structure(calc):
+    """Verifies that the calculator conforms strictly to schema contracts."""
+    required_keys = [
+        "id", "slug", "name", "acronym", "categorySlug",
+        "summary", "calculationType", "evidenceSource",
+        "minPossibleScore", "maxPossibleScore",
+        "parameterGroups", "riskTiers", "radarAxes"
+    ]
+    for key in required_keys:
+        assert key in calc, f"Calculator {calc.get('id')} missing required field: {key}"
+
+    assert calc["calculationType"] in ["additive_points", "continuous_formula", "branching_decision"], \
+        f"Invalid calculationType in {calc['id']}: {calc['calculationType']}"
+
+    assert len(calc["parameterGroups"]) >= 1, f"Calculator {calc['id']} must have at least 1 parameterGroup"
+    assert len(calc["riskTiers"]) >= 1, f"Calculator {calc['id']} must have at least 1 riskTier"
+    assert len(calc["radarAxes"]) >= 1, f"Calculator {calc['id']} must have at least 1 radarAxis"
+
+    # Validate risk tiers
+    for tier in calc["riskTiers"]:
+        assert "id" in tier and "label" in tier and "severityLevel" in tier, f"Invalid tier in {calc['id']}: {tier}"
+        assert "minScore" in tier and "maxScore" in tier, f"Tier missing minScore/maxScore in {calc['id']}: {tier}"
+        assert "statisticalOutcome" in tier and "colorHex" in tier, f"Tier missing outcome/color in {calc['id']}: {tier}"
+
 def main():
-    calculators = [
+    # -------------------------------------------------------------------------
+    # 1. COMPILE BLOCK 01 CALCULATORS (19 Tools)
+    # -------------------------------------------------------------------------
+    block_01_calculators = [
         # Module 01: Sepsis & Organ Dysfunction
         get_qsofa(),
         get_sofa(),
@@ -72,21 +103,47 @@ def main():
         get_marshall_mod()
     ]
 
-    print(f"Total calculators compiled: {len(calculators)}")
-    assert len(calculators) == 19, f"Expected 19 calculators, got {len(calculators)}"
+    for calc in block_01_calculators:
+        calc["blockId"] = "block_01"
+        calc["blockFile"] = "block_01.json"
+        validate_calculator_structure(calc)
 
-    # Construct Block 01
+    print(f"Block 01 calculators compiled: {len(block_01_calculators)}")
+    assert len(block_01_calculators) == 19, f"Expected 19 calculators in Block 01, got {len(block_01_calculators)}"
+
     block_01_data = {
         "blockId": "block_01",
         "blockName": "Emergência, Choque e Terapia Intensiva",
         "version": "1.0.0",
         "categorySlug": "bloco-01-emergencia-choque-uti",
         "description": "Dossiês monográficos completos dos 19 escores de emergência, choque e terapia intensiva com preservação estrita de parâmetros, estratificações de risco, condutas farmacológicas e protocolos de BIC.",
-        "calculators": calculators
+        "calculators": block_01_calculators
     }
 
-    # Rich clinical synonyms dictionary for Brazilian physicians
+    # -------------------------------------------------------------------------
+    # 2. COMPILE BLOCK 03 CALCULATORS (18 Tools)
+    # -------------------------------------------------------------------------
+    block_03_calculators = get_block_03_calculators()
+    for calc in block_03_calculators:
+        validate_calculator_structure(calc)
+
+    print(f"Block 03 calculators compiled: {len(block_03_calculators)}")
+    assert len(block_03_calculators) == 18, f"Expected 18 calculators in Block 03, got {len(block_03_calculators)}"
+
+    block_03_data = {
+        "blockId": "block_03",
+        "blockName": "Neurologia e Neurocirurgia",
+        "version": "1.0.0",
+        "categorySlug": "bloco-03-neurologia-neurocirurgia",
+        "description": "Dossiês monográficos completos dos 18 escores clínicos e cirúrgicos de neurologia, neurocirurgia e neurotrauma com parâmetros exaustivos, estratificações prognósticas, condutas farmacológicas rigorosas e diretrizes de intervenção.",
+        "calculators": block_03_calculators
+    }
+
+    # -------------------------------------------------------------------------
+    # 3. CLINICAL BRAZILIAN SYNONYMS MAP
+    # -------------------------------------------------------------------------
     SYNONYMS_MAP = {
+        # Block 01 Tools
         "calc_qsofa": [
             "sepse", "triagem de sepse", "quick sofa", "qsofa", "choque septico", "choque séptico",
             "infeccao", "infecção", "infeccao grave", "leito de enfermaria", "triagem clinica",
@@ -163,7 +220,8 @@ def main():
             "four", "four score", "escala four", "full outline of unresponsiveness", "coma uti",
             "coma intubado", "paciente intubado", "reflexos de tronco", "drive respiratorio",
             "locked in", "sindrome do cativeiro", "morte encefalica", "triagem de morte encefalica",
-            "fotomotor corneano tosse", "cheyne stokes", "apneia", "neurologia uti", "wijdicks"
+            "fotomotor corneano tosse", "cheyne stokes", "apneia", "neurologia uti", "wijdicks",
+            "tronco encefalico", "reflexos de tronco encefalico"
         ],
         "calc_rass": [
             "rass", "richmond agitation sedation scale", "escala de rass", "sedacao uti",
@@ -204,23 +262,144 @@ def main():
             "marshall", "marshall modificado", "falencia organica pancreatite", "classificacao de atlanta",
             "atlanta revisada", "falencia transitoria", "falencia persistente", "pancreatite grave",
             "respiratorio paafi", "renal creatinina", "cardiovascular hipotensao", "choque pancreatite"
+        ],
+
+        # Block 03 Tools (18 Neuro Tools)
+        "calc_rotterdam": [
+            "rotterdam", "escore de rotterdam", "tce", "traumatismo cranioencefalico", "tomografia tce",
+            "neurotrauma", "cisternas da base", "desvio de linha media", "hemorragia epidural",
+            "hsa traumatica", "hiv traumatica", "mortalidade 6 meses", "hic refrataria", "craniectomia",
+            "salina 3", "manitol", "noradrenalina", "cid s06"
+        ],
+        "calc_marshall": [
+            "marshall", "classificacao de marshall", "marshall tce", "lesao difusa", "lesao em massa",
+            "efeito de massa", "hematoma epidural", "hematoma subdural", "desvio linha media",
+            "cisternas comprimidas", "tce grave", "neurocirurgia trauma", "evacuacao cirurgica", "cid s06.9"
+        ],
+        "calc_asia_ais": [
+            "asia", "ais", "escala asia", "isncsci", "trm", "trauma raquimedular", "lesao medular",
+            "nivel neurologico", "miotomos", "dermatomos", "chave sacral", "toque retal",
+            "contracao anal voluntaria", "sensibilidade anal profunda", "choque medular", "pam 85 90",
+            "tetraplegia", "paraplegia", "cid s14.1", "cid s24.1",
+            "mielopatia", "mielopatia traumatica", "mielopatia compressiva"
+        ],
+        "calc_hunt_hess": [
+            "hunt hess", "hunt-hess", "escala de hunt hess", "hsa", "hemorragia subaracnoidea",
+            "aneurisma cerebral", "aneurisma roto", "cefaleia em trovoada", "thunderclap",
+            "rigidez de nuca", "meningismo", "coma aneurismatico", "clipagem", "embolizacao",
+            "nimodipino", "cid i60"
+        ],
+        "calc_wfns": [
+            "wfns", "world federation of neurosurgical societies", "escala wfns", "hsa aneurismatica",
+            "glasgow hsa", "deficit motor focal", "hemiparesia", "sangramento subaracnoideo",
+            "prognostico neurocirurgico", "espessamento liquorio", "vasoespasmo cerebral"
+        ],
+        "calc_fisher_classic": [
+            "fisher", "escala de fisher", "fisher classico", "fisher hsa", "vasoespasmo",
+            "isquemia cerebral tardia", "dci", "sangue subaracnoideo tc", "coagulo subaracnoideo",
+            "hemorragia intraventricular", "angiotc cerebral", "doppler transcraniano", "cid i60.9"
+        ],
+        "calc_fisher_modified": [
+            "fisher modificado", "claassen", "escala de claassen", "escala de fisher modificada",
+            "hsa espessa", "hiv bilateral", "vasoespasmo tardio", "predicao vasoespasmo",
+            "dilatacao ventricular", "dve", "tomografia hsa"
+        ],
+        "calc_spetzler_martin": [
+            "spetzler martin", "spetzler-martin", "mav", "malformacao arteriovenosa", "cirurgia mav",
+            "ressecabilidade cirurgica", "cortex eloquente", "drenagem venosa profunda",
+            "tamanho da mav", "nidus", "embolizacao mav", "radiocirurgia", "risco cirurgico neuro"
+        ],
+        "calc_nihss": [
+            "nihss", "nih", "national institutes of health stroke scale", "avc", "avc isquêmico",
+            "avc isquemico", "avci", "stroke", "trombólise", "trombolise", "alteplase", "tenecteplase",
+            "trombectomia mecanica", "oclusao de grande vaso", "lvo", "deficit neurologico", "afasia",
+            "hemiplegia", "paresia facial", "extincao e desatencao", "janela terapeutica 4.5 horas",
+            "cid i63", "cid i64",
+            "tempo porta agulha", "porta agulha", "tempo porta-agulha",
+            "infarto", "infarto cerebral", "infarto isquemico"
+        ],
+        "calc_aspects": [
+            "aspects", "alberta stroke program early ct score", "tc avc", "tomografia avc",
+            "isquemia precoce", "arteria cerebral media", "acm", "fita insular", "nucleo lenticular",
+            "capsula interna", "caudado", "core isquemico", "grande core", "select2",
+            "trombectomia aspects", "stroke window",
+            "infarto", "infarto cerebral", "infarto de acm", "infarto maligno"
+        ],
+        "calc_ich_score": [
+            "ich score", "ich", "hemorragia intracerebral", "hic espontanea", "avc hemorragico",
+            "avch", "volume do hematoma", "formula abc 2", "hemorragia intraventricular",
+            "sangramento infratentorial", "mortalidade 30 dias hic", "reversao de anticoagulacao",
+            "complexo protrombinico", "ccp 4 fatores", "metas pressoricas pas 130 140", "cid i61"
+        ],
+        "calc_abcd2": [
+            "abcd2", "abcd 2", "escore abcd2", "ait", "ataque isquemico transitorio", "tia",
+            "risco de avc", "prevencao secundaria", "dupla antiagregacao", "dapt",
+            "aas clopidogrel", "chance point", "estenose carotidea", "isquemia cerebral transitoria",
+            "cid g45.9"
+        ],
+        "calc_mrs": [
+            "mrs", "rankin", "rankin modificado", "modified rankin scale", "incapacidade funcional",
+            "desfecho funcional avc", "autonomia avds", "good outcome", "morar sozinho",
+            "dependencia fisica", "reabilitacao neuro", "pos avc", "cid z74"
+        ],
+        "calc_kps": [
+            "kps", "karnofsky", "performance status", "escala de karnofsky", "neuro oncologia",
+            "glioblastoma", "gbm", "tumor cerebral", "metastase encefalica", "protocolo de stupp",
+            "temozolomida", "radioterapia 60 gy", "ecog", "cuidados paliativos", "cid c71"
+        ],
+        "calc_meem_mmse": [
+            "meem", "mmse", "mini exame do estado mental", "folstein", "rastreio cognitivo",
+            "demencia", "alzheimer", "perda de memoria", "orientacao temporal", "orientacao espacial",
+            "escolaridade brucki", "bertolucci", "donepezila", "rivastigmina", "memantina",
+            "cid f00", "cid f03", "cid g30"
+        ],
+        "calc_moca": [
+            "moca", "montreal cognitive assessment", "comprometimento cognitivo leve", "ccl",
+            "mci", "funcao executiva", "visuoespacial", "trilha b", "teste do relogio",
+            "memoria de trabalho", "rastreio sensivel", "corte 26", "ajuste escolaridade 12 anos",
+            "rastreio demencia inicial"
+        ],
+        "calc_hoehn_yahr": [
+            "hoehn yahr", "hoehn e yahr", "h&y", "parkinson", "doenca de parkinson",
+            "estadiamento parkinson", "pull test", "teste do puxao", "instabilidade postural",
+            "tremor de repouso", "bradicinesia", "rigidez", "dbs", "estimulacao cerebral profunda",
+            "levodopa", "prolopa", "pramipexol", "cid g20"
+        ],
+        "calc_edss": [
+            "edss", "escala de kurtzke", "kurtzke", "esclerose multipla", "em", "desmielinizante",
+            "surto de esclerose", "distancia de marcha", "metros de deambulação", "bengala",
+            "pulsoterapia", "metilprednisolona", "ocrelizumabe", "natalizumabe", "dmt", "neda",
+            "cid g35",
+            "esclerose em placas", "esclerose de placas"
         ]
     }
 
-    STARRED_DEFAULTS = {"calc_qsofa", "calc_sofa", "calc_wells_tep", "calc_glasgow_p", "calc_bisap"}
+    STARRED_DEFAULTS = {
+        "calc_qsofa", "calc_sofa", "calc_wells_tep", "calc_glasgow_p", "calc_bisap",
+        "calc_nihss", "calc_rotterdam", "calc_ich_score"
+    }
 
-    # Construct Manifest
+    # -------------------------------------------------------------------------
+    # 4. CONSTRUCT UNIFIED MANIFEST (37 Tools)
+    # -------------------------------------------------------------------------
+    all_calculators = block_01_calculators + block_03_calculators
     manifest_items = []
-    for calc in calculators:
+    for calc in all_calculators:
         calc_id = calc["id"]
         synonyms = SYNONYMS_MAP.get(calc_id, [calc["acronym"].lower(), calc["name"].lower()])
         is_starred = calc_id in STARRED_DEFAULTS
         item = build_manifest_item(calc, synonyms, is_starred)
         manifest_items.append(item)
 
-    # Output paths
+    print(f"Total manifest items compiled: {len(manifest_items)}")
+    assert len(manifest_items) == 37, f"Expected 37 items in manifest, got {len(manifest_items)}"
+
+    # -------------------------------------------------------------------------
+    # 5. WRITE JSON ARTIFACTS
+    # -------------------------------------------------------------------------
     base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
     block_01_path = os.path.join(base_dir, "src", "data", "blocks", "block_01.json")
+    block_03_path = os.path.join(base_dir, "src", "data", "blocks", "block_03.json")
     manifest_path = os.path.join(base_dir, "src", "data", "manifest.json")
 
     os.makedirs(os.path.dirname(block_01_path), exist_ok=True)
@@ -232,11 +411,19 @@ def main():
     block_01_size = os.path.getsize(block_01_path)
     print(f"Generated: {block_01_path} ({block_01_size:,} bytes, {block_01_size / 1024:.1f} KB)")
 
+    # Write block_03.json
+    with open(block_03_path, "w", encoding="utf-8") as f:
+        json.dump(block_03_data, f, indent=2, ensure_ascii=False)
+    block_03_size = os.path.getsize(block_03_path)
+    print(f"Generated: {block_03_path} ({block_03_size:,} bytes, {block_03_size / 1024:.1f} KB)")
+
     # Write manifest.json
     with open(manifest_path, "w", encoding="utf-8") as f:
         json.dump(manifest_items, f, indent=2, ensure_ascii=False)
     manifest_size = os.path.getsize(manifest_path)
     print(f"Generated: {manifest_path} ({manifest_size:,} bytes, {manifest_size / 1024:.1f} KB)")
+
+    print("Build completed successfully with 100% schema integrity.")
 
 if __name__ == "__main__":
     main()

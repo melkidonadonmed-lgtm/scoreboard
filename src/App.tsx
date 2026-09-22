@@ -4,6 +4,7 @@ import type { BedRecord } from '@/services/storageService';
 import { storageService } from '@/services/storageService';
 import defaultManifestRaw from '@/data/manifest.json';
 import block01Data from '@/data/blocks/block_01.json';
+import block03Data from './data/blocks/block_03.json';
 
 import { ThemeToggle } from '@/components/common/ThemeToggle';
 import { BottomNav, type TabType } from '@/components/common/BottomNav';
@@ -28,7 +29,7 @@ import {
 } from 'lucide-react';
 
 const manifest = defaultManifestRaw as unknown as ManifestItem[];
-const blockCalculators = block01Data.calculators as unknown as Calculator[];
+const allCalculators = [...block01Data.calculators, ...block03Data.calculators] as unknown as Calculator[];
 
 export const App: React.FC = () => {
   // Navigation State
@@ -118,7 +119,7 @@ export const App: React.FC = () => {
   // Selected calculator definition
   const selectedCalculator = useMemo(() => {
     if (!selectedCalculatorId) return null;
-    return blockCalculators.find(
+    return allCalculators.find(
       (c) => c.id === selectedCalculatorId || c.slug === selectedCalculatorId
     );
   }, [selectedCalculatorId]);
