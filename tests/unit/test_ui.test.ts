@@ -11,6 +11,8 @@ import { ParameterGroupInput } from '@/components/calculator/ParameterGroupInput
 import { PrescriptionCard } from '@/components/calculator/PrescriptionCard';
 import { CalculatorView } from '@/components/calculator/CalculatorView';
 import { BottomNav } from '@/components/common/BottomNav';
+import { AzScoreList } from '@/components/catalog/AzScoreList';
+import { FavoritesView } from '@/components/catalog/FavoritesView';
 import { App } from '@/App';
 
 import {
@@ -589,5 +591,53 @@ describe('App Integration', () => {
     expect(html).not.toContain('Calculadora em Preparação');
     expect(html).toContain('Rotterdam');
     expect(html).toContain('ponto');
+  });
+
+  it('AzScoreList enforces mobile centering with max-w-md mx-auto and citation truncation', () => {
+    const html = renderToString(
+      h(AzScoreList, {
+        onSelectCalculator: () => {}
+      })
+    );
+
+    expect(html).toContain('max-w-md mx-auto');
+    expect(html).toContain('min-w-0 overflow-hidden');
+    expect(html).toContain('truncate flex-1 min-w-0');
+    expect(html).not.toContain('shrink-0 text-slate-400');
+  });
+
+  it('FavoritesView enforces mobile centering with max-w-md mx-auto', () => {
+    const html = renderToString(
+      h(FavoritesView, {
+        onSelectCalculator: () => {}
+      })
+    );
+
+    expect(html).toContain('max-w-md mx-auto');
+  });
+
+  it('verifies that all 58 calculators across Block 01 and Block 03 execute calculateScore without throwing', () => {
+    const allCalculators = [...block01Data.calculators, ...block03Data.calculators] as unknown as Calculator[];
+    expect(allCalculators.length).toBe(58);
+
+    for (const calc of allCalculators) {
+      const defaultInputs: Record<string, any> = {};
+      for (const group of calc.parameterGroups) {
+        if (group.inputType === 'single_choice' || group.inputType === 'pupil_reactivity') {
+          const normalOpt = group.options?.find((o: any) => o.isNormalBaseline || o.pointValue === 0) || group.options?.[0];
+          if (normalOpt) defaultInputs[group.id] = normalOpt.id;
+        } else if (group.inputType === 'boolean') {
+          defaultInputs[group.id] = false;
+        } else if (group.inputType === 'numeric_input') {
+          defaultInputs[group.id] = group.normalBaselineValue ?? 0;
+        }
+      }
+
+      const res = calculateScore(calc, defaultInputs);
+      expect(res).toBeDefined();
+      expect(res.scoreFormatted).toBeDefined();
+      expect(res.activeRiskTier).toBeDefined();
+      expect(res.activeRiskTier.label).toBeTruthy();
+    }
   });
 });

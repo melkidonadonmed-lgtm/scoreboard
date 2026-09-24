@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import type { Calculator } from '@/types/clinical';
 import { calculateScore, SSC_2021_QSOFA_WARNING } from '@/engines/calculationEngine';
 import { generatePepNote } from '@/engines/pepExportEngine';
@@ -65,6 +65,18 @@ export const CalculatorView: React.FC<CalculatorViewProps> = ({
 
   const [inputs, setInputs] = useState<Record<string, any>>(initialInputs);
   const [copiedPep, setCopiedPep] = useState(false);
+
+  // Scroll strictly to top whenever calculator mounts or changes
+  useEffect(() => {
+    if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    }
+  }, [calculator.id]);
+
+  // Sync inputs with fresh defaults whenever calculator definition changes
+  useEffect(() => {
+    setInputs(initialInputs);
+  }, [initialInputs]);
 
   // Compute clinical score, active risk tier, and radar values
   const result = useMemo(() => {
@@ -137,7 +149,7 @@ export const CalculatorView: React.FC<CalculatorViewProps> = ({
       data-testid="calculator-view"
     >
       {/* 1. Sticky Navigation Header */}
-      <header className="sticky top-0 z-20 backdrop-blur-md bg-surface-light/90 dark:bg-surface-dark/90 border-b border-subtle-light dark:border-subtle-dark px-3 py-2.5 transition-colors">
+      <header className="sticky top-0 z-20 backdrop-blur-xl bg-surface-light/90 dark:bg-surface-dark/90 border-b border-subtle-light dark:border-subtle-dark px-3 py-2.5 transition-colors shadow-xs">
         <div className="max-w-md mx-auto flex items-center justify-between">
           <div className="flex items-center space-x-1.5">
             <button

@@ -67,7 +67,7 @@ export const ParameterGroupInput: React.FC<ParameterGroupInputProps> = ({
                   : 'bg-surface-raised-light dark:bg-surface-raised-dark border border-subtle-light dark:border-subtle-dark text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 active:scale-[0.99]'
               }`}
             >
-              <div className="flex items-center space-x-3 pr-2">
+              <div className="flex items-center space-x-3 pr-2 min-w-0 flex-1">
                 <div
                   className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
                     isSelected
@@ -77,12 +77,12 @@ export const ParameterGroupInput: React.FC<ParameterGroupInputProps> = ({
                 >
                   {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
                 </div>
-                <div className="space-y-0.5">
-                  <span className="text-xs sm:text-sm font-medium leading-snug block">
+                <div className="space-y-0.5 min-w-0 flex-1">
+                  <span className="text-xs sm:text-sm font-medium leading-snug block break-words">
                     {option.label}
                   </span>
                   {option.description && (
-                    <span className="text-[11px] text-slate-500 dark:text-slate-400 leading-tight block">
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400 leading-tight block break-words">
                       {option.description}
                     </span>
                   )}
@@ -233,7 +233,7 @@ export const ParameterGroupInput: React.FC<ParameterGroupInputProps> = ({
                   : 'bg-surface-raised-light dark:bg-surface-raised-dark border border-subtle-light dark:border-subtle-dark text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-[0.99]'
               }`}
             >
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-3 pr-2 min-w-0 flex-1">
                 <div className="w-8 h-8 rounded-lg bg-surface-light dark:bg-surface-dark border border-subtle-light dark:border-subtle-dark flex items-center justify-center shrink-0">
                   {isNormal ? (
                     <Eye className="w-4 h-4 text-emerald-500" />
@@ -241,12 +241,12 @@ export const ParameterGroupInput: React.FC<ParameterGroupInputProps> = ({
                     <EyeOff className="w-4 h-4 text-clinical-critical" />
                   )}
                 </div>
-                <div className="space-y-0.5">
-                  <span className="text-xs sm:text-sm font-medium leading-snug block">
+                <div className="space-y-0.5 min-w-0 flex-1">
+                  <span className="text-xs sm:text-sm font-medium leading-snug block break-words">
                     {option.label}
                   </span>
                   {option.description && (
-                    <span className="text-[11px] text-slate-500 dark:text-slate-400 block">
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400 block break-words">
                       {option.description}
                     </span>
                   )}

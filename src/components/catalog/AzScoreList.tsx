@@ -192,9 +192,9 @@ export const AzScoreList: React.FC<AzScoreListProps> = ({
   };
 
   return (
-    <div ref={containerRef} className={`relative flex flex-col w-full ${className}`}>
+    <div ref={containerRef} className={`relative flex flex-col w-full max-w-md mx-auto ${className}`}>
       {/* Search Bar Header */}
-      <div className="sticky top-0 z-20 backdrop-blur-md bg-surface-light/95 dark:bg-surface-dark/95 border-b border-subtle-light dark:border-subtle-dark px-4 py-3 space-y-2 transition-colors">
+      <div className="sticky top-0 z-20 backdrop-blur-xl bg-surface-light/90 dark:bg-surface-dark/90 border-b border-subtle-light dark:border-subtle-dark px-4 py-3 space-y-2 transition-colors shadow-xs">
         <div className="relative flex items-center">
           <div className="absolute left-3.5 text-slate-400 dark:text-slate-500 pointer-events-none">
             <Search className="w-4 h-4" />
@@ -206,7 +206,7 @@ export const AzScoreList: React.FC<AzScoreListProps> = ({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Buscar escore, sigla ou sintoma (sepse, choque, TEP)..."
-            className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-canvas-light dark:bg-canvas-dark border border-subtle-light dark:border-subtle-dark text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition-all"
+            className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-canvas-light dark:bg-canvas-dark border border-subtle-light dark:border-subtle-dark text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition-all shadow-xs"
             aria-label="Buscar escores clínicos"
           />
 
@@ -237,9 +237,9 @@ export const AzScoreList: React.FC<AzScoreListProps> = ({
       </div>
 
       {/* Main Content Area: Grouped List + Jump Rail */}
-      <div className="relative flex-1 flex">
+      <div className="relative flex-1 flex min-w-0">
         {/* Scrollable A-Z Grouped Items */}
-        <div className="flex-1 min-w-0 px-4 py-3 space-y-5">
+        <div className="flex-1 min-w-0 px-3.5 py-3 space-y-5">
           {groupedSections.length === 0 ? (
             <div className="text-center py-12 px-4 space-y-3">
               <div className="w-12 h-12 mx-auto rounded-2xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
@@ -263,7 +263,7 @@ export const AzScoreList: React.FC<AzScoreListProps> = ({
                 {/* Sticky Alphabet Section Header */}
                 <div
                   id={`letter-section-${letter}`}
-                  className="sticky top-20 z-10 py-1.5 px-3 rounded-xl backdrop-blur-md bg-canvas-light/90 dark:bg-canvas-dark/90 border border-subtle-light/60 dark:border-subtle-dark/60 flex items-center justify-between shadow-xs transition-colors"
+                  className="sticky top-16 z-10 py-1.5 px-3 rounded-xl backdrop-blur-md bg-canvas-light/90 dark:bg-canvas-dark/90 border border-subtle-light/70 dark:border-subtle-dark/70 flex items-center justify-between shadow-xs transition-colors"
                 >
                   <span
                     id={`letter-heading-${letter}`}
@@ -293,7 +293,7 @@ export const AzScoreList: React.FC<AzScoreListProps> = ({
                             onSelectCalculator(item.id);
                           }
                         }}
-                        className="group relative p-3.5 rounded-2xl bg-surface-light dark:bg-surface-dark border border-subtle-light dark:border-subtle-dark shadow-card active:scale-[0.99] hover:border-brand-500/40 dark:hover:border-brand-400/40 transition-all cursor-pointer min-h-touch flex flex-col justify-between"
+                        className="group relative p-4 rounded-2xl bg-surface-light dark:bg-surface-dark border border-subtle-light/90 dark:border-subtle-dark/90 shadow-card hover:shadow-card-hover active:scale-[0.985] hover:border-brand-500/40 dark:hover:border-brand-400/40 transition-all duration-150 cursor-pointer min-h-touch flex flex-col justify-between overflow-hidden"
                       >
                         {/* Top Row: Acronym, Name, and Star Button */}
                         <div className="flex items-start justify-between gap-2">
@@ -308,13 +308,13 @@ export const AzScoreList: React.FC<AzScoreListProps> = ({
                                 </span>
                               )}
                               {item.hasInfusionProtocol && (
-                                <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-clinical-info/10 text-clinical-info">
+                                <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-clinical-info/10 text-clinical-info border border-clinical-info/20">
                                   <Droplets className="w-2.5 h-2.5 mr-1" />
                                   BIC
                                 </span>
                               )}
                               {item.id === 'calc_qsofa' && (
-                                <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-clinical-warning/15 text-clinical-warning">
+                                <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-clinical-warning/15 text-clinical-warning border border-clinical-warning/20">
                                   <AlertTriangle className="w-2.5 h-2.5 mr-0.5" />
                                   SSC 2021
                                 </span>
@@ -340,7 +340,7 @@ export const AzScoreList: React.FC<AzScoreListProps> = ({
                             <Star
                               className={`w-5 h-5 transition-colors ${
                                 isStarred
-                                  ? 'fill-amber-400 text-amber-500'
+                                  ? 'fill-amber-400 text-amber-500 drop-shadow-[0_1px_3px_rgba(245,158,11,0.3)]'
                                   : 'text-slate-400 dark:text-slate-500'
                               }`}
                             />
@@ -353,12 +353,14 @@ export const AzScoreList: React.FC<AzScoreListProps> = ({
                         </p>
 
                         {/* Bottom Metadata Badges */}
-                        <div className="flex items-center space-x-2 mt-2.5 pt-2 border-t border-subtle-light/60 dark:border-subtle-dark/60 text-[10px] text-slate-400 dark:text-slate-500">
-                          <span className="truncate max-w-[180px]">
+                        <div className="flex items-center space-x-2 mt-2.5 pt-2 border-t border-subtle-light/60 dark:border-subtle-dark/60 text-[10px] text-slate-400 dark:text-slate-500 min-w-0 overflow-hidden">
+                          <span className="truncate max-w-[45%] font-medium">
                             {item.moduleName || item.categoryName}
                           </span>
-                          <span>•</span>
-                          <span className="shrink-0">{item.evidenceSource}</span>
+                          <span className="shrink-0 text-slate-300 dark:text-slate-600">•</span>
+                          <span className="truncate flex-1 min-w-0" title={item.evidenceSource}>
+                            {item.evidenceSource}
+                          </span>
                         </div>
                       </div>
                     );
@@ -373,7 +375,7 @@ export const AzScoreList: React.FC<AzScoreListProps> = ({
         {showJumpRail && (
           <aside
             aria-label="Atalho alfabético"
-            className="sticky top-20 right-0 self-start pr-1 pl-0.5 shrink-0"
+            className="sticky top-16 right-0 self-start pr-0.5 pl-0.5 shrink-0"
           >
             <AlphabetJumpRail
               letters={DEFAULT_ALPHABET}

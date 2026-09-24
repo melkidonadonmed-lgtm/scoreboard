@@ -197,7 +197,7 @@ export const FavoritesView: React.FC<FavoritesViewProps> = ({
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-16 text-slate-400">
+      <div className={`flex items-center justify-center py-16 text-slate-400 max-w-md mx-auto ${className}`}>
         <span className="text-sm">Carregando favoritos...</span>
       </div>
     );
@@ -235,12 +235,12 @@ export const FavoritesView: React.FC<FavoritesViewProps> = ({
   }
 
   return (
-    <div className={`flex flex-col w-full px-4 py-4 space-y-4 ${className}`}>
+    <div className={`flex flex-col w-full max-w-md mx-auto px-4 py-4 space-y-4 ${className}`}>
       {/* Header Info & Search inside Favorites */}
       <div className="space-y-2.5">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Star className="w-5 h-5 text-amber-500 fill-amber-400" />
+            <Star className="w-5 h-5 text-amber-500 fill-amber-400 drop-shadow-[0_1px_3px_rgba(245,158,11,0.3)]" />
             <h2 className="text-base font-bold text-slate-900 dark:text-white">
               Escores Favoritos
             </h2>
@@ -297,7 +297,7 @@ export const FavoritesView: React.FC<FavoritesViewProps> = ({
                   onSelectCalculator(item.id);
                 }
               }}
-              className="group relative p-3.5 rounded-2xl bg-surface-light dark:bg-surface-dark border border-subtle-light dark:border-subtle-dark shadow-card active:scale-[0.99] hover:border-amber-500/40 dark:hover:border-amber-400/40 transition-all cursor-pointer min-h-touch flex flex-col justify-between"
+              className="group relative p-4 rounded-2xl bg-surface-light dark:bg-surface-dark border border-subtle-light/90 dark:border-subtle-dark/90 shadow-card hover:shadow-card-hover active:scale-[0.985] hover:border-amber-500/40 dark:hover:border-amber-400/40 transition-all duration-150 cursor-pointer min-h-touch flex flex-col justify-between overflow-hidden"
             >
               <div className="flex items-start justify-between gap-2">
                 <div className="min-w-0 flex-1">
@@ -307,14 +307,14 @@ export const FavoritesView: React.FC<FavoritesViewProps> = ({
                     </h3>
 
                     {item.hasInfusionProtocol && (
-                      <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-clinical-info/10 text-clinical-info">
+                      <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-clinical-info/10 text-clinical-info border border-clinical-info/20">
                         <Droplets className="w-2.5 h-2.5 mr-1" />
                         BIC
                       </span>
                     )}
 
                     {item.id === 'calc_qsofa' && (
-                      <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-clinical-warning/15 text-clinical-warning">
+                      <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-clinical-warning/15 text-clinical-warning border border-clinical-warning/20">
                         <AlertTriangle className="w-2.5 h-2.5 mr-0.5" />
                         SSC 2021
                       </span>
@@ -333,7 +333,7 @@ export const FavoritesView: React.FC<FavoritesViewProps> = ({
                   onClick={(e) => handleRemoveFavorite(item.id, e)}
                   className="min-w-touch min-h-touch -mr-2 -mt-2 flex items-center justify-center rounded-xl text-amber-500 hover:text-slate-400 active:scale-90 transition-transform"
                 >
-                  <Star className="w-5 h-5 fill-amber-400 text-amber-500" />
+                  <Star className="w-5 h-5 fill-amber-400 text-amber-500 drop-shadow-[0_1px_3px_rgba(245,158,11,0.3)]" />
                 </button>
               </div>
 
@@ -341,10 +341,10 @@ export const FavoritesView: React.FC<FavoritesViewProps> = ({
                 {item.summary || item.description}
               </p>
 
-              <div className="flex items-center space-x-2 mt-2.5 pt-2 border-t border-subtle-light/60 dark:border-subtle-dark/60 text-[10px] text-slate-400 dark:text-slate-500">
-                <span className="truncate">{item.moduleName || item.categoryName}</span>
-                <span>•</span>
-                <span>{item.evidenceSource}</span>
+              <div className="flex items-center space-x-2 mt-2.5 pt-2 border-t border-subtle-light/60 dark:border-subtle-dark/60 text-[10px] text-slate-400 dark:text-slate-500 min-w-0 overflow-hidden">
+                <span className="truncate max-w-[45%] font-medium">{item.moduleName || item.categoryName}</span>
+                <span className="shrink-0 text-slate-300 dark:text-slate-600">•</span>
+                <span className="truncate flex-1 min-w-0" title={item.evidenceSource}>{item.evidenceSource}</span>
               </div>
             </div>
           ))
