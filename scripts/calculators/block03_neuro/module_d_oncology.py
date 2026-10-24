@@ -12,7 +12,7 @@ Calculadoras Clínicas Monográficas:
 
 from calculators.block03_neuro.functional_cognitive import get_kps
 
-def get_knosp():
+def get_knosp() -> dict:
     return {
         "id": "calc_knosp",
         "slug": "knosp",
@@ -248,7 +248,7 @@ def get_knosp():
         ]
     }
 
-def get_samii_koos():
+def get_samii_koos() -> dict:
     return {
         "id": "calc_samii_koos",
         "slug": "samii-koos",
@@ -466,7 +466,7 @@ def get_samii_koos():
         ]
     }
 
-def get_ds_gpa():
+def get_ds_gpa() -> dict:
     return {
         "id": "calc_ds_gpa",
         "slug": "ds-gpa",
@@ -761,7 +761,7 @@ def get_ds_gpa():
         ]
     }
 
-def get_kiefer():
+def get_kiefer() -> dict:
     return {
         "id": "calc_kiefer",
         "slug": "kiefer",
@@ -1232,7 +1232,7 @@ def get_kiefer():
         ]
     }
 
-def get_evans_desh():
+def get_evans_desh() -> dict:
     return {
         "id": "calc_evans_desh",
         "slug": "evans-desh",

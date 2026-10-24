@@ -27,13 +27,6 @@ export interface PhysiologicalRadarProps {
 /**
  * Pure native reactive SVG Physiological Radar rendering at 60fps.
  * No external charting libraries used.
- *
- * Displays:
- * - Concentric background grid rings (0.25, 0.50, 0.75, 1.00)
- * - Radial spoke lines connecting center to axes
- * - Homeostatic green baseline polygon (r = 0.25)
- * - Dynamic patient deviation overlay polygon (r = 0.25 to 1.0)
- * - Colored vertex dots and dynamic text labels
  */
 export const PhysiologicalRadar: React.FC<PhysiologicalRadarProps> = ({
   axes,
@@ -49,18 +42,26 @@ export const PhysiologicalRadar: React.FC<PhysiologicalRadarProps> = ({
 }) => {
   const numAxes = axes.length;
 
-  // Normalized patient deviations between 0 (homeostasis) and 1 (critical derangement)
   const normalizedValues = useMemo(() => {
-    return normalizeRadarValues(axes, values);
+    const result: Record<string, number> = {};
+    for (const axis of axes) {
+      const raw = values[axis.id];
+      if (raw === undefined || Number.isNaN(raw)) {
+        result[axis.id] = 0;
+      } else if (raw >= 0 && raw <= 1) {
+        result[axis.id] = raw;
+      } else {
+        result[axis.id] = normalizeRadarValues([axis], { [axis.id]: raw })[axis.id] ?? 0;
+      }
+    }
+    return result;
   }, [axes, values]);
 
-  // Determine peak deviation to set dynamic styling
   const maxDeviation = useMemo(() => {
     const vals = Object.values(normalizedValues);
     return vals.length > 0 ? Math.max(...vals) : 0;
   }, [normalizedValues]);
 
-  // Geometry computation
   const gridRings = useMemo(() => {
     if (numAxes < 3) return [];
     return generateGridRings(numAxes, center, maxRadius, [0.25, 0.5, 0.75, 1.0]);
@@ -86,7 +87,6 @@ export const PhysiologicalRadar: React.FC<PhysiologicalRadarProps> = ({
     return getAxisLabelPositions(axes, center, maxRadius, 22);
   }, [axes, center, maxRadius]);
 
-  // Vertex points for the patient deviation polygon
   const patientVertices = useMemo(() => {
     if (numAxes < 3) return [];
     return axes.map((axis, i) => {
@@ -103,7 +103,6 @@ export const PhysiologicalRadar: React.FC<PhysiologicalRadarProps> = ({
     });
   }, [axes, normalizedValues, center, maxRadius, baselineRatio, numAxes]);
 
-  // Dynamic color theme based on deviation severity
   const deviationTheme = useMemo(() => {
     if (maxDeviation >= 0.75) {
       return {
@@ -143,7 +142,7 @@ export const PhysiologicalRadar: React.FC<PhysiologicalRadarProps> = ({
 
   if (numAxes < 3) {
     return (
-      <div className={`p-4 rounded-2xl bg-surface-light dark:bg-surface-dark border border-subtle-light dark:border-subtle-dark text-center text-xs text-slate-500 ${className}`}>
+      <div className={`p-3 rounded-xl bg-surface-light dark:bg-surface-dark border border-subtle-light dark:border-subtle-dark text-center text-xs text-slate-500 ${className}`}>
         Radar fisiológico requer no mínimo 3 eixos monitorizados ({numAxes} disponíveis).
       </div>
     );
@@ -151,7 +150,7 @@ export const PhysiologicalRadar: React.FC<PhysiologicalRadarProps> = ({
 
   return (
     <div
-      className={`relative flex flex-col items-center justify-center p-3 rounded-2xl bg-surface-light dark:bg-surface-dark border border-subtle-light dark:border-subtle-dark shadow-card transition-colors duration-200 ${className}`}
+      className={`relative flex flex-col items-center justify-center p-3 rounded-xl bg-surface-light dark:bg-surface-dark border border-subtle-light dark:border-subtle-dark shadow-xs transition-colors duration-200 ${className}`}
       data-testid="physiological-radar-card"
     >
       {/* Header with Title and Severity Badge */}
@@ -165,8 +164,10 @@ export const PhysiologicalRadar: React.FC<PhysiologicalRadarProps> = ({
       </div>
 
       {/* SVG Radar Surface */}
-      <div className="relative w-full max-w-[280px] sm:max-w-[320px] aspect-square flex items-center justify-center">
+      <div className="relative w-full max-w-[280px] sm:max-w-xs aspect-square flex items-center justify-center">
         <svg
+          width="24"
+          height="24"
           viewBox={`0 0 ${size} ${size}`}
           className="w-full h-full select-none overflow-visible transition-all duration-300"
           aria-label="Gráfico de Radar Fisiológico"
@@ -174,7 +175,6 @@ export const PhysiologicalRadar: React.FC<PhysiologicalRadarProps> = ({
           data-testid="physiological-radar-svg"
         >
           <defs>
-            {/* Subtle glow filter for the dynamic deviation polygon */}
             <filter id="radarGlow" x="-20%" y="-20%" width="140%" height="140%">
               <feGaussianBlur stdDeviation="3" result="blur" />
               <feComposite in="SourceGraphic" in2="blur" operator="over" />

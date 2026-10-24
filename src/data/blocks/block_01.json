@@ -2056,10 +2056,24 @@
       "radarAxes": [
         {
           "id": "axis_wtvp_score",
-          "label": "Pontuação Wells TVP",
+          "label": "Sinais Locais de TVP",
           "system": "Vascular",
           "baselineValue": 0,
           "maxAxisValue": 9
+        },
+        {
+          "id": "axis_wtvp_risk",
+          "label": "Fatores Trombogênicos",
+          "system": "Hemostasia",
+          "baselineValue": 0,
+          "maxAxisValue": 1
+        },
+        {
+          "id": "axis_wtvp_prob",
+          "label": "Probabilidade Pré-Teste",
+          "system": "Clínico",
+          "baselineValue": 0,
+          "maxAxisValue": 1
         }
       ],
       "parameterGroups": [
@@ -2068,7 +2082,7 @@
           "name": "1. Câncer Ativo",
           "slug": "cancer-ativo",
           "inputType": "single_choice",
-          "radarAxisId": "axis_wtvp_score",
+          "radarAxisId": "axis_wtvp_risk",
           "normalBaselineValue": 0,
           "maxAxisValue": 1,
           "sortOrder": 1,
@@ -2096,7 +2110,7 @@
           "name": "2. Paralisia, Paresia ou Imobilização Gessada de MMII",
           "slug": "paralisia-imobilizacao",
           "inputType": "single_choice",
-          "radarAxisId": "axis_wtvp_score",
+          "radarAxisId": "axis_wtvp_risk",
           "normalBaselineValue": 0,
           "maxAxisValue": 1,
           "sortOrder": 2,
@@ -2124,7 +2138,7 @@
           "name": "3. Acamado Recentemente >= 3 dias ou Cirurgia Maior em 12 semanas",
           "slug": "acamado-cirurgia",
           "inputType": "single_choice",
-          "radarAxisId": "axis_wtvp_score",
+          "radarAxisId": "axis_wtvp_risk",
           "normalBaselineValue": 0,
           "maxAxisValue": 1,
           "sortOrder": 3,
@@ -2264,7 +2278,7 @@
           "name": "8. Veias Superficiais Colaterais Não Varicosas",
           "slug": "veias-colaterais",
           "inputType": "single_choice",
-          "radarAxisId": "axis_wtvp_score",
+          "radarAxisId": "axis_wtvp_prob",
           "normalBaselineValue": 0,
           "maxAxisValue": 1,
           "sortOrder": 8,
@@ -2292,7 +2306,7 @@
           "name": "9. Histórico Prévio Documentado de TVP",
           "slug": "tvp-previa",
           "inputType": "single_choice",
-          "radarAxisId": "axis_wtvp_score",
+          "radarAxisId": "axis_wtvp_risk",
           "normalBaselineValue": 0,
           "maxAxisValue": 1,
           "sortOrder": 9,
@@ -2320,7 +2334,7 @@
           "name": "10. Diagnóstico Alternativo Tão ou Mais Provável que TVP (Redutor)",
           "slug": "diagnostico-alternativo-tvp",
           "inputType": "single_choice",
-          "radarAxisId": "axis_wtvp_score",
+          "radarAxisId": "axis_wtvp_prob",
           "normalBaselineValue": 0,
           "maxAxisValue": 2,
           "sortOrder": 10,
@@ -2422,6 +2436,20 @@
           "system": "TEV",
           "baselineValue": 0,
           "maxAxisValue": 22
+        },
+        {
+          "id": "axis_gen_hemo",
+          "label": "Estresse Taquicárdico",
+          "system": "Hemodinâmico",
+          "baselineValue": 0,
+          "maxAxisValue": 1
+        },
+        {
+          "id": "axis_gen_risk",
+          "label": "Risco Tromboembólico",
+          "system": "Vascular",
+          "baselineValue": 0,
+          "maxAxisValue": 1
         }
       ],
       "parameterGroups": [
@@ -2430,7 +2458,7 @@
           "name": "Idade > 65 anos",
           "slug": "idade-geneva",
           "inputType": "single_choice",
-          "radarAxisId": "axis_gen_score",
+          "radarAxisId": "axis_gen_risk",
           "normalBaselineValue": 0,
           "maxAxisValue": 1,
           "sortOrder": 1,
@@ -2458,7 +2486,7 @@
           "name": "Histórico de TVP ou TEP prévio",
           "slug": "tev-previo-geneva",
           "inputType": "single_choice",
-          "radarAxisId": "axis_gen_score",
+          "radarAxisId": "axis_gen_risk",
           "normalBaselineValue": 0,
           "maxAxisValue": 3,
           "sortOrder": 2,
@@ -2486,7 +2514,7 @@
           "name": "Cirurgia ou fratura no último mês",
           "slug": "cirurgia-geneva",
           "inputType": "single_choice",
-          "radarAxisId": "axis_gen_score",
+          "radarAxisId": "axis_gen_risk",
           "normalBaselineValue": 0,
           "maxAxisValue": 2,
           "sortOrder": 3,
@@ -2514,7 +2542,7 @@
           "name": "Neoplasia maligna ativa",
           "slug": "cancer-geneva",
           "inputType": "single_choice",
-          "radarAxisId": "axis_gen_score",
+          "radarAxisId": "axis_gen_risk",
           "normalBaselineValue": 0,
           "maxAxisValue": 2,
           "sortOrder": 4,
@@ -2542,7 +2570,7 @@
           "name": "Frequência Cardíaca",
           "slug": "fc-geneva",
           "inputType": "single_choice",
-          "radarAxisId": "axis_gen_score",
+          "radarAxisId": "axis_gen_hemo",
           "normalBaselineValue": 0,
           "maxAxisValue": 5,
           "sortOrder": 5,
@@ -2660,6 +2688,20 @@
           "system": "PERC",
           "baselineValue": 0,
           "maxAxisValue": 8
+        },
+        {
+          "id": "axis_perc_cardio",
+          "label": "Reserva Cardiopulmonar",
+          "system": "Cardiorrespiratório",
+          "baselineValue": 0,
+          "maxAxisValue": 1
+        },
+        {
+          "id": "axis_perc_thrombo",
+          "label": "Fatores Trombogênicos",
+          "system": "Vascular",
+          "baselineValue": 0,
+          "maxAxisValue": 1
         }
       ],
       "parameterGroups": [
@@ -2696,7 +2738,7 @@
           "name": "Frequência Cardíaca >= 100 bpm",
           "slug": "fc-100",
           "inputType": "single_choice",
-          "radarAxisId": "axis_perc",
+          "radarAxisId": "axis_perc_cardio",
           "normalBaselineValue": 0,
           "maxAxisValue": 1,
           "sortOrder": 2,
@@ -2724,7 +2766,7 @@
           "name": "Saturação de O2 < 95% em ar ambiente",
           "slug": "spo2-95",
           "inputType": "single_choice",
-          "radarAxisId": "axis_perc",
+          "radarAxisId": "axis_perc_cardio",
           "normalBaselineValue": 0,
           "maxAxisValue": 1,
           "sortOrder": 3,
@@ -2752,7 +2794,7 @@
           "name": "Edema unilateral de membro inferior",
           "slug": "edema-unilateral",
           "inputType": "single_choice",
-          "radarAxisId": "axis_perc",
+          "radarAxisId": "axis_perc_thrombo",
           "normalBaselineValue": 0,
           "maxAxisValue": 1,
           "sortOrder": 4,
@@ -2780,7 +2822,7 @@
           "name": "Hemoptise",
           "slug": "hemoptise-perc",
           "inputType": "single_choice",
-          "radarAxisId": "axis_perc",
+          "radarAxisId": "axis_perc_cardio",
           "normalBaselineValue": 0,
           "maxAxisValue": 1,
           "sortOrder": 5,
@@ -2808,7 +2850,7 @@
           "name": "Cirurgia ou trauma recente com internação <= 4 semanas",
           "slug": "cirurgia-trauma-perc",
           "inputType": "single_choice",
-          "radarAxisId": "axis_perc",
+          "radarAxisId": "axis_perc_thrombo",
           "normalBaselineValue": 0,
           "maxAxisValue": 1,
           "sortOrder": 6,
@@ -2836,7 +2878,7 @@
           "name": "Histórico prévio de TVP ou TEP",
           "slug": "tev-previo-perc",
           "inputType": "single_choice",
-          "radarAxisId": "axis_perc",
+          "radarAxisId": "axis_perc_thrombo",
           "normalBaselineValue": 0,
           "maxAxisValue": 1,
           "sortOrder": 7,
@@ -2864,7 +2906,7 @@
           "name": "Uso exógeno de estrogênio (ACO, TRH)",
           "slug": "estrogenio-perc",
           "inputType": "single_choice",
-          "radarAxisId": "axis_perc",
+          "radarAxisId": "axis_perc_thrombo",
           "normalBaselineValue": 0,
           "maxAxisValue": 1,
           "sortOrder": 8,
@@ -2956,6 +2998,20 @@
           "system": "PESI",
           "baselineValue": 0,
           "maxAxisValue": 150
+        },
+        {
+          "id": "axis_pesi_hemo",
+          "label": "Repercussão Hemodinâmica",
+          "system": "Cardiovascular",
+          "baselineValue": 0,
+          "maxAxisValue": 1
+        },
+        {
+          "id": "axis_pesi_resp",
+          "label": "Hipoxemia e Sensório",
+          "system": "Respiratório",
+          "baselineValue": 0,
+          "maxAxisValue": 1
         }
       ],
       "parameterGroups": [
@@ -3084,7 +3140,7 @@
           "name": "Pressão Arterial Sistólica < 100 mmHg",
           "slug": "pas-pesi",
           "inputType": "single_choice",
-          "radarAxisId": "axis_pesi",
+          "radarAxisId": "axis_pesi_hemo",
           "normalBaselineValue": 0,
           "maxAxisValue": 30,
           "sortOrder": 5,
@@ -3185,6 +3241,20 @@
           "system": "sPESI",
           "baselineValue": 0,
           "maxAxisValue": 6
+        },
+        {
+          "id": "axis_spesi_hemo",
+          "label": "Estresse Hemodinâmico",
+          "system": "Cardiovascular",
+          "baselineValue": 0,
+          "maxAxisValue": 1
+        },
+        {
+          "id": "axis_spesi_resp",
+          "label": "Oxigenação Arterial",
+          "system": "Respiratório",
+          "baselineValue": 0,
+          "maxAxisValue": 1
         }
       ],
       "parameterGroups": [
@@ -3277,7 +3347,7 @@
           "name": "4. Frequência Cardíaca >= 110 bpm",
           "slug": "fc-110",
           "inputType": "single_choice",
-          "radarAxisId": "axis_spesi",
+          "radarAxisId": "axis_spesi_hemo",
           "normalBaselineValue": 0,
           "maxAxisValue": 1,
           "sortOrder": 4,
@@ -3305,7 +3375,7 @@
           "name": "5. Pressão Arterial Sistólica < 100 mmHg",
           "slug": "pas-100",
           "inputType": "single_choice",
-          "radarAxisId": "axis_spesi",
+          "radarAxisId": "axis_spesi_hemo",
           "normalBaselineValue": 0,
           "maxAxisValue": 1,
           "sortOrder": 5,
@@ -3333,7 +3403,7 @@
           "name": "6. Saturação de O2 < 90%",
           "slug": "spo2-90",
           "inputType": "single_choice",
-          "radarAxisId": "axis_spesi",
+          "radarAxisId": "axis_spesi_resp",
           "normalBaselineValue": 0,
           "maxAxisValue": 1,
           "sortOrder": 6,
@@ -4101,6 +4171,20 @@
           "system": "Sedação",
           "baselineValue": 0,
           "maxAxisValue": 5
+        },
+        {
+          "id": "axis_rass_vigil",
+          "label": "Vigilância e Alerta",
+          "system": "Neurológico",
+          "baselineValue": 0,
+          "maxAxisValue": 1
+        },
+        {
+          "id": "axis_rass_motor",
+          "label": "Controle Psicomotor",
+          "system": "Comportamental",
+          "baselineValue": 0,
+          "maxAxisValue": 1
         }
       ],
       "parameterGroups": [
@@ -4292,6 +4376,20 @@
           "system": "Sedação",
           "baselineValue": 4,
           "maxAxisValue": 7
+        },
+        {
+          "id": "axis_sas_coop",
+          "label": "Cooperação e Calma",
+          "system": "Comportamental",
+          "baselineValue": 0,
+          "maxAxisValue": 1
+        },
+        {
+          "id": "axis_sas_safety",
+          "label": "Segurança de Dispositivos",
+          "system": "Intensivismo",
+          "baselineValue": 0,
+          "maxAxisValue": 1
         }
       ],
       "parameterGroups": [
@@ -4450,6 +4548,20 @@
           "system": "Delirium",
           "baselineValue": 0,
           "maxAxisValue": 4
+        },
+        {
+          "id": "axis_cam_vigil",
+          "label": "Nível de Consciência",
+          "system": "Neurológico",
+          "baselineValue": 0,
+          "maxAxisValue": 1
+        },
+        {
+          "id": "axis_cam_thought",
+          "label": "Organização Cognitiva",
+          "system": "Cognitivo",
+          "baselineValue": 0,
+          "maxAxisValue": 1
         }
       ],
       "parameterGroups": [
@@ -4516,7 +4628,7 @@
           "name": "Característica 3: Nível de Consciência Alterado (RASS Atual)",
           "slug": "nivel-consciencia-rass",
           "inputType": "single_choice",
-          "radarAxisId": "axis_cam",
+          "radarAxisId": "axis_cam_vigil",
           "normalBaselineValue": 0,
           "maxAxisValue": 1,
           "sortOrder": 3,
@@ -4545,7 +4657,7 @@
           "name": "Característica 4: Pensamento Desorganizado",
           "slug": "pensamento-desorganizado",
           "inputType": "single_choice",
-          "radarAxisId": "axis_cam",
+          "radarAxisId": "axis_cam_thought",
           "normalBaselineValue": 0,
           "maxAxisValue": 1,
           "sortOrder": 4,
@@ -4655,6 +4767,13 @@
           "system": "48 Horas",
           "baselineValue": 0,
           "maxAxisValue": 6
+        },
+        {
+          "id": "axis_ran_metab",
+          "label": "Repercussão Sistêmica",
+          "system": "Metabólico",
+          "baselineValue": 0,
+          "maxAxisValue": 1
         }
       ],
       "parameterGroups": [
@@ -4887,7 +5006,7 @@
           "name": "9. PaO2 Arterial < 60 mmHg nas primeiras 48h",
           "slug": "pao2-ranson",
           "inputType": "single_choice",
-          "radarAxisId": "axis_ran_48h",
+          "radarAxisId": "axis_ran_metab",
           "normalBaselineValue": 0,
           "maxAxisValue": 1,
           "sortOrder": 9,
@@ -4915,7 +5034,7 @@
           "name": "10. Déficit de Base (Base Excess < -4 mEq/L) em 48h",
           "slug": "deficit-base",
           "inputType": "single_choice",
-          "radarAxisId": "axis_ran_48h",
+          "radarAxisId": "axis_ran_metab",
           "normalBaselineValue": 0,
           "maxAxisValue": 1,
           "sortOrder": 10,
@@ -5340,11 +5459,25 @@
       "badge": "emergencia",
       "radarAxes": [
         {
-          "id": "axis_ctsi",
-          "label": "Índice CTSI",
-          "system": "Radiologia",
+          "id": "axis_ctsi_infl",
+          "label": "Inflamação (Balthazar)",
+          "system": "Radiológico",
           "baselineValue": 0,
-          "maxAxisValue": 10
+          "maxAxisValue": 4
+        },
+        {
+          "id": "axis_ctsi_necr",
+          "label": "Necrose Pancreática",
+          "system": "Perfusão",
+          "baselineValue": 0,
+          "maxAxisValue": 6
+        },
+        {
+          "id": "axis_ctsi_prog",
+          "label": "Risco de Infecção / Morbidade",
+          "system": "Prognóstico",
+          "baselineValue": 0,
+          "maxAxisValue": 1
         }
       ],
       "parameterGroups": [

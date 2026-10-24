@@ -3,7 +3,7 @@ import type { ManifestItem } from '@/types/clinical';
 import defaultManifestRaw from '@/data/manifest.json';
 import { AlphabetJumpRail, DEFAULT_ALPHABET } from './AlphabetJumpRail';
 import { storageService } from '@/services/storageService';
-import { Search, Star, X, Droplets, AlertTriangle } from 'lucide-react';
+import { Search, Star, X, Droplets, AlertTriangle, ChevronRight } from 'lucide-react';
 
 const defaultManifest = defaultManifestRaw as unknown as ManifestItem[];
 
@@ -25,9 +25,6 @@ function normalizeSearchText(text: string): string {
     .trim();
 }
 
-/**
- * Derives the grouping letter from acronym or name.
- */
 function getItemLetter(item: ManifestItem): string {
   const candidate = (item.acronym || item.name || '').trim();
   const cleaned = candidate.replace(/^[^a-zA-Z0-9]+/, '');
@@ -47,10 +44,12 @@ export const AzScoreList: React.FC<AzScoreListProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set(initialFavorites || []));
   const [activeLetter, setActiveLetter] = useState<string>('A');
+  const [highlightedLetter, setHighlightedLetter] = useState<string | null>(null);
   const [searchLatencyMs, setSearchLatencyMs] = useState<number | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef< any >(null);
+  const isManualJumpRef = useRef<boolean>(false);
+  const jumpTimeoutRef = useRef<number | null>(null);
 
-  // Sync favorites from storageService on mount
   useEffect(() => {
     let isMounted = true;
     if (!initialFavorites) {
@@ -68,7 +67,6 @@ export const AzScoreList: React.FC<AzScoreListProps> = ({
     };
   }, [initialFavorites]);
 
-  // Pre-index search tokens for high-speed (<10ms) matching
   const searchableItems = useMemo(() => {
     return items.map((item) => {
       const tokens = [
@@ -94,7 +92,6 @@ export const AzScoreList: React.FC<AzScoreListProps> = ({
     });
   }, [items]);
 
-  // Filter items in real time (<10ms latency)
   const filteredIndexed = useMemo(() => {
     const t0 = performance.now();
     const query = normalizeSearchText(searchQuery);
@@ -112,11 +109,9 @@ export const AzScoreList: React.FC<AzScoreListProps> = ({
     return results;
   }, [searchableItems, searchQuery]);
 
-  // Group items by letter
   const groupedSections = useMemo(() => {
     const groups: Record<string, ManifestItem[]> = {};
 
-    // Sort items by acronym/name
     const sorted = [...filteredIndexed].sort((a, b) => {
       const aKey = a.item.acronym || a.item.name;
       const bKey = b.item.acronym || b.item.name;
@@ -130,7 +125,6 @@ export const AzScoreList: React.FC<AzScoreListProps> = ({
       groups[letter].push(item);
     }
 
-    // Sort group keys alphabetically, with '#' last
     const sortedKeys = Object.keys(groups).sort((a, b) => {
       if (a === '#') return 1;
       if (b === '#') return -1;
@@ -147,28 +141,80 @@ export const AzScoreList: React.FC<AzScoreListProps> = ({
     return groupedSections.map((g) => g.letter);
   }, [groupedSections]);
 
-  // Jump Rail navigation handler
+  // Keep activeLetter valid when filter changes
+  useEffect(() => {
+    if (availableLetters.length > 0 && !availableLetters.includes(activeLetter)) {
+      setActiveLetter(availableLetters[0]);
+    }
+  }, [availableLetters, activeLetter]);
+
+  // Real-time Scroll Spy: sync activeLetter on rail as user scrolls the score list
+  useEffect(() => {
+    if (typeof window === 'undefined' || availableLetters.length === 0) return;
+
+    let rafId: number | null = null;
+    const updateActiveSectionOnScroll = () => {
+      rafId = null;
+      if (isManualJumpRef.current) return;
+
+      const offsetThreshold = 155; // Below sticky top bar + search header
+      let current = availableLetters[0];
+
+      for (const letter of availableLetters) {
+        const el = document.getElementById(`letter-section-${letter}`);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= offsetThreshold) {
+            current = letter;
+          } else {
+            break;
+          }
+        }
+      }
+      setActiveLetter((prev) => (prev !== current ? current : prev));
+    };
+
+    const onScroll = () => {
+      if (rafId === null) {
+        rafId = window.requestAnimationFrame(updateActiveSectionOnScroll);
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafId !== null) window.cancelAnimationFrame(rafId);
+    };
+  }, [availableLetters]);
+
   const handleSelectLetter = useCallback(
     (targetLetter: string) => {
-      setActiveLetter(targetLetter);
+      if (availableLetters.length === 0) return;
 
-      // Check if target letter section exists
-      let targetEl = document.getElementById(`letter-section-${targetLetter}`);
+      const resolvedLetter = availableLetters.includes(targetLetter)
+        ? targetLetter
+        : availableLetters.find((l) => l >= targetLetter) || availableLetters[availableLetters.length - 1];
 
-      // If not directly found, jump to closest next letter
-      if (!targetEl && availableLetters.length > 0) {
-        const nextLetter = availableLetters.find((l) => l >= targetLetter) || availableLetters[0];
-        targetEl = document.getElementById(`letter-section-${nextLetter}`);
+      setActiveLetter(resolvedLetter);
+      setHighlightedLetter(resolvedLetter);
+      isManualJumpRef.current = true;
+
+      if (jumpTimeoutRef.current) {
+        window.clearTimeout(jumpTimeoutRef.current);
       }
+      jumpTimeoutRef.current = window.setTimeout(() => {
+        isManualJumpRef.current = false;
+        setHighlightedLetter(null);
+      }, 650);
 
-      if (targetEl) {
+      const targetEl = document.getElementById(`letter-section-${resolvedLetter}`);
+      if (targetEl && typeof targetEl.scrollIntoView === 'function') {
         targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     },
     [availableLetters]
   );
 
-  // Toggle favorite with optimistic UI and storageService
   const handleToggleFavorite = async (calculatorId: string, e: React.MouseEvent) => {
     e.stopPropagation();
     const wasFavorite = favoriteIds.has(calculatorId);
@@ -185,7 +231,6 @@ export const AzScoreList: React.FC<AzScoreListProps> = ({
       await storageService.toggleFavorite(calculatorId);
       onToggleFavorite?.(calculatorId, !wasFavorite);
     } catch (err) {
-      // Revert on error
       setFavoriteIds(favoriteIds);
       console.error('Falha ao alternar favorito:', err);
     }
@@ -193,10 +238,10 @@ export const AzScoreList: React.FC<AzScoreListProps> = ({
 
   return (
     <div ref={containerRef} className={`relative flex flex-col w-full max-w-md mx-auto ${className}`}>
-      {/* Search Bar Header */}
-      <div className="sticky top-0 z-20 backdrop-blur-xl bg-surface-light/90 dark:bg-surface-dark/90 border-b border-subtle-light dark:border-subtle-dark px-4 py-3 space-y-2 transition-colors shadow-xs">
+      {/* Compact Sticky Search Bar */}
+      <div className="sticky top-14 z-20 backdrop-blur-xl bg-surface-light/95 dark:bg-surface-dark/95 border-b border-subtle-light dark:border-subtle-dark px-3.5 py-2 space-y-1 transition-colors shadow-xs">
         <div className="relative flex items-center">
-          <div className="absolute left-3.5 text-slate-400 dark:text-slate-500 pointer-events-none">
+          <div className="absolute left-3 text-slate-400 dark:text-slate-500 pointer-events-none">
             <Search className="w-4 h-4" />
           </div>
 
@@ -206,7 +251,7 @@ export const AzScoreList: React.FC<AzScoreListProps> = ({
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Buscar escore, sigla ou sintoma (sepse, choque, TEP)..."
-            className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-canvas-light dark:bg-canvas-dark border border-subtle-light dark:border-subtle-dark text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition-all shadow-xs"
+            className="w-full pl-9 pr-8 py-2 rounded-xl bg-canvas-light dark:bg-canvas-dark border border-subtle-light dark:border-subtle-dark text-xs sm:text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition-all"
             aria-label="Buscar escores clínicos"
           />
 
@@ -214,19 +259,18 @@ export const AzScoreList: React.FC<AzScoreListProps> = ({
             <button
               type="button"
               onClick={() => setSearchQuery('')}
-              className="absolute right-3 p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+              className="absolute right-2.5 p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
               aria-label="Limpar busca"
             >
-              <X className="w-4 h-4" />
+              <X className="w-3.5 h-3.5" />
             </button>
           )}
         </div>
 
-        {/* Search status & count */}
-        <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 px-1">
+        <div className="flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400 px-1 tabular-nums">
           <span>
             {filteredIndexed.length}{' '}
-            {filteredIndexed.length === 1 ? 'escore clínico' : 'escores clínicos'}
+            {filteredIndexed.length === 1 ? 'escore disponível' : 'escores disponíveis'}
           </span>
           {searchLatencyMs !== null && (
             <span className="font-mono text-[10px] text-slate-400 dark:text-slate-500">
@@ -236,146 +280,160 @@ export const AzScoreList: React.FC<AzScoreListProps> = ({
         </div>
       </div>
 
-      {/* Main Content Area: Grouped List + Jump Rail */}
-      <div className="relative flex-1 flex min-w-0">
+      {/* Main Content Area: Compact Grouped List + Synchronized Jump Rail */}
+      <div className="relative flex-1 flex items-start min-w-0">
         {/* Scrollable A-Z Grouped Items */}
-        <div className="flex-1 min-w-0 px-3.5 py-3 space-y-5">
+        <div className="flex-1 min-w-0 pl-3 pr-1.5 py-2.5 space-y-3">
           {groupedSections.length === 0 ? (
-            <div className="text-center py-12 px-4 space-y-3">
-              <div className="w-12 h-12 mx-auto rounded-2xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
-                <Search className="w-6 h-6" />
+            <div className="text-center py-10 px-4 space-y-2.5">
+              <div className="w-10 h-10 mx-auto rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center">
+                <Search className="w-5 h-5" />
               </div>
               <h3 className="text-sm font-bold text-slate-900 dark:text-white">
                 Nenhum escore encontrado
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400 max-w-xs mx-auto">
-                Não encontramos resultados para &ldquo;{searchQuery}&rdquo;. Tente buscar por
-                termos como <span className="font-semibold">sepse</span>,{' '}
-                <span className="font-semibold">choque</span>,{' '}
-                <span className="font-semibold">TEP</span>,{' '}
-                <span className="font-semibold">coma</span> ou{' '}
+                Não encontramos resultados para &ldquo;{searchQuery}&rdquo;. Tente buscar por{' '}
+                <span className="font-semibold">sepse</span>, <span className="font-semibold">TEP</span> ou{' '}
                 <span className="font-semibold">glasgow</span>.
               </p>
             </div>
           ) : (
-            groupedSections.map(({ letter, items: groupItems }) => (
-              <section key={letter} aria-labelledby={`letter-heading-${letter}`} className="space-y-2.5">
-                {/* Sticky Alphabet Section Header */}
-                <div
-                  id={`letter-section-${letter}`}
-                  className="sticky top-16 z-10 py-1.5 px-3 rounded-xl backdrop-blur-md bg-canvas-light/90 dark:bg-canvas-dark/90 border border-subtle-light/70 dark:border-subtle-dark/70 flex items-center justify-between shadow-xs transition-colors"
+            groupedSections.map(({ letter, items: groupItems }) => {
+              const isSectionActive = activeLetter === letter;
+              const isSectionHighlighted = highlightedLetter === letter;
+
+              return (
+                <section
+                  key={letter}
+                  aria-labelledby={`letter-heading-${letter}`}
+                  className="space-y-1.5"
                 >
-                  <span
-                    id={`letter-heading-${letter}`}
-                    className="text-xs font-black text-brand-600 dark:text-brand-400 uppercase tracking-wider"
+                  {/* Compact Section Letter Divider */}
+                  <div
+                    id={`letter-section-${letter}`}
+                    className={`scroll-mt-32 py-1 px-2.5 rounded-lg flex items-center justify-between transition-colors ${
+                      isSectionActive
+                        ? 'bg-brand-500/10 dark:bg-brand-400/10 border border-brand-500/25'
+                        : 'bg-surface-raised-light/70 dark:bg-surface-raised-dark/60 border border-subtle-light/60 dark:border-subtle-dark/60'
+                    } ${isSectionHighlighted ? 'section-jump-highlight' : ''}`}
                   >
-                    {letter}
-                  </span>
-                  <span className="text-[10px] font-medium text-slate-400 dark:text-slate-500">
-                    {groupItems.length} {groupItems.length === 1 ? 'item' : 'itens'}
-                  </span>
-                </div>
+                    <span
+                      id={`letter-heading-${letter}`}
+                      className="text-[11px] font-black text-brand-600 dark:text-brand-400 uppercase tracking-wider tabular-nums"
+                    >
+                      {letter}
+                    </span>
+                    <span className="text-[10px] font-medium text-slate-400 dark:text-slate-500 tabular-nums">
+                      {groupItems.length}
+                    </span>
+                  </div>
 
-                {/* Score Cards in Group */}
-                <div className="space-y-2.5">
-                  {groupItems.map((item) => {
-                    const isStarred = favoriteIds.has(item.id);
+                  {/* Sleek Compact Score Rows: Name + Function only */}
+                  <div className="space-y-1.5">
+                    {groupItems.map((item) => {
+                      const isStarred = favoriteIds.has(item.id);
+                      const primaryTitle = item.acronym || item.name;
+                      const secondaryTitle =
+                        item.acronym && item.name && item.name !== item.acronym ? item.name : null;
 
-                    return (
-                      <div
-                        key={item.id}
-                        role="button"
-                        tabIndex={0}
-                        onClick={() => onSelectCalculator(item.id)}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault();
-                            onSelectCalculator(item.id);
-                          }
-                        }}
-                        className="group relative p-4 rounded-2xl bg-surface-light dark:bg-surface-dark border border-subtle-light/90 dark:border-subtle-dark/90 shadow-card hover:shadow-card-hover active:scale-[0.985] hover:border-brand-500/40 dark:hover:border-brand-400/40 transition-all duration-150 cursor-pointer min-h-touch flex flex-col justify-between overflow-hidden"
-                      >
-                        {/* Top Row: Acronym, Name, and Star Button */}
-                        <div className="flex items-start justify-between gap-2">
+                      return (
+                        <div
+                          key={item.id}
+                          role="button"
+                          tabIndex={0}
+                          onClick={() => onSelectCalculator(item.id)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter' || e.key === ' ') {
+                              e.preventDefault();
+                              onSelectCalculator(item.id);
+                            }
+                          }}
+                          className="group relative px-3 py-2 rounded-xl bg-surface-light dark:bg-surface-dark border border-subtle-light/90 dark:border-subtle-dark/90 shadow-xs hover:shadow-card hover:border-brand-500/45 dark:hover:border-brand-400/45 hover:translate-x-0.5 active:scale-[0.99] transition-spring cursor-pointer flex items-center justify-between gap-2 min-w-0 overflow-hidden before:content-[''] before:absolute before:left-0 before:top-2 before:bottom-2 before:w-1 before:rounded-r-full before:bg-brand-500 before:opacity-0 hover:before:opacity-100 active:before:opacity-100 before:transition-opacity"
+                        >
+                          {/* Left Content: Score Name + 1-line Function */}
                           <div className="min-w-0 flex-1">
-                            <div className="flex items-center space-x-2 flex-wrap gap-y-1">
-                              <h3 className="text-base font-bold text-slate-900 dark:text-white tracking-tight">
-                                {item.acronym || item.name}
+                            <div className="flex items-center gap-1.5 min-w-0">
+                              <h3 className="text-sm font-bold text-slate-900 dark:text-white tracking-tight shrink-0">
+                                {primaryTitle}
                               </h3>
-                              {item.badge && (
-                                <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-brand-500/10 text-brand-600 dark:text-brand-400">
-                                  {item.badge}
+
+                              {secondaryTitle && (
+                                <span
+                                  className="text-[11px] text-slate-400 dark:text-slate-500 truncate flex-1 min-w-0"
+                                  title={item.evidenceSource}
+                                >
+                                  — {secondaryTitle}
                                 </span>
                               )}
+
+                              {!secondaryTitle && (
+                                <span className="truncate flex-1 min-w-0 sr-only" title={item.evidenceSource}>
+                                  {item.evidenceSource}
+                                </span>
+                              )}
+
                               {item.hasInfusionProtocol && (
-                                <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-clinical-info/10 text-clinical-info border border-clinical-info/20">
-                                  <Droplets className="w-2.5 h-2.5 mr-1" />
+                                <span
+                                  className="inline-flex items-center px-1.5 py-0.2 rounded text-[9px] font-bold bg-clinical-info/10 text-clinical-info border border-clinical-info/20 shrink-0"
+                                  title="Inclui protocolo de Bomba de Infusão Contínua (BIC)"
+                                >
+                                  <Droplets className="w-2.5 h-2.5 mr-0.5" />
                                   BIC
                                 </span>
                               )}
+
                               {item.id === 'calc_qsofa' && (
-                                <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-clinical-warning/15 text-clinical-warning border border-clinical-warning/20">
+                                <span className="inline-flex items-center px-1.5 py-0.2 rounded text-[9px] font-bold bg-clinical-warning/15 text-clinical-warning border border-clinical-warning/25 shrink-0">
                                   <AlertTriangle className="w-2.5 h-2.5 mr-0.5" />
-                                  SSC 2021
+                                  SSC
                                 </span>
                               )}
                             </div>
 
-                            <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1 mt-0.5">
-                              {item.name}
+                            {/* Concise Function Line */}
+                            <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-1 mt-0.5 leading-snug">
+                              {item.summary || item.description}
                             </p>
                           </div>
 
-                          {/* 48px Accessible Star Button */}
-                          <button
-                            type="button"
-                            aria-label={
-                              isStarred
-                                ? `Remover ${item.acronym} dos favoritos`
-                                : `Adicionar ${item.acronym} aos favoritos`
-                            }
-                            onClick={(e) => handleToggleFavorite(item.id, e)}
-                            className="min-w-touch min-h-touch -mr-2 -mt-2 flex items-center justify-center rounded-xl text-slate-400 hover:text-amber-500 active:scale-90 transition-transform"
-                          >
-                            <Star
-                              className={`w-5 h-5 transition-colors ${
+                          {/* Right Controls: Star + Subtle Chevron */}
+                          <div className="flex items-center shrink-0 -mr-1">
+                            <button
+                              type="button"
+                              aria-label={
                                 isStarred
-                                  ? 'fill-amber-400 text-amber-500 drop-shadow-[0_1px_3px_rgba(245,158,11,0.3)]'
-                                  : 'text-slate-400 dark:text-slate-500'
-                              }`}
-                            />
-                          </button>
+                                  ? `Remover ${item.acronym} dos favoritos`
+                                  : `Adicionar ${item.acronym} aos favoritos`
+                              }
+                              onClick={(e) => handleToggleFavorite(item.id, e)}
+                              className="w-9 h-9 flex items-center justify-center rounded-lg text-slate-400 hover:text-amber-500 active:scale-90 transition-transform"
+                            >
+                              <Star
+                                className={`w-4 h-4 transition-colors ${
+                                  isStarred
+                                    ? 'fill-amber-400 text-amber-500'
+                                    : 'text-slate-300 dark:text-slate-600 group-hover:text-slate-400'
+                                }`}
+                              />
+                            </button>
+                            <ChevronRight className="w-4 h-4 text-slate-300 dark:text-slate-600 group-hover:text-brand-500 group-hover:translate-x-0.5 transition-all" />
+                          </div>
                         </div>
-
-                        {/* Summary / Indication */}
-                        <p className="text-xs text-slate-600 dark:text-slate-300 line-clamp-2 mt-2 leading-relaxed">
-                          {item.summary || item.description}
-                        </p>
-
-                        {/* Bottom Metadata Badges */}
-                        <div className="flex items-center space-x-2 mt-2.5 pt-2 border-t border-subtle-light/60 dark:border-subtle-dark/60 text-[10px] text-slate-400 dark:text-slate-500 min-w-0 overflow-hidden">
-                          <span className="truncate max-w-[45%] font-medium">
-                            {item.moduleName || item.categoryName}
-                          </span>
-                          <span className="shrink-0 text-slate-300 dark:text-slate-600">•</span>
-                          <span className="truncate flex-1 min-w-0" title={item.evidenceSource}>
-                            {item.evidenceSource}
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </section>
-            ))
+                      );
+                    })}
+                  </div>
+                </section>
+              );
+            })
           )}
         </div>
 
-        {/* Right-Hand Jump Rail (Fixed in viewport or sticky to list) */}
-        {showJumpRail && (
+        {/* Docked Right-Hand Alphabet Jump Rail (Stays visible & synchronized while scrolling) */}
+        {showJumpRail && groupedSections.length > 0 && (
           <aside
             aria-label="Atalho alfabético"
-            className="sticky top-16 right-0 self-start pr-0.5 pl-0.5 shrink-0"
+            className="sticky top-32 right-0 self-start pr-1.5 pl-0.5 py-1 shrink-0 z-20"
           >
             <AlphabetJumpRail
               letters={DEFAULT_ALPHABET}

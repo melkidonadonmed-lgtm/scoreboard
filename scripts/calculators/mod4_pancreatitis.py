@@ -6,7 +6,7 @@ Module 04: Emergency Gastroenterology - Acute Pancreatitis
 - Escore de Marshall Modificado
 """
 
-def get_ranson():
+def get_ranson() -> dict:
     return {
         "id": "calc_ranson",
         "slug": "ranson-criteria",
@@ -266,7 +266,7 @@ def get_ranson():
         ]
     }
 
-def get_bisap():
+def get_bisap() -> dict:
     return {
         "id": "calc_bisap",
         "slug": "bisap-score",
@@ -423,7 +423,7 @@ def get_bisap():
         ]
     }
 
-def get_balthazar_ctsi():
+def get_balthazar_ctsi() -> dict:
     return {
         "id": "calc_balthazar_ctsi",
         "slug": "balthazar-ctsi",
@@ -525,7 +525,7 @@ def get_balthazar_ctsi():
         ]
     }
 
-def get_marshall_mod():
+def get_marshall_mod() -> dict:
     return {
         "id": "calc_marshall_mod",
         "slug": "marshall-score",

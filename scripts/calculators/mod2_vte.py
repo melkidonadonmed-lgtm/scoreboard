@@ -8,7 +8,7 @@ Module 02: Venous Thromboembolism (DVT and PE)
 - sPESI
 """
 
-def get_wells_tep():
+def get_wells_tep() -> dict:
     return {
         "id": "calc_wells_tep",
         "slug": "wells-tep",
@@ -206,7 +206,7 @@ def get_wells_tep():
         ]
     }
 
-def get_wells_tvp():
+def get_wells_tvp() -> dict:
     return {
         "id": "calc_wells_tvp",
         "slug": "wells-tvp",
@@ -412,7 +412,7 @@ def get_wells_tvp():
         ]
     }
 
-def get_geneva():
+def get_geneva() -> dict:
     return {
         "id": "calc_geneva",
         "slug": "geneva-score",
@@ -552,7 +552,7 @@ def get_geneva():
         ]
     }
 
-def get_perc():
+def get_perc() -> dict:
     return {
         "id": "calc_perc",
         "slug": "perc-rule",
@@ -720,7 +720,7 @@ def get_perc():
         ]
     }
 
-def get_pesi():
+def get_pesi() -> dict:
     return {
         "id": "calc_pesi",
         "slug": "pesi-score",
@@ -856,7 +856,7 @@ def get_pesi():
         ]
     }
 
-def get_spesi():
+def get_spesi() -> dict:
     return {
         "id": "calc_spesi",
         "slug": "spesi-score",

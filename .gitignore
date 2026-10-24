@@ -42,3 +42,5 @@ docs/01_especificacoes_clinicas/neurocirurgia_drive/*.docx
 
 # Logs e traces de subagentes
 .agents/
+
+.gemini/

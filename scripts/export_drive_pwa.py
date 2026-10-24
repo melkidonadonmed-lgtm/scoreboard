@@ -21,7 +21,7 @@ GCLOUD_BIN = "/home/melki/.local/bin/gcloud"
 UPLOAD_URL = "https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart"
 DRIVE_API_BASE = "https://www.googleapis.com/drive/v3"
 
-def get_auth_token():
+def get_auth_token() -> str:
     print("[1/5] Retrieving Google Cloud access token via gcloud...")
     cmd = [GCLOUD_BIN, "auth", "print-access-token"]
     result = subprocess.run(cmd, capture_output=True, text=True)
@@ -34,7 +34,7 @@ def get_auth_token():
     print("  ✓ Access token retrieved successfully.")
     return token
 
-def package_dist_zip():
+def package_dist_zip() -> int:
     print(f"[2/5] Packaging {DIST_DIR} into {ZIP_PATH}...")
     if not os.path.isdir(DIST_DIR):
         raise FileNotFoundError(f"Dist directory not found: {DIST_DIR}. Run 'npm run build' first.")
@@ -52,7 +52,7 @@ def package_dist_zip():
     print(f"  ✓ Archive size: {size_bytes} bytes ({size_kb:.2f} KB)")
     return size_bytes
 
-def upload_zip_to_drive(token):
+def upload_zip_to_drive(token: str) -> str:
     print(f"[3/5] Uploading {ZIP_NAME} to Google Drive folder {FOLDER_ID} via multipart upload...")
     with open(ZIP_PATH, "rb") as f:
         zip_bytes = f.read()
@@ -101,7 +101,7 @@ def upload_zip_to_drive(token):
     print(f"  ✓ Target Parent Folder ID: {FOLDER_ID}")
     return file_id
 
-def verify_drive_upload(token, file_id):
+def verify_drive_upload(token: str, file_id: str) -> dict:
     print(f"[4/5] Verifying uploaded file on Google Drive (ID: {file_id})...")
     url = f"{DRIVE_API_BASE}/files/{file_id}?fields=id,name,parents,size,mimeType,createdTime"
     headers = {"Authorization": f"Bearer {token}"}
@@ -119,7 +119,7 @@ def verify_drive_upload(token, file_id):
     print(f"    - Created Time: {file_meta.get('createdTime')}")
     return file_meta
 
-def main():
+def main() -> None:
     print("=================================================================")
     print("📦 Scoreboard App: PWA Build Packaging, Upload & Drive Verify")
     print("=================================================================")
@@ -129,7 +129,7 @@ def main():
         file_id = upload_zip_to_drive(token)
         verify_drive_upload(token, file_id)
         print("[5/5] All Google Drive release operations completed successfully! 🎉")
-    except Exception as e:
+    except (RuntimeError, OSError, ValueError) as e:
         print(f"❌ Error during export/upload: {e}", file=sys.stderr)
         sys.exit(1)
 

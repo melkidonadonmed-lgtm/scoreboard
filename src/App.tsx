@@ -4,7 +4,14 @@ import type { BedRecord } from '@/services/storageService';
 import { storageService } from '@/services/storageService';
 import defaultManifestRaw from '@/data/manifest.json';
 import block01Data from '@/data/blocks/block_01.json';
-import block03Data from './data/blocks/block_03.json';
+import block02Data from '@/data/blocks/block_02.json';
+import block03Data from '@/data/blocks/block_03.json';
+import block04Data from '@/data/blocks/block_04.json';
+import block05Data from '@/data/blocks/block_05.json';
+import block06Data from '@/data/blocks/block_06.json';
+import block07Data from '@/data/blocks/block_07.json';
+import block08Data from '@/data/blocks/block_08.json';
+import block09Data from '@/data/blocks/block_09.json';
 
 import { ThemeToggle } from '@/components/common/ThemeToggle';
 import { BottomNav, type TabType } from '@/components/common/BottomNav';
@@ -29,7 +36,17 @@ import {
 } from 'lucide-react';
 
 const manifest = defaultManifestRaw as unknown as ManifestItem[];
-const allCalculators = [...block01Data.calculators, ...block03Data.calculators] as unknown as Calculator[];
+const allCalculators = [
+  ...block01Data.calculators,
+  ...block02Data.calculators,
+  ...block03Data.calculators,
+  ...block04Data.calculators,
+  ...block05Data.calculators,
+  ...block06Data.calculators,
+  ...block07Data.calculators,
+  ...block08Data.calculators,
+  ...block09Data.calculators,
+] as unknown as Calculator[];
 
 export const App: React.FC = () => {
   // Navigation State
@@ -207,13 +224,13 @@ export const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-full flex flex-col bg-canvas-light dark:bg-canvas-dark text-slate-900 dark:text-slate-100 transition-colors duration-200 relative overflow-x-hidden selection:bg-brand-500 selection:text-white">
+    <div className="min-h-full flex flex-col bg-canvas-light dark:bg-canvas-dark text-slate-900 dark:text-slate-100 transition-colors duration-200 relative overflow-x-clip selection:bg-brand-500 selection:text-white">
       {/* Ambient background glow for premium depth */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-lg h-96 bg-gradient-to-b from-brand-500/10 via-brand-500/5 to-transparent pointer-events-none blur-3xl -z-10" />
 
       {/* 1. Global Mobile-First Header */}
       {!selectedCalculator && (
-        <header className="sticky top-0 z-20 backdrop-blur-xl bg-surface-light/90 dark:bg-surface-dark/90 border-b border-subtle-light/80 dark:border-subtle-dark/80 px-4 py-3 pt-safe transition-colors duration-200 shadow-xs">
+        <header className="sticky top-0 z-30 backdrop-blur-xl bg-surface-light/95 dark:bg-surface-dark/95 border-b border-subtle-light/80 dark:border-subtle-dark/80 px-3.5 py-2 pt-safe transition-colors duration-200 shadow-xs">
           <div className="max-w-md mx-auto flex items-center justify-between">
             <div className="flex items-center space-x-2.5">
               <div className="w-9 h-9 rounded-xl bg-brand-500/10 dark:bg-brand-400/15 flex items-center justify-center text-brand-600 dark:text-brand-400 shadow-xs">

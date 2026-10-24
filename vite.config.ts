@@ -85,6 +85,26 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  build: {
+    chunkSizeWarningLimit: 750,
+    rollupOptions: {
+      output: {
+        manualChunks(id: string) {
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
+          const blockMatch = id.match(/block_0([1-9])\.json/);
+          if (blockMatch) {
+            return `clinical-block-0${blockMatch[1]}`;
+          }
+          if (id.includes('manifest.json')) {
+            return 'clinical-manifest';
+          }
+          return undefined;
+        },
+      },
+    },
+  },
   test: {
     globals: true,
     environment: 'node',

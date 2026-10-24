@@ -95,16 +95,22 @@ export function calculateScore(
   }
 
   // Process parameter groups
+  const mappedAxisIds = new Set<string>();
+  let maxOptionNorm = 0;
+
   for (const group of calc.parameterGroups) {
     const selectedOption = resolveSelectedOption(group, inputs);
 
     if (selectedOption) {
       rawScore += selectedOption.pointValue;
+      const optNorm = Math.min(1, Math.max(0, selectedOption.radarNormalizedValue ?? 0));
+      maxOptionNorm = Math.max(maxOptionNorm, optNorm);
       if (group.radarAxisId) {
+        mappedAxisIds.add(group.radarAxisId);
         // In case multiple groups map to the same radar axis, take the maximal derangement
         radarValues[group.radarAxisId] = Math.max(
           radarValues[group.radarAxisId] ?? 0,
-          selectedOption.radarNormalizedValue
+          optNorm
         );
       }
     } else {
@@ -112,14 +118,25 @@ export function calculateScore(
       const numericVal = resolveNumericInputValue(group, inputs);
       if (numericVal !== undefined) {
         rawScore += numericVal;
-        if (group.radarAxisId && group.maxAxisValue > 0) {
+        if (group.maxAxisValue > group.normalBaselineValue) {
           const norm = Math.min(
             1,
             Math.max(0, (numericVal - group.normalBaselineValue) / (group.maxAxisValue - group.normalBaselineValue))
           );
-          radarValues[group.radarAxisId] = Math.max(radarValues[group.radarAxisId] ?? 0, norm);
+          maxOptionNorm = Math.max(maxOptionNorm, norm);
+          if (group.radarAxisId) {
+            mappedAxisIds.add(group.radarAxisId);
+            radarValues[group.radarAxisId] = Math.max(radarValues[group.radarAxisId] ?? 0, norm);
+          }
         }
       }
+    }
+  }
+
+  // Project score derangement onto any radarAxes not directly mapped by a parameterGroup
+  for (const axis of calc.radarAxes) {
+    if (!mappedAxisIds.has(axis.id)) {
+      radarValues[axis.id] = maxOptionNorm;
     }
   }
 
@@ -988,11 +1005,11 @@ export function calculateSagittalBalance(
   }
 
   // Extract continuous spinopelvic parameters
-  const pi = extractNumeric(inputs, ['pi', 'PI', 'pelvic_incidence', 'pelvicIncidence', 'input_pi', 'grp_sagittal_pi'], 53);
-  const pt = extractNumeric(inputs, ['pt', 'PT', 'pelvic_tilt', 'pelvicTilt', 'input_pt', 'grp_sagittal_pt'], 13);
-  const ss = extractNumeric(inputs, ['ss', 'SS', 'sacral_slope', 'sacralSlope', 'input_ss', 'grp_sagittal_ss'], 40);
-  const ll = extractNumeric(inputs, ['ll', 'LL', 'lumbar_lordosis', 'lumbarLordosis', 'input_ll', 'grp_sagittal_ll'], 53);
-  const sva = extractNumeric(inputs, ['sva', 'SVA', 'sagittal_vertical_axis', 'sagittalVerticalAxis', 'input_sva', 'grp_sagittal_sva'], 20);
+  const pi = extractNumeric(inputs, ['pi', 'PI', 'pelvic_incidence', 'pelvicIncidence', 'input_pi', 'grp_sagittal_pi', 'grp_sb_pi'], 53);
+  const pt = extractNumeric(inputs, ['pt', 'PT', 'pelvic_tilt', 'pelvicTilt', 'input_pt', 'grp_sagittal_pt', 'grp_sb_pt'], 13);
+  const ss = extractNumeric(inputs, ['ss', 'SS', 'sacral_slope', 'sacralSlope', 'input_ss', 'grp_sagittal_ss', 'grp_sb_ss'], 40);
+  const ll = extractNumeric(inputs, ['ll', 'LL', 'lumbar_lordosis', 'lumbarLordosis', 'input_ll', 'grp_sagittal_ll', 'grp_sb_ll'], 53);
+  const sva = extractNumeric(inputs, ['sva', 'SVA', 'sagittal_vertical_axis', 'sagittalVerticalAxis', 'input_sva', 'grp_sagittal_sva', 'grp_sb_sva'], 20);
 
   // Geometric identity: PI = PT + SS (Warn if |PI - (PT + SS)| > 3°)
   const geometricSum = pt + ss;
@@ -1203,7 +1220,7 @@ export function calculateNomsFramework(
 
   // 1. Neurologic: Bilsky ESCC (0, 1a, 1b, 1c, 2, 3)
   let bilskyStr = '0';
-  const neuroVal = inputs.neurologic ?? inputs.bilsky ?? inputs.escc ?? inputs.grp_noms_neurologic ?? inputs.bilskyGrade;
+  const neuroVal = inputs.neurologic ?? inputs.bilsky ?? inputs.escc ?? inputs.grp_noms_neurologic ?? inputs.grp_noms_neuro ?? inputs.bilskyGrade;
   if (typeof neuroVal === 'string') {
     const match = neuroVal.match(/(0|1a|1b|1c|2|3)/i);
     if (match) bilskyStr = match[1].toLowerCase();
@@ -1222,7 +1239,7 @@ export function calculateNomsFramework(
 
   // 2. Oncologic: Histological Radiosensitivity (Radiosensitive vs Radioresistant)
   let isRadiosensitive = false;
-  const oncoVal = inputs.oncologic ?? inputs.radiosensitivity ?? inputs.histology ?? inputs.grp_noms_oncologic;
+  const oncoVal = inputs.oncologic ?? inputs.radiosensitivity ?? inputs.histology ?? inputs.grp_noms_oncologic ?? inputs.grp_noms_onco;
   if (typeof oncoVal === 'string') {
     const lower = oncoVal.toLowerCase();
     if (
@@ -1240,42 +1257,42 @@ export function calculateNomsFramework(
   } else if (typeof oncoVal === 'boolean') {
     isRadiosensitive = oncoVal;
   } else {
-    if (inputs.opt_radiosensitive || inputs.radiosensitive === true) {
+    if (inputs.opt_radiosensitive || inputs.opt_onco_sens || inputs.radiosensitive === true) {
       isRadiosensitive = true;
     }
   }
 
   // 3. Mechanical: SINS (0-6 Stable, 7-12 Potentially Unstable, 13-18 Unstable)
   let mechanicalCategory: 'stable' | 'potentially_unstable' | 'unstable' = 'stable';
-  const mechVal = inputs.mechanical ?? inputs.sins ?? inputs.sins_score ?? inputs.grp_noms_mechanical;
+  const mechVal = inputs.mechanical ?? inputs.sins ?? inputs.sins_score ?? inputs.grp_noms_mechanical ?? inputs.grp_noms_mech;
   if (typeof mechVal === 'number') {
     if (mechVal >= 13) mechanicalCategory = 'unstable';
     else if (mechVal >= 7) mechanicalCategory = 'potentially_unstable';
     else mechanicalCategory = 'stable';
   } else if (typeof mechVal === 'string') {
     const lower = mechVal.toLowerCase();
-    if (lower.includes('unstable') || lower.includes('instab')) mechanicalCategory = 'unstable';
-    else if (lower.includes('poten')) mechanicalCategory = 'potentially_unstable';
+    if (lower.includes('poten') || lower.includes('_pot')) mechanicalCategory = 'potentially_unstable';
+    else if (lower.includes('unstable') || lower.includes('instab') || lower.includes('_unst')) mechanicalCategory = 'unstable';
     else mechanicalCategory = 'stable';
   } else {
-    if (inputs.opt_sins_unstable || inputs.unstable === true) mechanicalCategory = 'unstable';
-    else if (inputs.opt_sins_potentially_unstable) mechanicalCategory = 'potentially_unstable';
+    if (inputs.opt_sins_unstable || inputs.opt_noms_sins_unst || inputs.unstable === true) mechanicalCategory = 'unstable';
+    else if (inputs.opt_sins_potentially_unstable || inputs.opt_noms_sins_pot) mechanicalCategory = 'potentially_unstable';
   }
 
   // 4. Systemic: KPS (>= 70% vs < 70% or terminal)
   let isSystemicEligible = true;
-  const sysVal = inputs.systemic ?? inputs.kps ?? inputs.kps_score ?? inputs.grp_noms_systemic ?? inputs.eligibility;
+  const sysVal = inputs.systemic ?? inputs.kps ?? inputs.kps_score ?? inputs.grp_noms_systemic ?? inputs.grp_noms_syst ?? inputs.eligibility;
   if (typeof sysVal === 'number') {
     isSystemicEligible = sysVal >= 70;
   } else if (typeof sysVal === 'boolean') {
     isSystemicEligible = sysVal;
   } else if (typeof sysVal === 'string') {
     const lower = sysVal.toLowerCase();
-    if (lower.includes('ineligible') || lower.includes('terminal') || lower.includes('hospice') || lower.includes('desfavoravel')) {
+    if (lower.includes('unfit') || lower.includes('ineligible') || lower.includes('terminal') || lower.includes('hospice') || lower.includes('desfavoravel')) {
       isSystemicEligible = false;
     }
   } else {
-    if (inputs.opt_kps_lt70 || inputs.ineligible === true || inputs.terminal === true) {
+    if (inputs.opt_kps_lt70 || inputs.opt_syst_unfit || inputs.ineligible === true || inputs.terminal === true) {
       isSystemicEligible = false;
     }
   }
@@ -1784,9 +1801,9 @@ export function calculatePhasesScore(
   } else if (typeof ageVal === 'boolean') {
     a = ageVal ? 1 : 0;
   } else if (typeof ageVal === 'string') {
-    a = ageVal.includes('70') && (ageVal.includes('>=') || ageVal.includes('gte') || ageVal.includes('>')) ? 1 : 0;
+    a = ageVal.includes('70') && (ageVal.includes('>=') || ageVal.includes('gte') || ageVal.includes('ge70') || ageVal.includes('>')) ? 1 : 0;
   } else {
-    if (inputs.opt_phases_age_gte70) a = 1;
+    if (inputs.opt_phases_age_gte70 || inputs.opt_ph_age_ge70) a = 1;
   }
 
   // 4. Size (S): < 7.0mm (0), 7.0-9.9mm (3), 10.0-19.9mm (6), >= 20.0mm (10)
@@ -1799,7 +1816,8 @@ export function calculatePhasesScore(
     else s = 0;
   } else if (typeof sizeVal === 'string') {
     const lower = sizeVal.toLowerCase();
-    if (lower.includes('20') || lower.includes('giant') || lower.includes('gigante')) s = 10;
+    if (lower.includes('lt7') || lower.includes('<7') || lower.includes('< 7')) s = 0;
+    else if (lower.includes('20') || lower.includes('giant') || lower.includes('gigante')) s = 10;
     else if (lower.includes('10') || lower.includes('10-19') || lower.includes('10_19')) s = 6;
     else if (lower.includes('7') || lower.includes('7-9') || lower.includes('7_9')) s = 3;
     else s = 0;

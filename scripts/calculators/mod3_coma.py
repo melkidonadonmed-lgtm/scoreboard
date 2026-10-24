@@ -7,7 +7,7 @@ Module 03: Coma, Level of Consciousness and Sedation
 - CAM-ICU
 """
 
-def get_glasgow_p():
+def get_glasgow_p() -> dict:
     return {
         "id": "calc_glasgow_p",
         "slug": "glasgow-p",
@@ -200,7 +200,7 @@ def get_glasgow_p():
         ]
     }
 
-def get_four():
+def get_four() -> dict:
     return {
         "id": "calc_four",
         "slug": "four-score",
@@ -347,7 +347,7 @@ def get_four():
         ]
     }
 
-def get_rass():
+def get_rass() -> dict:
     return {
         "id": "calc_rass",
         "slug": "rass-score",
@@ -447,7 +447,7 @@ def get_rass():
         ]
     }
 
-def get_sas():
+def get_sas() -> dict:
     return {
         "id": "calc_sas",
         "slug": "sas-score",
@@ -535,7 +535,7 @@ def get_sas():
         ]
     }
 
-def get_cam_icu():
+def get_cam_icu() -> dict:
     return {
         "id": "calc_cam_icu",
         "slug": "cam-icu",

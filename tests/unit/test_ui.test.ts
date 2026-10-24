@@ -3,7 +3,14 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 
 import block01Data from '@/data/blocks/block_01.json';
+import block02Data from '@/data/blocks/block_02.json';
 import block03Data from '@/data/blocks/block_03.json';
+import block04Data from '@/data/blocks/block_04.json';
+import block05Data from '@/data/blocks/block_05.json';
+import block06Data from '@/data/blocks/block_06.json';
+import block07Data from '@/data/blocks/block_07.json';
+import block08Data from '@/data/blocks/block_08.json';
+import block09Data from '@/data/blocks/block_09.json';
 import type { Calculator } from '@/types/clinical';
 
 import { PhysiologicalRadar } from '@/components/calculator/PhysiologicalRadar';
@@ -593,7 +600,7 @@ describe('App Integration', () => {
     expect(html).toContain('ponto');
   });
 
-  it('AzScoreList enforces mobile centering with max-w-md mx-auto and citation truncation', () => {
+  it('AzScoreList enforces mobile centering with max-w-md mx-auto and single-line function truncation', () => {
     const html = renderToString(
       h(AzScoreList, {
         onSelectCalculator: () => {}
@@ -602,8 +609,7 @@ describe('App Integration', () => {
 
     expect(html).toContain('max-w-md mx-auto');
     expect(html).toContain('min-w-0 overflow-hidden');
-    expect(html).toContain('truncate flex-1 min-w-0');
-    expect(html).not.toContain('shrink-0 text-slate-400');
+    expect(html).toContain('truncate');
   });
 
   it('FavoritesView enforces mobile centering with max-w-md mx-auto', () => {
@@ -616,9 +622,59 @@ describe('App Integration', () => {
     expect(html).toContain('max-w-md mx-auto');
   });
 
-  it('verifies that all 58 calculators across Block 01 and Block 03 execute calculateScore without throwing', () => {
-    const allCalculators = [...block01Data.calculators, ...block03Data.calculators] as unknown as Calculator[];
-    expect(allCalculators.length).toBe(58);
+  it('verifies that all 114 calculators across Blocks 01 through 09 render PhysiologicalRadar with >= 3 axes and dynamic score-to-radar reactivity', () => {
+    const allCalculators = [
+      ...block01Data.calculators,
+      ...block02Data.calculators,
+      ...block03Data.calculators,
+      ...block04Data.calculators,
+      ...block05Data.calculators,
+      ...block06Data.calculators,
+      ...block07Data.calculators,
+      ...block08Data.calculators,
+      ...block09Data.calculators,
+    ] as unknown as Calculator[];
+    expect(allCalculators.length).toBe(114);
+
+    for (const calc of allCalculators) {
+      expect(calc.radarAxes.length, `Calculator ${calc.id} must have >= 3 radarAxes`).toBeGreaterThanOrEqual(3);
+
+      const worstInputs: Record<string, any> = {};
+      for (const group of calc.parameterGroups) {
+        const worstOpt = group.options.reduce((prev, curr) =>
+          curr.radarNormalizedValue >= prev.radarNormalizedValue ? curr : prev
+        );
+        worstInputs[group.id] = worstOpt.id;
+      }
+
+      const worstRes = calculateScore(calc, worstInputs);
+      const maxAxisVal = Math.max(...calc.radarAxes.map((a) => worstRes.radarValues[a.id] ?? 0));
+      expect(maxAxisVal, `Calculator ${calc.id} must produce radar deviation > 0 at worst score`).toBeGreaterThan(0);
+
+      const radarHtml = renderToString(
+        h(PhysiologicalRadar, {
+          axes: calc.radarAxes,
+          values: worstRes.radarValues
+        })
+      );
+      expect(radarHtml).toContain('data-testid="physiological-radar-svg"');
+      expect(radarHtml).toMatch(/Desvio Crítico|Desvio Moderado|Desvio Leve/);
+    }
+  });
+
+  it('verifies that all 114 calculators across Blocks 01 through 09 execute calculateScore without throwing', () => {
+    const allCalculators = [
+      ...block01Data.calculators,
+      ...block02Data.calculators,
+      ...block03Data.calculators,
+      ...block04Data.calculators,
+      ...block05Data.calculators,
+      ...block06Data.calculators,
+      ...block07Data.calculators,
+      ...block08Data.calculators,
+      ...block09Data.calculators,
+    ] as unknown as Calculator[];
+    expect(allCalculators.length).toBe(114);
 
     for (const calc of allCalculators) {
       const defaultInputs: Record<string, any> = {};

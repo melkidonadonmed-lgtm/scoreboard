@@ -6,26 +6,27 @@ export interface ParameterGroupInputProps {
   group: ParameterGroup;
   value: any;
   onChange: (groupId: string, value: any) => void;
+  index?: number;
   className?: string;
 }
 
 /**
- * 48px touch-target parameter group input optimized for the One-Thumb Zone.
+ * Compact touch-target parameter group input optimized for mobile bedside entry.
  * Supports:
- * - single_choice (radio option cards)
- * - boolean (Sim / Não toggle buttons)
+ * - single_choice (compact radio rows)
+ * - boolean (Sim / Não segmented toggle)
  * - numeric_input (direct input with step buttons)
- * - pupil_reactivity (visual pupil reactivity card selector)
+ * - pupil_reactivity (visual pupil reactivity selector)
  */
 export const ParameterGroupInput: React.FC<ParameterGroupInputProps> = ({
   group,
   value,
   onChange,
+  index,
   className = ''
 }) => {
   const { id, name, inputType, unit, helpText, options = [], minValue, maxValue } = group;
 
-  // Renders a point badge (+2 pts, 0 pt, etc.)
   const renderPointBadge = (points: number) => {
     const isZero = points === 0;
     const isPositive = points > 0;
@@ -33,12 +34,12 @@ export const ParameterGroupInput: React.FC<ParameterGroupInputProps> = ({
     const unitText = Math.abs(points) === 1 ? 'pt' : 'pts';
     return (
       <span
-        className={`px-2 py-0.5 rounded-full text-[11px] font-bold tabular-nums shrink-0 ${
+        className={`px-1.5 py-0.5 rounded-md text-[10px] font-bold tabular-nums clinical-unit shrink-0 ${
           isZero
             ? 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
             : isPositive
-            ? 'bg-brand-500/15 text-brand-600 dark:text-brand-400'
-            : 'bg-clinical-warning/15 text-clinical-warning'
+              ? 'bg-brand-500/15 text-brand-600 dark:text-brand-400'
+              : 'bg-clinical-warning/15 text-clinical-warning'
         }`}
       >
         {`${label} ${unitText}`}
@@ -49,9 +50,8 @@ export const ParameterGroupInput: React.FC<ParameterGroupInputProps> = ({
   // 1. Single Choice Input Type
   const renderSingleChoice = () => {
     return (
-      <div className="grid grid-cols-1 gap-2" role="radiogroup" aria-label={name}>
+      <div className="grid grid-cols-1 gap-1.5" role="radiogroup" aria-label={name}>
         {options.map((option: ParameterOption) => {
-          // An option is selected if value matches option.id or option.pointValue (when single selection)
           const isSelected = value === option.id || value === option.pointValue;
 
           return (
@@ -61,28 +61,28 @@ export const ParameterGroupInput: React.FC<ParameterGroupInputProps> = ({
               role="radio"
               aria-checked={isSelected}
               onClick={() => onChange(id, option.id)}
-              className={`w-full min-h-touch px-3.5 py-3 rounded-xl flex items-center justify-between text-left transition-all duration-200 select-none ${
+              className={`w-full min-h-touch px-2.5 py-2 rounded-lg flex items-center justify-between text-left transition-spring select-none ${
                 isSelected
-                  ? 'bg-brand-50/80 dark:bg-brand-950/40 border-2 border-brand-500 text-slate-900 dark:text-white shadow-sm ring-1 ring-brand-500/20'
-                  : 'bg-surface-raised-light dark:bg-surface-raised-dark border border-subtle-light dark:border-subtle-dark text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 active:scale-[0.99]'
+                  ? 'bg-brand-50/90 dark:bg-brand-950/45 border border-brand-500 text-slate-900 dark:text-white shadow-xs ring-1 ring-brand-500/20'
+                  : 'bg-surface-raised-light/80 dark:bg-surface-raised-dark/80 border border-subtle-light dark:border-subtle-dark text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 active:scale-[0.99]'
               }`}
             >
-              <div className="flex items-center space-x-3 pr-2 min-w-0 flex-1">
+              <div className="flex items-center space-x-2.5 pr-2 min-w-0 flex-1">
                 <div
-                  className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
+                  className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
                     isSelected
                       ? 'border-brand-500 bg-brand-500 text-white'
                       : 'border-slate-300 dark:border-slate-600'
                   }`}
                 >
-                  {isSelected && <div className="w-2 h-2 rounded-full bg-white" />}
+                  {isSelected && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
                 </div>
-                <div className="space-y-0.5 min-w-0 flex-1">
-                  <span className="text-xs sm:text-sm font-medium leading-snug block break-words">
+                <div className="min-w-0 flex-1">
+                  <span className="text-xs font-medium leading-snug block break-words">
                     {option.label}
                   </span>
                   {option.description && (
-                    <span className="text-[11px] text-slate-500 dark:text-slate-400 leading-tight block break-words">
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400 leading-tight block break-words mt-0.5">
                       {option.description}
                     </span>
                   )}
@@ -99,7 +99,6 @@ export const ParameterGroupInput: React.FC<ParameterGroupInputProps> = ({
 
   // 2. Boolean Input Type
   const renderBoolean = () => {
-    // True/False or Option IDs
     const trueOption = options.find((o) => o.pointValue > 0) || options[0];
     const falseOption = options.find((o) => o.pointValue === 0) || options[1];
 
@@ -116,14 +115,14 @@ export const ParameterGroupInput: React.FC<ParameterGroupInputProps> = ({
       (falseOption && value === falseOption.pointValue);
 
     return (
-      <div className="grid grid-cols-2 gap-2.5">
+      <div className="grid grid-cols-2 gap-2">
         <button
           type="button"
           aria-pressed={isFalse}
           onClick={() => onChange(id, falseOption ? falseOption.id : false)}
-          className={`min-h-touch px-4 py-3 rounded-xl flex items-center justify-center space-x-2 font-medium text-xs sm:text-sm transition-all duration-200 select-none ${
+          className={`min-h-touch px-3 py-2 rounded-lg flex items-center justify-center space-x-2 font-medium text-xs transition-spring select-none ${
             isFalse
-              ? 'bg-slate-200 dark:bg-slate-700 border-2 border-slate-400 dark:border-slate-500 text-slate-900 dark:text-white font-semibold shadow-sm'
+              ? 'bg-slate-200 dark:bg-slate-700 border border-slate-400 dark:border-slate-500 text-slate-900 dark:text-white font-semibold'
               : 'bg-surface-raised-light dark:bg-surface-raised-dark border border-subtle-light dark:border-subtle-dark text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
           }`}
         >
@@ -135,9 +134,9 @@ export const ParameterGroupInput: React.FC<ParameterGroupInputProps> = ({
           type="button"
           aria-pressed={isTrue}
           onClick={() => onChange(id, trueOption ? trueOption.id : true)}
-          className={`min-h-touch px-4 py-3 rounded-xl flex items-center justify-center space-x-2 font-medium text-xs sm:text-sm transition-all duration-200 select-none ${
+          className={`min-h-touch px-3 py-2 rounded-lg flex items-center justify-center space-x-2 font-medium text-xs transition-spring select-none ${
             isTrue
-              ? 'bg-brand-500 text-white font-semibold shadow-card ring-2 ring-brand-500/30'
+              ? 'bg-brand-500 text-white font-semibold shadow-xs ring-2 ring-brand-500/25'
               : 'bg-surface-raised-light dark:bg-surface-raised-dark border border-subtle-light dark:border-subtle-dark text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
           }`}
         >
@@ -160,11 +159,11 @@ export const ParameterGroupInput: React.FC<ParameterGroupInputProps> = ({
       onChange(id, next);
     };
 
-    const handleDirectChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const parsed = parseFloat(e.target.value);
+    const handleDirectChange = (rawVal: string) => {
+      const parsed = parseFloat(rawVal);
       if (!isNaN(parsed)) {
         onChange(id, Math.min(max, Math.max(min, parsed)));
-      } else if (e.target.value === '') {
+      } else if (rawVal === '') {
         onChange(id, min);
       }
     };
@@ -175,25 +174,25 @@ export const ParameterGroupInput: React.FC<ParameterGroupInputProps> = ({
           type="button"
           onClick={() => handleStep(-step)}
           disabled={numericValue <= min}
-          className="w-12 h-12 rounded-xl flex items-center justify-center bg-surface-raised-light dark:bg-surface-raised-dark border border-subtle-light dark:border-subtle-dark text-slate-700 dark:text-slate-200 disabled:opacity-40 disabled:pointer-events-none active:scale-95 transition-all min-h-touch min-w-touch"
+          className="w-11 h-11 rounded-lg flex items-center justify-center bg-surface-raised-light dark:bg-surface-raised-dark border border-subtle-light dark:border-subtle-dark text-slate-700 dark:text-slate-200 disabled:opacity-40 disabled:pointer-events-none active:scale-95 transition-all min-h-touch min-w-touch"
           aria-label={`Diminuir ${name}`}
         >
-          <Minus className="w-5 h-5" />
+          <Minus className="w-4 h-4" />
         </button>
 
-        <div className="flex-1 min-h-touch px-3 py-2 rounded-xl bg-surface-raised-light dark:bg-surface-raised-dark border border-subtle-light dark:border-subtle-dark flex items-center justify-center space-x-1.5 focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-500/20">
+        <div className="flex-1 min-h-touch px-3 py-1.5 rounded-lg bg-surface-raised-light dark:bg-surface-raised-dark border border-subtle-light dark:border-subtle-dark flex items-center justify-center space-x-1.5 focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-500/20">
           <input
             type="number"
             value={numericValue}
-            onChange={handleDirectChange}
+            onChange={(e) => handleDirectChange(e.target.value)}
             min={min}
             max={max}
             step={step}
-            className="w-20 text-center font-bold text-base sm:text-lg tabular-nums bg-transparent text-slate-900 dark:text-white outline-none"
+            className="w-20 text-center font-bold text-sm sm:text-base tabular-nums bg-transparent text-slate-900 dark:text-white outline-none"
             aria-label={`${name} ${unit || ''}`}
           />
           {unit && (
-            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+            <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 clinical-unit">
               {unit}
             </span>
           )}
@@ -203,10 +202,10 @@ export const ParameterGroupInput: React.FC<ParameterGroupInputProps> = ({
           type="button"
           onClick={() => handleStep(step)}
           disabled={numericValue >= max}
-          className="w-12 h-12 rounded-xl flex items-center justify-center bg-surface-raised-light dark:bg-surface-raised-dark border border-subtle-light dark:border-subtle-dark text-slate-700 dark:text-slate-200 disabled:opacity-40 disabled:pointer-events-none active:scale-95 transition-all min-h-touch min-w-touch"
+          className="w-11 h-11 rounded-lg flex items-center justify-center bg-surface-raised-light dark:bg-surface-raised-dark border border-subtle-light dark:border-subtle-dark text-slate-700 dark:text-slate-200 disabled:opacity-40 disabled:pointer-events-none active:scale-95 transition-all min-h-touch min-w-touch"
           aria-label={`Aumentar ${name}`}
         >
-          <Plus className="w-5 h-5" />
+          <Plus className="w-4 h-4" />
         </button>
       </div>
     );
@@ -215,7 +214,7 @@ export const ParameterGroupInput: React.FC<ParameterGroupInputProps> = ({
   // 4. Pupil Reactivity Input Type (Glasgow-P)
   const renderPupilReactivity = () => {
     return (
-      <div className="grid grid-cols-1 gap-2" role="radiogroup" aria-label={name}>
+      <div className="grid grid-cols-1 gap-1.5" role="radiogroup" aria-label={name}>
         {options.map((option: ParameterOption) => {
           const isSelected = value === option.id || value === option.pointValue;
           const isNormal = option.pointValue === 0;
@@ -227,26 +226,26 @@ export const ParameterGroupInput: React.FC<ParameterGroupInputProps> = ({
               role="radio"
               aria-checked={isSelected}
               onClick={() => onChange(id, option.id)}
-              className={`w-full min-h-touch px-3.5 py-3 rounded-xl flex items-center justify-between text-left transition-all duration-200 select-none ${
+              className={`w-full min-h-touch px-2.5 py-2 rounded-lg flex items-center justify-between text-left transition-spring select-none ${
                 isSelected
-                  ? 'bg-brand-50/80 dark:bg-brand-950/40 border-2 border-brand-500 text-slate-900 dark:text-white shadow-sm ring-1 ring-brand-500/20'
-                  : 'bg-surface-raised-light dark:bg-surface-raised-dark border border-subtle-light dark:border-subtle-dark text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-[0.99]'
+                  ? 'bg-brand-50/90 dark:bg-brand-950/45 border border-brand-500 text-slate-900 dark:text-white shadow-xs ring-1 ring-brand-500/20'
+                  : 'bg-surface-raised-light/80 dark:bg-surface-raised-dark/80 border border-subtle-light dark:border-subtle-dark text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-[0.99]'
               }`}
             >
-              <div className="flex items-center space-x-3 pr-2 min-w-0 flex-1">
-                <div className="w-8 h-8 rounded-lg bg-surface-light dark:bg-surface-dark border border-subtle-light dark:border-subtle-dark flex items-center justify-center shrink-0">
+              <div className="flex items-center space-x-2.5 pr-2 min-w-0 flex-1">
+                <div className="w-7 h-7 rounded-md bg-surface-light dark:bg-surface-dark border border-subtle-light dark:border-subtle-dark flex items-center justify-center shrink-0">
                   {isNormal ? (
-                    <Eye className="w-4 h-4 text-emerald-500" />
+                    <Eye className="w-3.5 h-3.5 text-emerald-500" />
                   ) : (
-                    <EyeOff className="w-4 h-4 text-clinical-critical" />
+                    <EyeOff className="w-3.5 h-3.5 text-clinical-critical" />
                   )}
                 </div>
-                <div className="space-y-0.5 min-w-0 flex-1">
-                  <span className="text-xs sm:text-sm font-medium leading-snug block break-words">
+                <div className="min-w-0 flex-1">
+                  <span className="text-xs font-medium leading-snug block break-words">
                     {option.label}
                   </span>
                   {option.description && (
-                    <span className="text-[11px] text-slate-500 dark:text-slate-400 block break-words">
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400 block break-words mt-0.5">
                       {option.description}
                     </span>
                   )}
@@ -263,31 +262,36 @@ export const ParameterGroupInput: React.FC<ParameterGroupInputProps> = ({
 
   return (
     <div
-      className={`p-3.5 rounded-2xl bg-surface-light dark:bg-surface-dark border border-subtle-light dark:border-subtle-dark shadow-card space-y-2.5 transition-colors duration-200 ${className}`}
+      className={`p-3 rounded-xl bg-surface-light dark:bg-surface-dark border border-subtle-light dark:border-subtle-dark shadow-xs space-y-2 transition-colors duration-200 ${className}`}
       data-testid={`parameter-group-${id}`}
     >
-      {/* Parameter Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-1.5">
-          <label className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white tracking-tight">
+      {/* Compact Parameter Header */}
+      <div className="flex items-center justify-between gap-2">
+        <div className="flex items-center space-x-1.5 min-w-0">
+          {index !== undefined && (
+            <span className="w-5 h-5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[10px] font-bold tabular-nums flex items-center justify-center shrink-0">
+              {index + 1}
+            </span>
+          )}
+          <label className="text-xs font-bold text-slate-900 dark:text-white tracking-tight truncate">
             {name}
           </label>
           {unit && (
-            <span className="text-[10px] font-semibold px-1.5 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+            <span className="text-[10px] font-semibold px-1.5 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 clinical-unit">
               {unit}
             </span>
           )}
         </div>
 
         {helpText && (
-          <div className="group relative cursor-pointer" title={helpText}>
+          <div className="group relative cursor-pointer shrink-0" title={helpText}>
             <HelpCircle className="w-3.5 h-3.5 text-slate-400 hover:text-brand-500 transition-colors" />
           </div>
         )}
       </div>
 
       {helpText && (
-        <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-tight">
+        <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-snug">
           {helpText}
         </p>
       )}

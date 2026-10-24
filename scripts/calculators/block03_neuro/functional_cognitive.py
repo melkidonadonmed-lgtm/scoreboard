@@ -10,7 +10,7 @@ Calculadoras Clínicas Monográficas:
 - EDSS (Expanded Disability Status Scale de Kurtzke)
 """
 
-def get_mrs():
+def get_mrs() -> dict:
     return {
         "id": "calc_mrs",
         "slug": "mrs",
@@ -255,7 +255,7 @@ def get_mrs():
         ]
     }
 
-def get_kps():
+def get_kps() -> dict:
     return {
         "id": "calc_kps",
         "slug": "kps",
@@ -547,7 +547,7 @@ def get_kps():
         ]
     }
 
-def get_meem_mmse():
+def get_meem_mmse() -> dict:
     return {
         "id": "calc_meem_mmse",
         "slug": "meem-mmse",
@@ -916,7 +916,7 @@ def get_meem_mmse():
         ]
     }
 
-def get_moca():
+def get_moca() -> dict:
     return {
         "id": "calc_moca",
         "slug": "moca",
@@ -1247,7 +1247,7 @@ def get_moca():
         ]
     }
 
-def get_hoehn_yahr():
+def get_hoehn_yahr() -> dict:
     return {
         "id": "calc_hoehn_yahr",
         "slug": "hoehn-yahr",
@@ -1483,7 +1483,7 @@ def get_hoehn_yahr():
         ]
     }
 
-def get_edss():
+def get_edss() -> dict:
     return {
         "id": "calc_edss",
         "slug": "edss",

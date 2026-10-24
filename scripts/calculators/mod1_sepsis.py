@@ -8,7 +8,7 @@ Module 01: Sepsis, Septic Shock and Organ Dysfunction
 
 from .common import NOREPINEPHRINE_PROTOCOL, VASOPRESSIN_PROTOCOL, DOBUTAMINE_PROTOCOL
 
-def get_qsofa():
+def get_qsofa() -> dict:
     return {
         "id": "calc_qsofa",
         "slug": "qsofa",
@@ -245,7 +245,7 @@ def get_qsofa():
         ]
     }
 
-def get_sofa():
+def get_sofa() -> dict:
     return {
         "id": "calc_sofa",
         "slug": "sofa",
@@ -543,7 +543,7 @@ def get_sofa():
         ]
     }
 
-def get_apache_ii():
+def get_apache_ii() -> dict:
     return {
         "id": "calc_apache_ii",
         "slug": "apache-ii",
@@ -727,7 +727,7 @@ def get_apache_ii():
         ]
     }
 
-def get_saps_3():
+def get_saps_3() -> dict:
     return {
         "id": "calc_saps_3",
         "slug": "saps-3",

@@ -30,9 +30,19 @@ O **Scoreboard App** elimina o retrabalho e a fragmentação no atendimento méd
 
 ---
 
-## 📊 O Que Está Entregue e Ativo Agora (58 Ferramentas Monográficas)
+## O Que Está Entregue e Ativo Agora (114 Ferramentas Monográficas em 9 Blocos)
 
-Atualmente o aplicativo conta com **58 calculadoras monográficas completas**, sem truncamento de variáveis ou condutas, divididas em dois grandes blocos clínicos:
+O aplicativo conta com o **catálogo completo de 114 calculadoras monográficas**, sem truncamento de variáveis ou condutas, distribuídas em **9 blocos clínicos modulares (`block_01.json` a `block_09.json`)**:
+
+1. **Bloco 01 — Emergência, Choque e Terapia Intensiva (19 ferramentas)**
+2. **Bloco 02 — Cardiologia e Hemodinâmica (12 ferramentas):** `HEART Score`, `TIMI IAMSSST`, `TIMI IAMCSST`, `GRACE 2.0`, `Killip-Kimball`, `CHA2DS2-VASc`, `HAS-BLED`, `ORBIT`, `Framingham IC`, `NYHA`, `Stevenson`, `RCRI (Lee)`.
+3. **Bloco 03 — Neurologia, Neurocirurgia e Coluna Vertebral (39 ferramentas)**
+4. **Bloco 04 — Pneumologia e Vias Aéreas (8 ferramentas):** `CURB-65`, `CRB-65`, `PSI/PORT`, `SMART-COP`, `BODE / GOLD ABE (2024/2025)`, `mMRC`, `CAT`, `LEMON + Mallampati + Cormack-Lehane`.
+5. **Bloco 05 — Cirurgia Geral, Trauma e Queimados (11 ferramentas):** `Alvarado`, `AIR Score`, `Tokyo Guidelines TG18`, `RTS`, `ISS`, `Shock Index`, `ABC Score (Transfusão Maciça)`, `CANADIAN C-Spine / NEXUS`, `Fórmula de Ressuscitação Hídrica em Queimados (ABA 2 mL/kg/%SCQ vs Parkland 4 mL/kg/%SCQ)`, `ASA`, `Caprini`.
+6. **Bloco 06 — Nefrologia e Distúrbios Hidroeletrolíticos (7 ferramentas):** `CKD-EPI 2021 (sem variável de raça)`, `Cockcroft-Gault`, `KDIGO LRA`, `FENa / FEUreia`, `Adrogué-Madias & Déficit de Água Livre`, `Anion Gap + Delta-Delta`, `Sódio Corrigido por Hiperglicemia + Osmolaridade`.
+7. **Bloco 07 — Gastroenterologia e Hepatologia (7 ferramentas):** `Child-Pugh`, `MELD-Na (SUS) & MELD 3.0`, `Maddrey`, `Modelo de Lille`, `Glasgow-Blatchford (GBS)`, `Rockall`, `CLIF-C ACLF`.
+8. **Bloco 08 — Pediatria, Neonatologia e Obstetrícia (8 ferramentas):** `Apgar`, `Silverman-Anderson`, `PEWS`, `Westley / Taussig`, `Holliday-Segar`, `Bishop`, `SOFA Obstétrico / fullPIERS`, `PRISM III`.
+9. **Bloco 09 — Hematologia, Oncologia e Toxicologia (3 ferramentas):** `Escore 4Ts para HIT`, `Escore MASCC (Neutropenia Febril)`, `Nomograma de Rumack-Matthew / King's College (Paracetamol)`.
 
 ### 1. Bloco 01 — Emergência, Choque e Terapia Intensiva (19 Instrumentos)
 - **Sepse e Disfunção Orgânica:**

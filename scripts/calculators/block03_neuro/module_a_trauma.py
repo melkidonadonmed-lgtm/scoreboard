@@ -20,7 +20,7 @@ from calculators.block03_neuro.neurotrauma import (
 from calculators.mod3_coma import get_glasgow_p
 
 
-def get_edema():
+def get_edema() -> dict:
     """Enhanced Detection of Edema in Malignant Anterior Circulation Stroke Score (Ong 2017)."""
     return {
         "id": "calc_edema",
@@ -225,7 +225,7 @@ def get_edema():
     }
 
 
-def get_crash_tbi():
+def get_crash_tbi() -> dict:
     """MRC CRASH Trial Prognostic Model para TCE (Lancet 2008)."""
     return {
         "id": "calc_crash_tbi",
@@ -460,7 +460,7 @@ def get_crash_tbi():
     }
 
 
-def get_impact_tbi():
+def get_impact_tbi() -> dict:
     """IMPACT Prognostic Calculator (Steyerberg 2008)."""
     return {
         "id": "calc_impact_tbi",

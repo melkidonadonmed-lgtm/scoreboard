@@ -74,7 +74,7 @@ from calculators.block03_neuro.functional_cognitive import (
     get_edss,
 )
 
-def get_block_03_calculators():
+def get_block_03_calculators() -> list:
     """Returns all 39 clinical calculators for Block 03 with block metadata attached."""
     calculators = [
         # Module A: Neurotrauma & Neurointensivismo (6 tools)

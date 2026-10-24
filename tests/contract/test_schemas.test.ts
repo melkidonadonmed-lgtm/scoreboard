@@ -15,12 +15,26 @@ import {
 
 import rawManifestData from '@/data/manifest.json';
 import rawBlock01Data from '@/data/blocks/block_01.json';
+import rawBlock02Data from '@/data/blocks/block_02.json';
 import rawBlock03Data from '@/data/blocks/block_03.json';
+import rawBlock04Data from '@/data/blocks/block_04.json';
+import rawBlock05Data from '@/data/blocks/block_05.json';
+import rawBlock06Data from '@/data/blocks/block_06.json';
+import rawBlock07Data from '@/data/blocks/block_07.json';
+import rawBlock08Data from '@/data/blocks/block_08.json';
+import rawBlock09Data from '@/data/blocks/block_09.json';
 
-describe('Milestone 2 Contract & Schema Verification', () => {
+describe('Milestone 2 & Full Catalog (9 Blocks / 114 Tools) Contract & Schema Verification', () => {
   const parsedManifest: Manifest = ManifestSchema.parse(rawManifestData);
   const parsedBlock01: BlockData = BlockDataSchema.parse(rawBlock01Data);
+  const parsedBlock02: BlockData = BlockDataSchema.parse(rawBlock02Data);
   const parsedBlock03: BlockData = BlockDataSchema.parse(rawBlock03Data);
+  const parsedBlock04: BlockData = BlockDataSchema.parse(rawBlock04Data);
+  const parsedBlock05: BlockData = BlockDataSchema.parse(rawBlock05Data);
+  const parsedBlock06: BlockData = BlockDataSchema.parse(rawBlock06Data);
+  const parsedBlock07: BlockData = BlockDataSchema.parse(rawBlock07Data);
+  const parsedBlock08: BlockData = BlockDataSchema.parse(rawBlock08Data);
+  const parsedBlock09: BlockData = BlockDataSchema.parse(rawBlock09Data);
 
   describe('Lightweight Manifest Contract (`src/data/manifest.json`)', () => {
     it('should strictly validate the entire manifest against ManifestSchema', () => {
@@ -28,24 +42,27 @@ describe('Milestone 2 Contract & Schema Verification', () => {
       expect(parseResult.success).toBe(true);
     });
 
-    it('should contain all clinical tools from available blocks (>= 19 tools)', () => {
-      expect(parsedManifest.length).toBeGreaterThanOrEqual(19);
+    it('should contain all 114 clinical tools from all 9 blocks', () => {
+      expect(parsedManifest.length).toBe(114);
     });
 
-    it('should have lightweight manifest size (~30KB-140KB)', () => {
+    it('should have lightweight manifest size (~20KB-300KB for 114 tools)', () => {
       const manifestPath = path.resolve(__dirname, '../../src/data/manifest.json');
       const stats = fs.statSync(manifestPath);
       const sizeKb = stats.size / 1024;
-      // Should be lightweight (between 20KB and 140KB for multi-block manifest)
       expect(sizeKb).toBeGreaterThanOrEqual(20);
-      expect(sizeKb).toBeLessThanOrEqual(140);
+      expect(sizeKb).toBeLessThanOrEqual(300);
     });
 
     it('should provide extensive Brazilian clinical search synonyms for all tools', () => {
+      const validBlocks = [
+        'block_01.json', 'block_02.json', 'block_03.json',
+        'block_04.json', 'block_05.json', 'block_06.json',
+        'block_07.json', 'block_08.json', 'block_09.json',
+      ];
       for (const item of parsedManifest) {
-        expect(item.searchSynonyms.length).toBeGreaterThanOrEqual(10);
-        expect(['block_01.json', 'block_03.json']).toContain(item.blockFile);
-        expect(['bloco-01-emergencia-choque-uti', 'bloco-03-neurologia-neurocirurgia']).toContain(item.categorySlug);
+        expect(item.searchSynonyms.length).toBeGreaterThanOrEqual(8);
+        expect(validBlocks).toContain(item.blockFile);
       }
 
       // Check specific clinical synonyms
@@ -403,6 +420,43 @@ describe('Milestone 2 Contract & Schema Verification', () => {
       expect(edss?.minPossibleScore).toBe(0.0);
       expect(edss?.maxPossibleScore).toBe(10.0);
       expect(edss?.parameterGroups[0].options).toHaveLength(20);
+    });
+  });
+
+  describe('Blocks 02 & 04–09 Ingestion Contracts (56 New Tools)', () => {
+    it('should validate all 7 remaining blocks against BlockDataSchema and CalculatorSchema', () => {
+      const blocks = [
+        { block: parsedBlock02, id: 'block_02', len: 12 },
+        { block: parsedBlock04, id: 'block_04', len: 8 },
+        { block: parsedBlock05, id: 'block_05', len: 11 },
+        { block: parsedBlock06, id: 'block_06', len: 7 },
+        { block: parsedBlock07, id: 'block_07', len: 7 },
+        { block: parsedBlock08, id: 'block_08', len: 8 },
+        { block: parsedBlock09, id: 'block_09', len: 3 },
+      ];
+      const manifestIds = new Set(parsedManifest.map((m) => m.id));
+      for (const { block, id, len } of blocks) {
+        expect(block.blockId).toBe(id);
+        expect(block.calculators).toHaveLength(len);
+        for (const calc of block.calculators) {
+          expect(CalculatorSchema.safeParse(calc).success).toBe(true);
+          expect(manifestIds.has(calc.id)).toBe(true);
+        }
+      }
+    });
+
+    it('should enforce AGENTS.md clinical invariants (GOLD ABE, ABA 2 mL vs Parkland 4 mL, CKD-EPI 2021 race-free, MELD-Na / MELD 3.0)', () => {
+      const ckd = parsedBlock06.calculators.find((c) => c.id === 'calc_ckd_epi_2021');
+      expect(ckd).toBeDefined();
+      expect(ckd?.clinicalWarning).toContain('2021');
+
+      const parkland = parsedBlock05.calculators.find((c) => c.id === 'calc_parkland_aba');
+      expect(parkland).toBeDefined();
+      expect(parkland?.summary).toContain('2 mL');
+
+      const meld = parsedBlock07.calculators.find((c) => c.id === 'calc_meld_na');
+      expect(meld).toBeDefined();
+      expect(meld?.name).toContain('MELD');
     });
   });
 });

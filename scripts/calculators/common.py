@@ -117,3 +117,166 @@ NITROGLYCERIN_PROTOCOL = {
     "titrationAdvice": "Iniciar com 5 a 10 mcg/min (1,5 a 3 mL/h). Titular de 5 a 10 mcg/min a cada 5 a 10 minutos até controle dos sintomas ou PAS atingir meta.",
     "weaningCriteria": "Desmame gradual concomitante à introdução de vasodilatadores orais (IECA/BRA ou Nitrato oral)."
 }
+
+
+RADAR_AXES_ENRICHMENTS: dict = {
+    "calc_wells_tvp": [
+        {"id": "axis_wtvp_score", "label": "Sinais Locais de TVP", "system": "Vascular", "baselineValue": 0, "maxAxisValue": 9},
+        {"id": "axis_wtvp_risk", "label": "Fatores Trombogênicos", "system": "Hemostasia", "baselineValue": 0, "maxAxisValue": 1},
+        {"id": "axis_wtvp_prob", "label": "Probabilidade Pré-Teste", "system": "Clínico", "baselineValue": 0, "maxAxisValue": 1},
+    ],
+    "calc_geneva": [
+        {"id": "axis_gen_score", "label": "Pontuação Geneva", "system": "TEV", "baselineValue": 0, "maxAxisValue": 22},
+        {"id": "axis_gen_hemo", "label": "Estresse Taquicárdico", "system": "Hemodinâmico", "baselineValue": 0, "maxAxisValue": 1},
+        {"id": "axis_gen_risk", "label": "Risco Tromboembólico", "system": "Vascular", "baselineValue": 0, "maxAxisValue": 1},
+    ],
+    "calc_perc": [
+        {"id": "axis_perc", "label": "Critérios Positivos PERC", "system": "PERC", "baselineValue": 0, "maxAxisValue": 8},
+        {"id": "axis_perc_cardio", "label": "Reserva Cardiopulmonar", "system": "Cardiorrespiratório", "baselineValue": 0, "maxAxisValue": 1},
+        {"id": "axis_perc_thrombo", "label": "Fatores Trombogênicos", "system": "Vascular", "baselineValue": 0, "maxAxisValue": 1},
+    ],
+    "calc_pesi": [
+        {"id": "axis_pesi", "label": "Pontos PESI", "system": "PESI", "baselineValue": 0, "maxAxisValue": 150},
+        {"id": "axis_pesi_hemo", "label": "Repercussão Hemodinâmica", "system": "Cardiovascular", "baselineValue": 0, "maxAxisValue": 1},
+        {"id": "axis_pesi_resp", "label": "Hipoxemia e Sensório", "system": "Respiratório", "baselineValue": 0, "maxAxisValue": 1},
+    ],
+    "calc_spesi": [
+        {"id": "axis_spesi", "label": "Critérios sPESI", "system": "sPESI", "baselineValue": 0, "maxAxisValue": 6},
+        {"id": "axis_spesi_hemo", "label": "Estresse Hemodinâmico", "system": "Cardiovascular", "baselineValue": 0, "maxAxisValue": 1},
+        {"id": "axis_spesi_resp", "label": "Oxigenação Arterial", "system": "Respiratório", "baselineValue": 0, "maxAxisValue": 1},
+    ],
+    "calc_rass": [
+        {"id": "axis_rass", "label": "Nível RASS", "system": "Sedação", "baselineValue": 0, "maxAxisValue": 5},
+        {"id": "axis_rass_vigil", "label": "Vigilância e Alerta", "system": "Neurológico", "baselineValue": 0, "maxAxisValue": 1},
+        {"id": "axis_rass_motor", "label": "Controle Psicomotor", "system": "Comportamental", "baselineValue": 0, "maxAxisValue": 1},
+    ],
+    "calc_sas": [
+        {"id": "axis_sas", "label": "Escore SAS", "system": "Sedação", "baselineValue": 4, "maxAxisValue": 7},
+        {"id": "axis_sas_coop", "label": "Cooperação e Calma", "system": "Comportamental", "baselineValue": 0, "maxAxisValue": 1},
+        {"id": "axis_sas_safety", "label": "Segurança de Dispositivos", "system": "Intensivismo", "baselineValue": 0, "maxAxisValue": 1},
+    ],
+    "calc_cam_icu": [
+        {"id": "axis_cam", "label": "Features CAM-ICU", "system": "Delirium", "baselineValue": 0, "maxAxisValue": 4},
+        {"id": "axis_cam_vigil", "label": "Nível de Consciência", "system": "Neurológico", "baselineValue": 0, "maxAxisValue": 1},
+        {"id": "axis_cam_thought", "label": "Organização Cognitiva", "system": "Cognitivo", "baselineValue": 0, "maxAxisValue": 1},
+    ],
+    "calc_ranson": [
+        {"id": "axis_ran_adm", "label": "Admissão (0h)", "system": "Admissão", "baselineValue": 0, "maxAxisValue": 5},
+        {"id": "axis_ran_48h", "label": "Evolução (48h)", "system": "48 Horas", "baselineValue": 0, "maxAxisValue": 6},
+        {"id": "axis_ran_metab", "label": "Repercussão Sistêmica", "system": "Metabólico", "baselineValue": 0, "maxAxisValue": 1},
+    ],
+    "calc_balthazar_ctsi": [
+        {"id": "axis_ctsi_infl", "label": "Inflamação (Balthazar)", "system": "Radiológico", "baselineValue": 0, "maxAxisValue": 4},
+        {"id": "axis_ctsi_necr", "label": "Necrose Pancreática", "system": "Perfusão", "baselineValue": 0, "maxAxisValue": 6},
+        {"id": "axis_ctsi_prog", "label": "Risco de Infecção / Morbidade", "system": "Prognóstico", "baselineValue": 0, "maxAxisValue": 1},
+    ],
+    "calc_wfns": [
+        {"id": "axis_wfns_gcs", "label": "Escala de Glasgow", "system": "Neurológico", "unit": "GCS", "baselineValue": 0, "maxAxisValue": 1},
+        {"id": "axis_wfns_motor", "label": "Déficit Motor Focal Maior", "system": "Neurológico", "unit": "grau", "baselineValue": 0, "maxAxisValue": 1},
+        {"id": "axis_wfns_prognosis", "label": "Gravidade Neurovascular HSA", "system": "Prognóstico", "unit": "grau", "baselineValue": 0, "maxAxisValue": 1},
+    ],
+    "calc_fisher_classic": [
+        {"id": "axis_fisher_cl_thickness", "label": "Espessura do Sangue Cisternal", "system": "Imagem", "unit": "mm", "baselineValue": 0, "maxAxisValue": 1},
+        {"id": "axis_fisher_cl_ventricular", "label": "Hemoventrículo / Hematoma", "system": "Imagem", "unit": "grau", "baselineValue": 0, "maxAxisValue": 1},
+        {"id": "axis_fisher_cl_vasospasm", "label": "Risco de Vasoespasmo / DCI", "system": "Vascular", "unit": "grau", "baselineValue": 0, "maxAxisValue": 1},
+    ],
+    "calc_fisher_modified": [
+        {"id": "axis_fm_cisternal", "label": "Carga de Sangue Cisternal", "system": "Imagem", "unit": "grau", "baselineValue": 0, "maxAxisValue": 1},
+        {"id": "axis_fm_ivh", "label": "Hemorragia Intraventricular Bilateral", "system": "Imagem", "unit": "grau", "baselineValue": 0, "maxAxisValue": 1},
+        {"id": "axis_fm_dci", "label": "Risco de Isquemia Tardia (DCI)", "system": "Vascular", "unit": "grau", "baselineValue": 0, "maxAxisValue": 1},
+    ],
+    "calc_knosp": [
+        {"id": "axis_knosp_invasion", "label": "Grau de Invasão Cavernosa", "system": "Oncológico", "unit": "grau", "baselineValue": 0, "maxAxisValue": 4},
+        {"id": "axis_knosp_resectability", "label": "Risco de Remanescente Tumoral", "system": "Cirúrgico", "unit": "grau", "baselineValue": 0, "maxAxisValue": 4},
+        {"id": "axis_knosp_ica", "label": "Envolvimento Carotídeo (ACI)", "system": "Vascular", "unit": "grau", "baselineValue": 0, "maxAxisValue": 4},
+    ],
+    "calc_samii_koos": [
+        {"id": "axis_koos_size", "label": "Extensão Anatômica no APC", "system": "Oncológico", "unit": "grau", "baselineValue": 1, "maxAxisValue": 4},
+        {"id": "axis_koos_stem", "label": "Compressão de Tronco / 4º Ventrículo", "system": "Neurológico", "unit": "grau", "baselineValue": 1, "maxAxisValue": 4},
+        {"id": "axis_koos_cranial", "label": "Risco ao Nervo Facial / Coclear", "system": "Funcional", "unit": "grau", "baselineValue": 1, "maxAxisValue": 4},
+    ],
+    "calc_ds_gpa": [
+        {"id": "axis_dsgpa_prognosis", "label": "Índice Prognóstico Global", "system": "Oncológico", "unit": "pts", "baselineValue": 4, "maxAxisValue": 4},
+        {"id": "axis_dsgpa_performance", "label": "Status Funcional (KPS)", "system": "Funcional", "unit": "pts", "baselineValue": 1, "maxAxisValue": 1},
+        {"id": "axis_dsgpa_burden", "label": "Carga Tumoral Encefálica", "system": "Radiológico", "unit": "pts", "baselineValue": 0, "maxAxisValue": 1},
+    ],
+    "calc_kps": [
+        {"id": "axis_kps_performance", "label": "Capacidade Funcional / KPS", "system": "Oncológico/Funcional", "unit": "%", "baselineValue": 100, "maxAxisValue": 100},
+        {"id": "axis_kps_autonomy", "label": "Autocuidado e Autonomia", "system": "Funcional", "unit": "%", "baselineValue": 0, "maxAxisValue": 1},
+        {"id": "axis_kps_tolerance", "label": "Tolerância Terapêutica", "system": "Oncológico", "unit": "%", "baselineValue": 0, "maxAxisValue": 1},
+    ],
+    "calc_evans_desh": [
+        {"id": "axis_desh_pattern", "label": "Morfologia DESH", "system": "Radiológico", "unit": "pts", "baselineValue": 0, "maxAxisValue": 3},
+        {"id": "axis_desh_ventricle", "label": "Ventriculomegalia / Evans", "system": "Radiológico", "unit": "pts", "baselineValue": 0, "maxAxisValue": 3},
+        {"id": "axis_desh_ependymal", "label": "Dinâmica Liquórica / Transependimária", "system": "Hidrodinâmico", "unit": "pts", "baselineValue": 0, "maxAxisValue": 3},
+    ],
+    "calc_mrs": [
+        {"id": "axis_mrs_autonomy", "label": "Grau de Dependência / AVD", "system": "Funcional", "unit": "grau", "baselineValue": 0, "maxAxisValue": 6},
+        {"id": "axis_mrs_mobility", "label": "Mobilidade e Marcha", "system": "Motor", "unit": "grau", "baselineValue": 0, "maxAxisValue": 6},
+        {"id": "axis_mrs_instrumental", "label": "Independência Instrumental", "system": "Funcional", "unit": "grau", "baselineValue": 0, "maxAxisValue": 6},
+    ],
+    "calc_hoehn_yahr": [
+        {"id": "axis_hy_stage", "label": "Progressão Motora / H&Y", "system": "Motor", "unit": "estágio", "baselineValue": 0, "maxAxisValue": 5},
+        {"id": "axis_hy_balance", "label": "Reflexos Posturais / Equilíbrio", "system": "Postural", "unit": "estágio", "baselineValue": 0, "maxAxisValue": 5},
+        {"id": "axis_hy_autonomy", "label": "Independência Motora", "system": "Funcional", "unit": "estágio", "baselineValue": 0, "maxAxisValue": 5},
+    ],
+    "calc_edss": [
+        {"id": "axis_edss_disability", "label": "Incapacidade Global / EDSS", "system": "Neurológico", "unit": "pts", "baselineValue": 0.0, "maxAxisValue": 10.0},
+        {"id": "axis_edss_ambulation", "label": "Capacidade de Deambulação", "system": "Motor", "unit": "pts", "baselineValue": 0.0, "maxAxisValue": 10.0},
+        {"id": "axis_edss_fs", "label": "Sistemas Funcionais (FS)", "system": "Neurológico", "unit": "pts", "baselineValue": 0.0, "maxAxisValue": 10.0},
+    ],
+}
+
+
+GROUP_AXIS_REMAPS: dict = {
+    "grp_wtvp_cancer": "axis_wtvp_risk",
+    "grp_wtvp_paralysis": "axis_wtvp_risk",
+    "grp_wtvp_bedridden": "axis_wtvp_risk",
+    "grp_wtvp_history": "axis_wtvp_risk",
+    "grp_wtvp_collateral": "axis_wtvp_prob",
+    "grp_wtvp_alt_diag": "axis_wtvp_prob",
+    "grp_gen_hr": "axis_gen_hemo",
+    "grp_gen_age": "axis_gen_risk",
+    "grp_gen_prev": "axis_gen_risk",
+    "grp_gen_surg": "axis_gen_risk",
+    "grp_gen_canc": "axis_gen_risk",
+    "grp_perc_hr": "axis_perc_cardio",
+    "grp_perc_spo2": "axis_perc_cardio",
+    "grp_perc_hemopt": "axis_perc_cardio",
+    "grp_perc_leg": "axis_perc_thrombo",
+    "grp_perc_surg": "axis_perc_thrombo",
+    "grp_perc_prior": "axis_perc_thrombo",
+    "grp_perc_estrog": "axis_perc_thrombo",
+    "grp_pesi_hr": "axis_pesi_hemo",
+    "grp_pesi_sbp": "axis_pesi_hemo",
+    "grp_pesi_temp": "axis_pesi_hemo",
+    "grp_pesi_rr": "axis_pesi_resp",
+    "grp_pesi_spo2": "axis_pesi_resp",
+    "grp_pesi_mental": "axis_pesi_resp",
+    "grp_spesi_hr": "axis_spesi_hemo",
+    "grp_spesi_sbp": "axis_spesi_hemo",
+    "grp_spesi_spo2": "axis_spesi_resp",
+    "grp_cam_feat3": "axis_cam_vigil",
+    "grp_cam_feat4": "axis_cam_thought",
+    "grp_ran_calc": "axis_ran_metab",
+    "grp_ran_pao2": "axis_ran_metab",
+    "grp_ran_be": "axis_ran_metab",
+    "grp_ran_seq": "axis_ran_metab",
+    "grp_gpa_lesions": "axis_dsgpa_burden",
+    "grp_gpa_extracranial": "axis_dsgpa_burden",
+    "grp_periventricular_edema": "axis_desh_ependymal",
+}
+
+
+def enrich_and_normalize_calculator(calc: dict) -> None:
+    """Ensures every calculator has >= 3 radarAxes and 0.0 baseline radarNormalizedValue."""
+    calc_id = calc.get("id", "")
+    if calc_id in RADAR_AXES_ENRICHMENTS:
+        calc["radarAxes"] = RADAR_AXES_ENRICHMENTS[calc_id]
+    for group in calc.get("parameterGroups", []):
+        gid = group.get("id", "")
+        if gid in GROUP_AXIS_REMAPS:
+            group["radarAxisId"] = GROUP_AXIS_REMAPS[gid]
+        for opt in group.get("options", []):
+            if opt.get("isNormalBaseline") is True:
+                opt["radarNormalizedValue"] = 0.0

@@ -9,7 +9,7 @@ Block 03 Subarachnoid Hemorrhage & Vascular Neurosurgery Module:
 
 from calculators.common import NOREPINEPHRINE_PROTOCOL
 
-def get_hunt_hess():
+def get_hunt_hess() -> dict:
     return {
         "id": "calc_hunt_hess",
         "slug": "hunt-hess",
@@ -289,7 +289,7 @@ def get_hunt_hess():
         ]
     }
 
-def get_wfns():
+def get_wfns() -> dict:
     return {
         "id": "calc_wfns",
         "slug": "wfns",
@@ -488,7 +488,7 @@ def get_wfns():
         ]
     }
 
-def get_fisher_classic():
+def get_fisher_classic() -> dict:
     return {
         "id": "calc_fisher_classic",
         "slug": "fisher-classic",
@@ -676,7 +676,7 @@ def get_fisher_classic():
         ]
     }
 
-def get_fisher_modified():
+def get_fisher_modified() -> dict:
     return {
         "id": "calc_fisher_modified",
         "slug": "fisher-modified",
@@ -882,7 +882,7 @@ def get_fisher_modified():
         ]
     }
 
-def get_spetzler_martin():
+def get_spetzler_martin() -> dict:
     return {
         "id": "calc_spetzler_martin",
         "slug": "spetzler-martin",

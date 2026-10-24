@@ -7,7 +7,7 @@ Block 03 Neurotrauma Module:
 
 from calculators.common import NOREPINEPHRINE_PROTOCOL
 
-def get_rotterdam():
+def get_rotterdam() -> dict:
     return {
         "id": "calc_rotterdam",
         "slug": "rotterdam",
@@ -354,7 +354,7 @@ def get_rotterdam():
         ]
     }
 
-def get_marshall():
+def get_marshall() -> dict:
     return {
         "id": "calc_marshall",
         "slug": "marshall",
@@ -587,7 +587,7 @@ def get_marshall():
         ]
     }
 
-def get_asia_ais():
+def get_asia_ais() -> dict:
     return {
         "id": "calc_asia_ais",
         "slug": "asia-ais",

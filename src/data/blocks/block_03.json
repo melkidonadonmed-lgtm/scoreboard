@@ -162,7 +162,7 @@
               "label": "Hematoma Epidural Ausente",
               "pointValue": 1,
               "isNormalBaseline": true,
-              "radarNormalizedValue": 1.0,
+              "radarNormalizedValue": 0.0,
               "sortOrder": 2,
               "description": "Ausência de hematoma epidural (maior frequência de lesão axonal difusa e contusões intraparenquimatosas múltiplas)."
             }
@@ -2429,7 +2429,7 @@
               "label": "Grau 1: Assintomático ou cefaleia leve e discreta rigidez de nuca",
               "pointValue": 1,
               "isNormalBaseline": true,
-              "radarNormalizedValue": 0.1,
+              "radarNormalizedValue": 0.0,
               "sortOrder": 1,
               "description": "Paciente alerta, sem déficit, com cefaleia leve ou rigidez de nuca incipiente."
             },
@@ -2743,6 +2743,14 @@
           "unit": "grau",
           "baselineValue": 0,
           "maxAxisValue": 1
+        },
+        {
+          "id": "axis_wfns_prognosis",
+          "label": "Gravidade Neurovascular HSA",
+          "system": "Prognóstico",
+          "unit": "grau",
+          "baselineValue": 0,
+          "maxAxisValue": 1
         }
       ],
       "parameterGroups": [
@@ -3004,6 +3012,14 @@
           "unit": "grau",
           "baselineValue": 0,
           "maxAxisValue": 1
+        },
+        {
+          "id": "axis_fisher_cl_vasospasm",
+          "label": "Risco de Vasoespasmo / DCI",
+          "system": "Vascular",
+          "unit": "grau",
+          "baselineValue": 0,
+          "maxAxisValue": 1
         }
       ],
       "parameterGroups": [
@@ -3251,6 +3267,14 @@
           "id": "axis_fm_ivh",
           "label": "Hemorragia Intraventricular Bilateral",
           "system": "Imagem",
+          "unit": "grau",
+          "baselineValue": 0,
+          "maxAxisValue": 1
+        },
+        {
+          "id": "axis_fm_dci",
+          "label": "Risco de Isquemia Tardia (DCI)",
+          "system": "Vascular",
           "unit": "grau",
           "baselineValue": 0,
           "maxAxisValue": 1
@@ -3858,7 +3882,7 @@
               "label": "Pequeno (< 3 cm)",
               "pointValue": 1,
               "isNormalBaseline": true,
-              "radarNormalizedValue": 0.33,
+              "radarNormalizedValue": 0.0,
               "sortOrder": 1,
               "description": "Maior dimensão do nidus vascular < 3 cm."
             },
@@ -4435,7 +4459,7 @@
               "label": "Tipo III: Depósito Crônico Inativo de Hemossiderina",
               "pointValue": 3,
               "isNormalBaseline": true,
-              "radarNormalizedValue": 0.2,
+              "radarNormalizedValue": 0.0,
               "sortOrder": 3,
               "description": "T1 e T2 marcadamente hipointensos homogêneos. Lesão trombosada antiga cicatrizada, sem atividade hemorrágica recente."
             },
@@ -6029,7 +6053,7 @@
               "label": "Tipo III: Fratura com Extensão para o Corpo Esponjoso de C2 (1 pt)",
               "pointValue": 1,
               "isNormalBaseline": true,
-              "radarNormalizedValue": 0.2,
+              "radarNormalizedValue": 0.0,
               "sortOrder": 4,
               "description": "Traço que mergulha no osso esponjoso trabecular ricamente vascularizado do corpo de C2. Alta taxa de união consolidada (85-95%)."
             }
@@ -7565,6 +7589,14 @@
           "unit": "grau",
           "baselineValue": 0,
           "maxAxisValue": 4
+        },
+        {
+          "id": "axis_knosp_ica",
+          "label": "Envolvimento Carotídeo (ACI)",
+          "system": "Vascular",
+          "unit": "grau",
+          "baselineValue": 0,
+          "maxAxisValue": 4
         }
       ],
       "parameterGroups": [
@@ -7801,6 +7833,14 @@
           "unit": "grau",
           "baselineValue": 1,
           "maxAxisValue": 4
+        },
+        {
+          "id": "axis_koos_cranial",
+          "label": "Risco ao Nervo Facial / Coclear",
+          "system": "Funcional",
+          "unit": "grau",
+          "baselineValue": 1,
+          "maxAxisValue": 4
         }
       ],
       "parameterGroups": [
@@ -7821,7 +7861,7 @@
               "label": "Grau I (Samii T1): Puramente intrameatal",
               "pointValue": 1,
               "isNormalBaseline": true,
-              "radarNormalizedValue": 0.25,
+              "radarNormalizedValue": 0.0,
               "sortOrder": 1,
               "description": "Tumor estritamente confinado ao conduto auditivo interno (CAI); sem extensão cisternal para o ângulo pontocerebelar."
             },
@@ -8019,6 +8059,14 @@
           "unit": "pts",
           "baselineValue": 1,
           "maxAxisValue": 1
+        },
+        {
+          "id": "axis_dsgpa_burden",
+          "label": "Carga Tumoral Encefálica",
+          "system": "Radiológico",
+          "unit": "pts",
+          "baselineValue": 0,
+          "maxAxisValue": 1
         }
       ],
       "parameterGroups": [
@@ -8110,7 +8158,7 @@
           "slug": "numero-metastases",
           "inputType": "single_choice",
           "unit": "pts",
-          "radarAxisId": "axis_dsgpa_prognosis",
+          "radarAxisId": "axis_dsgpa_burden",
           "normalBaselineValue": 1,
           "maxAxisValue": 1,
           "sortOrder": 3,
@@ -8151,7 +8199,7 @@
           "slug": "metastases-extracranianas",
           "inputType": "single_choice",
           "unit": "pts",
-          "radarAxisId": "axis_dsgpa_prognosis",
+          "radarAxisId": "axis_dsgpa_burden",
           "normalBaselineValue": 1,
           "maxAxisValue": 1,
           "sortOrder": 4,
@@ -8306,6 +8354,22 @@
           "unit": "%",
           "baselineValue": 100,
           "maxAxisValue": 100
+        },
+        {
+          "id": "axis_kps_autonomy",
+          "label": "Autocuidado e Autonomia",
+          "system": "Funcional",
+          "unit": "%",
+          "baselineValue": 0,
+          "maxAxisValue": 1
+        },
+        {
+          "id": "axis_kps_tolerance",
+          "label": "Tolerância Terapêutica",
+          "system": "Oncológico",
+          "unit": "%",
+          "baselineValue": 0,
+          "maxAxisValue": 1
         }
       ],
       "parameterGroups": [
@@ -9077,6 +9141,14 @@
           "unit": "pts",
           "baselineValue": 0,
           "maxAxisValue": 3
+        },
+        {
+          "id": "axis_desh_ependymal",
+          "label": "Dinâmica Liquórica / Transependimária",
+          "system": "Hidrodinâmico",
+          "unit": "pts",
+          "baselineValue": 0,
+          "maxAxisValue": 3
         }
       ],
       "parameterGroups": [
@@ -9200,7 +9272,7 @@
           "slug": "edema-transependimario",
           "inputType": "single_choice",
           "unit": "pts",
-          "radarAxisId": "axis_desh_ventricle",
+          "radarAxisId": "axis_desh_ependymal",
           "normalBaselineValue": 0,
           "maxAxisValue": 2,
           "sortOrder": 4,
@@ -11740,6 +11812,22 @@
           "unit": "grau",
           "baselineValue": 0,
           "maxAxisValue": 6
+        },
+        {
+          "id": "axis_mrs_mobility",
+          "label": "Mobilidade e Marcha",
+          "system": "Motor",
+          "unit": "grau",
+          "baselineValue": 0,
+          "maxAxisValue": 6
+        },
+        {
+          "id": "axis_mrs_instrumental",
+          "label": "Independência Instrumental",
+          "system": "Funcional",
+          "unit": "grau",
+          "baselineValue": 0,
+          "maxAxisValue": 6
         }
       ],
       "parameterGroups": [
@@ -13231,6 +13319,22 @@
           "unit": "estágio",
           "baselineValue": 0,
           "maxAxisValue": 5
+        },
+        {
+          "id": "axis_hy_balance",
+          "label": "Reflexos Posturais / Equilíbrio",
+          "system": "Postural",
+          "unit": "estágio",
+          "baselineValue": 0,
+          "maxAxisValue": 5
+        },
+        {
+          "id": "axis_hy_autonomy",
+          "label": "Independência Motora",
+          "system": "Funcional",
+          "unit": "estágio",
+          "baselineValue": 0,
+          "maxAxisValue": 5
         }
       ],
       "parameterGroups": [
@@ -13463,6 +13567,22 @@
         {
           "id": "axis_edss_disability",
           "label": "Incapacidade Global / EDSS",
+          "system": "Neurológico",
+          "unit": "pts",
+          "baselineValue": 0.0,
+          "maxAxisValue": 10.0
+        },
+        {
+          "id": "axis_edss_ambulation",
+          "label": "Capacidade de Deambulação",
+          "system": "Motor",
+          "unit": "pts",
+          "baselineValue": 0.0,
+          "maxAxisValue": 10.0
+        },
+        {
+          "id": "axis_edss_fs",
+          "label": "Sistemas Funcionais (FS)",
           "system": "Neurológico",
           "unit": "pts",
           "baselineValue": 0.0,

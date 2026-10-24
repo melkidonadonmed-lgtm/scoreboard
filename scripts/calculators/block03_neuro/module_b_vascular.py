@@ -25,7 +25,7 @@ from calculators.block03_neuro.hsa_mav import (
 )
 
 
-def get_vasograde():
+def get_vasograde() -> dict:
     """Vasograde Risk Stratification Score for DCI in aSAH (de Oliveira Manoel et al., Stroke 2014)."""
     return {
         "id": "calc_vasograde",
@@ -190,7 +190,7 @@ def get_vasograde():
     }
 
 
-def get_lawton_young():
+def get_lawton_young() -> dict:
     """Supplementary Spetzler-Martin System / Lawton-Young (Lawton et al. 2010)."""
     return {
         "id": "calc_lawton_young",
@@ -376,7 +376,7 @@ def get_lawton_young():
     }
 
 
-def get_zabramski():
+def get_zabramski() -> dict:
     """Classificação de Zabramski para Malformações Cavernosas Cerebrais (Zabramski et al. 1994)."""
     return {
         "id": "calc_zabramski",
@@ -545,7 +545,7 @@ def get_zabramski():
     }
 
 
-def get_phases_score():
+def get_phases_score() -> dict:
     """PHASES Aneurysm Rupture Risk Score (Greving et al., Lancet Neurol 2014)."""
     return {
         "id": "calc_phases_score",
@@ -760,7 +760,7 @@ def get_phases_score():
     }
 
 
-def get_uiats():
+def get_uiats() -> dict:
     """Unruptured Intracranial Aneurysm Treatment Score (Etminan et al. 2015)."""
     return {
         "id": "calc_uiats",
@@ -919,7 +919,7 @@ def get_uiats():
     }
 
 
-def get_cognard_borden():
+def get_cognard_borden() -> dict:
     """Classificação Angiográfica de Cognard e Borden para FAVDs (Borden 1995; Cognard 1995)."""
     return {
         "id": "calc_cognard_borden",

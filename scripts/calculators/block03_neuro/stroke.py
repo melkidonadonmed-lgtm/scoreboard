@@ -8,7 +8,7 @@ Block 03 Stroke & Neurovascular Module:
 
 from calculators.common import NOREPINEPHRINE_PROTOCOL
 
-def get_nihss():
+def get_nihss() -> dict:
     return {
         "id": "calc_nihss",
         "slug": "nihss",
@@ -1004,7 +1004,7 @@ def get_nihss():
         ]
     }
 
-def get_aspects():
+def get_aspects() -> dict:
     return {
         "id": "calc_aspects",
         "slug": "aspects",
@@ -1462,7 +1462,7 @@ def get_aspects():
         ]
     }
 
-def get_ich_score():
+def get_ich_score() -> dict:
     return {
         "id": "calc_ich_score",
         "slug": "ich-score",
@@ -1875,7 +1875,7 @@ def get_ich_score():
         ]
     }
 
-def get_abcd2():
+def get_abcd2() -> dict:
     return {
         "id": "calc_abcd2",
         "slug": "abcd2",

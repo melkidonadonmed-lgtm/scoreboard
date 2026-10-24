@@ -12,7 +12,7 @@ Block 03: Module C - Cirurgia de Coluna & Medula
 from calculators.common import NOREPINEPHRINE_PROTOCOL
 
 
-def get_tlics():
+def get_tlics() -> dict:
     """Thoracolumbar Injury Classification and Severity Score (Vaccaro et al. 2005)."""
     return {
         "id": "calc_tlics",
@@ -190,7 +190,7 @@ def get_tlics():
     }
 
 
-def get_slics():
+def get_slics() -> dict:
     """Subaxial Cervical Spine Injury Classification System (Vaccaro et al. 2007)."""
     return {
         "id": "calc_slics",
@@ -377,7 +377,7 @@ def get_slics():
     }
 
 
-def get_anderson_dalonzo():
+def get_anderson_dalonzo() -> dict:
     """Classificação de Fraturas de Odontoide de Anderson e D'Alonzo (1974) com Subtipos de Grauer."""
     return {
         "id": "calc_anderson_dalonzo",
@@ -548,7 +548,7 @@ def get_anderson_dalonzo():
     }
 
 
-def get_sins():
+def get_sins() -> dict:
     """Spine Instability Neoplastic Score (Fisher et al., Spine Oncology Study Group 2010)."""
     return {
         "id": "calc_sins",
@@ -768,7 +768,7 @@ def get_sins():
     }
 
 
-def get_noms_bilsky():
+def get_noms_bilsky() -> dict:
     """NOMS Decision Framework for Spine Metastases & Bilsky ESCC Scale (Bilsky et al. 2013)."""
     return {
         "id": "calc_noms_bilsky",
@@ -979,7 +979,7 @@ def get_noms_bilsky():
     }
 
 
-def get_sagittal_balance():
+def get_sagittal_balance() -> dict:
     """Calculadora de Balanço Sagital, Parâmetros Espinopélvicos e Classificação SRS-Schwab."""
     return {
         "id": "calc_sagittal_balance",
@@ -1218,7 +1218,7 @@ def get_sagittal_balance():
     }
 
 
-def get_mjoa_nurick():
+def get_mjoa_nurick() -> dict:
     """Escala mJOA e Classificação de Nurick para Mielopatia Cervical Espondilótica."""
     return {
         "id": "calc_mjoa_nurick",
