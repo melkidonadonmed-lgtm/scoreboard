@@ -16,15 +16,12 @@ import {
   ChevronRight, 
   Menu, 
   X, 
-  Sun, 
-  Moon, 
   Info, 
   ShieldCheck, 
   CornerDownRight, 
   Layout, 
   MousePointerClick, 
-  Terminal, 
-  Maximize2 
+  Terminal
 } from 'lucide-react';
 
 const GLOSSARY_ITEMS = [
@@ -119,7 +116,7 @@ export default function App() {
   // Interactive Playground State
   const [selectedShadow, setSelectedShadow] = useState('shadow-xl');
   const [activeNavStyle, setActiveNavStyle] = useState('tabs');
-  const [copiedId, setCopiedId] = useState(null);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
 
   // Generator Config State
   const [genAppType, setGenAppType] = useState('Dashboard Analítico');
@@ -134,13 +131,13 @@ export default function App() {
   ]);
   const [customFeature, setCustomFeature] = useState('');
 
-  const copyToClipboard = (text, id) => {
+  const copyToClipboard = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
     setCopiedId(id);
     setTimeout(() => setCopiedId(null), 2500);
   };
 
-  const toggleFeature = (feat) => {
+  const toggleFeature = (feat: string) => {
     if (genFeatures.includes(feat)) {
       setGenFeatures(genFeatures.filter(f => f !== feat));
     } else {
@@ -148,7 +145,7 @@ export default function App() {
     }
   };
 
-  const addCustomFeature = (e) => {
+  const addCustomFeature = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (customFeature.trim() && !genFeatures.includes(customFeature.trim())) {
       setGenFeatures([...genFeatures, customFeature.trim()]);

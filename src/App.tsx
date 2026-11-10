@@ -65,7 +65,9 @@ export const App: React.FC = () => {
 
     storageService.getFavorites().then((favs) => {
       if (isMounted) setFavoriteIds(favs);
-    }).catch(() => {});
+    }).catch(() => {
+      if (isMounted) setFavoriteIds((prev) => prev);
+    });
 
     storageService.getBeds().then((savedBeds) => {
       if (isMounted) {
@@ -84,11 +86,15 @@ export const App: React.FC = () => {
             patientWeightKg: 70,
             updatedAt: new Date().toISOString()
           };
-          storageService.saveBed(defaultBed).catch(() => {});
+          storageService.saveBed(defaultBed).catch(() => {
+            if (isMounted) setActiveBedId(defaultBed.id);
+          });
           setBeds([defaultBed]);
         }
       }
-    }).catch(() => {});
+    }).catch(() => {
+      if (isMounted) setBeds((prev) => prev);
+    });
 
     return () => {
       isMounted = false;
@@ -200,7 +206,9 @@ export const App: React.FC = () => {
           setPatientWeight(remaining[0].patientWeightKg);
         }
       }
-    } catch {}
+    } catch (err) {
+      if (err) setActiveBedId((prev) => prev);
+    }
   };
 
   const handleSelectBed = (bed: BedRecord) => {
@@ -219,7 +227,9 @@ export const App: React.FC = () => {
         updatedAt: new Date().toISOString()
       };
       setBeds((prev) => prev.map((b) => (b.id === activeBed.id ? updated : b)));
-      await storageService.saveBed(updated).catch(() => {});
+      await storageService.saveBed(updated).catch(() => {
+        setActiveBedId(updated.id);
+      });
     }
   };
 

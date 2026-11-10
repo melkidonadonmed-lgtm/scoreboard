@@ -1,4 +1,6 @@
 import { describe, it, expect } from 'vitest';
+import React from 'react';
+import { renderToString } from 'react-dom/server';
 import fs from 'fs';
 import path from 'path';
 import {
@@ -12,6 +14,17 @@ import {
   InfusionProtocolSchema,
   SolutionRecipeSchema
 } from '@/types/infusion';
+import {
+  parseCSSColor,
+  blendAlpha,
+  calculateContrastRatio,
+  auditContrast,
+  auditGradientContrast
+} from '../../docs/02_design_system_ui/componente_tokens_frontcraft';
+import {
+  auditContrast as rawAuditContrast
+} from '../../docs/_bruto_original/gemini-code-1790054955496';
+import FrontEndVisualGuide from '../../docs/02_design_system_ui/guia_visual_de_frontend_gerador_de_prompts';
 
 import rawManifestData from '@/data/manifest.json';
 import rawBlock01Data from '@/data/blocks/block_01.json';
@@ -457,6 +470,38 @@ describe('Milestone 2 & Full Catalog (9 Blocks / 114 Tools) Contract & Schema Ve
       const meld = parsedBlock07.calculators.find((c) => c.id === 'calc_meld_na');
       expect(meld).toBeDefined();
       expect(meld?.name).toContain('MELD');
+    });
+  });
+
+  describe('FrontCraft Design System & Docs Artifact Parity Contract', () => {
+    it('should validate WCAG 2.1 contrast tokens, alpha blending, gradient stops and archive parity', () => {
+      const lightContrast = auditContrast('#0f172a', '#f8fafc');
+      expect(lightContrast.normalText).toBe('AAA');
+      expect(lightContrast.ratio).toBeGreaterThanOrEqual(15);
+
+      const darkContrast = auditContrast('rgba(241, 245, 249, 0.9)', '#090d16');
+      expect(darkContrast.normalText).toBe('AAA');
+      expect(darkContrast.notes.length).toBeGreaterThan(0);
+
+      const rawDarkContrast = rawAuditContrast('rgba(241, 245, 249, 0.9)', '#090d16');
+      expect(rawDarkContrast).toEqual(darkContrast);
+
+      const gradResult = auditGradientContrast('#ffffff', ['#0f172a', '#1e293b']);
+      expect(gradResult.overallCompliance).toBe('AAA');
+      expect(gradResult.stopResults).toHaveLength(2);
+      expect(calculateContrastRatio(parseCSSColor('#fff'), parseCSSColor('#000'))).toBe(21);
+
+      const guideHtml = renderToString(React.createElement(FrontEndVisualGuide));
+      expect(guideHtml).toContain('FrontCraft Master');
+    });
+
+    it('should reject invalid CSS color syntax, non-opaque backgrounds and empty gradients (adversarial)', () => {
+      expect(() => parseCSSColor('#12345')).toThrow(/Formato hexadecimal inválido/);
+      expect(() => parseCSSColor('hsl(200, 50%, 50%)')).toThrow(/Sintaxe de cor não suportada/);
+      expect(() =>
+        blendAlpha({ r: 255, g: 255, b: 255, a: 0.8 }, { r: 0, g: 0, b: 0, a: 0.5 })
+      ).toThrow(/precisa ser opaca/);
+      expect(() => auditGradientContrast('#ffffff', [])).toThrow(/ao menos uma cor de fundo/);
     });
   });
 });

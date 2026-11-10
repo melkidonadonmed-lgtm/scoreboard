@@ -58,7 +58,9 @@ export const AzScoreList: React.FC<AzScoreListProps> = ({
         .then((favs) => {
           if (isMounted) setFavoriteIds(new Set(favs));
         })
-        .catch(() => {});
+        .catch(() => {
+          if (isMounted) setFavoriteIds((prev) => prev);
+        });
     } else {
       setFavoriteIds(new Set(initialFavorites));
     }

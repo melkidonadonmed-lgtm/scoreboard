@@ -36,7 +36,9 @@ export const QuickFavoritesCarousel: React.FC<QuickFavoritesCarouselProps> = ({
         .then((favs) => {
           if (isMounted) setFavoriteIds(favs);
         })
-        .catch(() => {});
+        .catch(() => {
+          if (isMounted) setFavoriteIds((prev) => prev);
+        });
       return () => {
         isMounted = false;
       };

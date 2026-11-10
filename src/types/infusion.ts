@@ -10,7 +10,7 @@ export const SolutionRecipeSchema = z.object({
   concentrationMcgMl: z.number().positive(),
   mandatoryVehicleNotice: z.string().optional(),
   indication: z.string().optional()
-});
+}).strict();
 
 export type SolutionRecipe = z.infer<typeof SolutionRecipeSchema>;
 
@@ -34,7 +34,7 @@ export const InfusionProtocolSchema = z.object({
   nursingPrecautions: z.string(),
   titrationAdvice: z.string().optional(),
   weaningCriteria: z.string().optional()
-});
+}).strict();
 
 export type InfusionProtocol = z.infer<typeof InfusionProtocolSchema>;
 
@@ -47,7 +47,7 @@ export const InfusionCalculationParamsSchema = z.object({
   doseValue: z.number().nonnegative(),
   concentrationMcgPerMl: z.number().positive(),
   isFixedDose: z.boolean().optional()
-});
+}).strict();
 
 export type InfusionCalculationParams = z.infer<typeof InfusionCalculationParamsSchema>;
 
@@ -61,7 +61,7 @@ export const InfusionCalculationResultSchema = z.object({
   safetyAlerts: z.array(z.string()),
   formattedDose: z.string(),
   concentrationFormatted: z.string().optional()
-});
+}).strict();
 
 export type InfusionCalculationResult = z.infer<typeof InfusionCalculationResultSchema>;
 
@@ -73,6 +73,6 @@ export const TitrationStepSchema = z.object({
   rateMlPerHour: z.number(),
   label: z.string(),
   isWarning: z.boolean().optional()
-});
+}).strict();
 
 export type TitrationStep = z.infer<typeof TitrationStepSchema>;

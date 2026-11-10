@@ -1,37 +1,71 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.js";
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-canvas-light: oklch(0.984 0.003 247.858);
+  --color-canvas-dark: oklch(0.155 0.028 261.692);
+  --color-surface-light: oklch(1 0 0);
+  --color-surface-dark: oklch(0.222 0.038 262.11);
+  --color-surface-raised-light: oklch(0.968 0.007 247.896);
+  --color-surface-raised-dark: oklch(0.279 0.041 260.031);
+  --color-subtle-light: oklch(0.929 0.013 255.508);
+  --color-subtle-dark: oklch(0.279 0.041 260.031);
+  --color-clinical-stable: oklch(0.696 0.17 162.48);
+  --color-clinical-alert: oklch(0.769 0.188 70.08);
+  --color-clinical-critical: oklch(0.637 0.237 25.331);
+  --color-clinical-info: oklch(0.546 0.245 262.881);
+  --shadow-card: var(--shadow-elevation-1);
+  --shadow-card-hover: var(--shadow-elevation-2);
+  --shadow-card-dark: var(--shadow-elevation-2);
+  --shadow-bevel: inset 0 1px 1px oklch(1 0 0 / 0.6), 0 1px 2px 0 oklch(0.208 0.042 265.755 / 0.04);
+  --shadow-bevel-dark: inset 0 1px 1px oklch(1 0 0 / 0.18);
+  --shadow-glow-brand: 0 0 24px -3px oklch(0.685 0.169 237.323 / 0.25);
+}
 
 :root {
-  --color-canvas: #f8fafc;
-  --color-surface: #ffffff;
-  --color-surface-raised: #f1f5f9;
-  --color-border-subtle: #e2e8f0;
-  --color-text-primary: #0f172a;
-  --color-text-secondary: #64748b;
+  color-scheme: light dark;
+  --color-canvas: light-dark(oklch(0.984 0.003 247.858), oklch(0.155 0.028 261.692));
+  --color-surface: light-dark(oklch(1 0 0), oklch(0.208 0.042 265.755));
+  --color-surface-raised: light-dark(oklch(0.968 0.007 247.896), oklch(0.279 0.041 260.031));
+  --color-border-subtle: light-dark(oklch(0.929 0.013 255.508), oklch(0.279 0.041 260.031));
+  --color-text-primary: light-dark(oklch(0.208 0.042 265.755), oklch(0.984 0.003 247.858));
+  --color-text-secondary: light-dark(oklch(0.554 0.046 257.417), oklch(0.704 0.04 256.788));
   --bg-canvas: var(--color-canvas);
   --bg-surface: var(--color-surface);
+  --surface-canvas: var(--color-canvas);
+  --surface-card: var(--color-surface);
+  --surface-sunken: light-dark(oklch(0.955 0.006 255), oklch(0.13 0.025 261));
   --ink-primary: var(--color-text-primary);
   --ink-secondary: var(--color-text-secondary);
   --space-2: 0.5rem;
   --space-4: 1rem;
   --font-fluid-title: clamp(0.875rem, 2vw, 1.125rem);
-  --accent-primary: #2563eb;
+  --accent-primary: oklch(0.546 0.245 262.881);
   --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
-  --shadow-card: 0 1px 2px 0 rgba(15, 23, 42, 0.04), 0 2px 8px -2px rgba(15, 23, 42, 0.04);
-  --shadow-bevel: inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 1px 2px 0 rgba(15, 23, 42, 0.03);
+  --shadow-inset: inset 0 2px 4px 0 oklch(0.208 0.042 265.755 / 0.06), inset 0 1px 0 0 oklch(1 0 0 / 0.7);
+  --shadow-elevation-1: 0 1px 2px 0 oklch(0.208 0.042 265.755 / 0.04), 0 2px 8px -2px oklch(0.208 0.042 265.755 / 0.04), inset 0 1px 0 0 oklch(1 0 0 / 0.7);
+  --shadow-elevation-2: 0 4px 6px -1px oklch(0.208 0.042 265.755 / 0.08), 0 12px 24px -4px oklch(0.208 0.042 265.755 / 0.08), inset 0 1px 0 0 oklch(1 0 0 / 0.85);
+  --shadow-elevation-3: 0 8px 16px -2px oklch(0.208 0.042 265.755 / 0.10), 0 24px 42px -6px oklch(0.208 0.042 265.755 / 0.14), inset 0 1px 0 0 oklch(1 0 0 / 0.9);
+  --shadow-card: var(--shadow-elevation-1);
+  --shadow-bevel: inset 0 1px 0 oklch(1 0 0 / 0.7), 0 1px 2px 0 oklch(0.208 0.042 265.755 / 0.03);
 }
 
 .dark {
-  --color-canvas: #090d16;
-  --color-surface: #0f172a;
-  --color-surface-raised: #1e293b;
-  --color-border-subtle: #1e293b;
-  --color-text-primary: #f8fafc;
-  --color-text-secondary: #94a3b8;
-  --accent-primary: #3b82f6;
-  --shadow-card: 0 2px 12px -2px rgba(0, 0, 0, 0.45), 0 1px 2px 0 rgba(0, 0, 0, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.06);
-  --shadow-bevel: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  color-scheme: dark;
+  --color-canvas: oklch(0.155 0.028 261.692);
+  --color-surface: oklch(0.208 0.042 265.755);
+  --color-surface-raised: oklch(0.279 0.041 260.031);
+  --color-border-subtle: oklch(0.279 0.041 260.031);
+  --color-text-primary: oklch(0.984 0.003 247.858);
+  --color-text-secondary: oklch(0.704 0.04 256.788);
+  --accent-primary: oklch(0.623 0.214 259.815);
+  --shadow-inset: inset 0 2px 4px 0 oklch(0 0 0 / 0.45), inset 0 1px 0 0 oklch(1 0 0 / 0.06);
+  --shadow-elevation-1: 0 2px 12px -2px oklch(0 0 0 / 0.45), 0 1px 2px 0 oklch(0 0 0 / 0.25), inset 0 1px 0 0 oklch(1 0 0 / 0.06);
+  --shadow-elevation-2: 0 4px 20px -2px oklch(0 0 0 / 0.55), 0 2px 4px 0 oklch(0 0 0 / 0.30), inset 0 1px 0 0 oklch(1 0 0 / 0.10);
+  --shadow-elevation-3: 0 8px 32px -4px oklch(0 0 0 / 0.65), 0 4px 8px -2px oklch(0 0 0 / 0.40), inset 0 1px 0 0 oklch(1 0 0 / 0.12);
+  --shadow-card: var(--shadow-elevation-1);
+  --shadow-bevel: inset 0 1px 0 oklch(1 0 0 / 0.12);
 }
 
 @layer base {

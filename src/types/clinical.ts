@@ -16,7 +16,7 @@ export const RadarAxisSchema = z.object({
   unit: z.string().optional(),
   baselineValue: z.number().default(0), // Normal homeostatic baseline = 0
   maxAxisValue: z.number().default(1)   // Maximum deviation = 1
-});
+}).strict();
 
 export type RadarAxis = z.infer<typeof RadarAxisSchema>;
 export const RadarAxisDefinitionSchema = RadarAxisSchema;
@@ -34,7 +34,7 @@ export const ParameterOptionSchema = z.object({
   radarNormalizedValue: z.number().min(0).max(1), // Mapped to radar (0 = normal, 1 = critical deviation)
   sortOrder: z.number().int(),
   description: z.string().optional()
-});
+}).strict();
 
 export type ParameterOption = z.infer<typeof ParameterOptionSchema>;
 
@@ -53,7 +53,7 @@ export const ParameterGroupSchema = z.object({
   placeholder: z.string().optional(),
   minValue: z.number().optional(),
   maxValue: z.number().optional()
-});
+}).strict();
 
 export type ParameterGroup = z.infer<typeof ParameterGroupSchema>;
 
@@ -67,11 +67,12 @@ export const PharmacologicalActionSchema = z.object({
   dosage: z.string(),
   route: z.string(),
   frequency: z.string(),
+  indication: z.string().optional(),
   dilutionInstructions: z.string().optional(),
   renalAdjustment: z.string().optional(),
   contraindications: z.string().optional(),
   infusionProtocol: InfusionProtocolSchema.optional()
-});
+}).strict();
 
 export type PharmacologicalAction = z.infer<typeof PharmacologicalActionSchema>;
 
@@ -84,7 +85,7 @@ export const NonPharmacologicalActionSchema = z.object({
   ventilatorySupport: z.string().optional(),
   vascularAccess: z.string().optional(),
   laboratoryPanel: z.string().optional()
-});
+}).strict();
 
 export type NonPharmacologicalAction = z.infer<typeof NonPharmacologicalActionSchema>;
 
@@ -99,7 +100,7 @@ export const RiskTierSchema = z.object({
   pharmacologicalActions: z.array(PharmacologicalActionSchema),
   nonPharmacologicalActions: z.array(NonPharmacologicalActionSchema),
   infusionProtocol: InfusionProtocolSchema.optional()
-});
+}).strict();
 
 export type RiskTier = z.infer<typeof RiskTierSchema>;
 
@@ -131,12 +132,14 @@ export const CalculatorSchema = z.object({
   ssc2021Warning: z.boolean().optional(),
   clinicalWarning: z.string().optional(),
   badge: z.string().optional(),
+  blockId: z.string().optional(),
+  blockFile: z.string().optional(),
   radarAxes: z.array(RadarAxisSchema),
   parameterGroups: z.array(ParameterGroupSchema),
   riskTiers: z.array(RiskTierSchema),
   pharmacologicalActions: z.array(PharmacologicalActionSchema).optional(),
   nonPharmacologicalActions: z.array(NonPharmacologicalActionSchema).optional()
-});
+}).strict();
 
 export type Calculator = z.infer<typeof CalculatorSchema>;
 export type CalculatorDefinition = Calculator;
@@ -150,7 +153,7 @@ export const BlockDataSchema = z.object({
   categorySlug: z.string().optional(),
   description: z.string().optional(),
   calculators: z.array(CalculatorSchema)
-});
+}).strict();
 
 export type BlockData = z.infer<typeof BlockDataSchema>;
 
@@ -179,7 +182,7 @@ export const ManifestItemSchema = z.object({
   badge: z.string().optional(),
   hasInfusionProtocol: z.boolean().default(false),
   starredDefault: z.boolean().optional()
-});
+}).strict();
 
 export const ManifestSchema = z.array(ManifestItemSchema);
 export type ManifestItem = z.infer<typeof ManifestItemSchema>;
@@ -199,7 +202,7 @@ export const CalculationResultSchema = z.object({
   clinicalWarning: z.string().optional(),
   sscWarning: z.string().optional(),
   warnings: z.array(z.string()).optional()
-});
+}).strict();
 
 export type CalculationResult = z.infer<typeof CalculationResultSchema>;
 

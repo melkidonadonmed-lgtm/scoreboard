@@ -207,7 +207,7 @@ export function auditGradientContrast(foregroundCSS: string, gradientStopsCSS: s
 
   let minRatio = Infinity;
   let worstStopColor = gradientStopsCSS[0];
-  const stopResults = [];
+  const stopResults: GradientAuditResult['stopResults'] = [];
 
   for (const stop of gradientStopsCSS) {
     const audit = auditContrast(foregroundCSS, stop);
