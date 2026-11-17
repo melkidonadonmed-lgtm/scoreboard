@@ -17,6 +17,7 @@ O `scoreboard` é um Progressive Web App (PWA) de apoio à decisão clínica (**
 ---
 
 ## 2. Estado Operacional e Portões de Qualidade (Novembro/2026)
+- **Auditoria de Segurança e Atualização Vite 6.4 / Vitest 5.1 / Zod 4.6 (2026-11-16):** Atualizados `vite` (`^6.4.4`), `vitest` (`^5.1.0`), `zod` (`^4.6.7`), `typescript` (`~5.8.2`), `@tailwindcss/vite` e `tailwindcss` (`^4.3.5`), `@types/node` (`^22.14.0`), `vite.config.ts` (`vitest/config`) e `overrides` de segurança, zerando as 14 vulnerabilidades do `npm audit` (`found 0 vulnerabilities`) com `npm run typecheck` e `npm test` (`14/14` suítes, `423/423` testes `PASS`).
 - **Stack Frontend Atualizada (`TASK-03`)**: React 19 (`^19.0.1` + `@types/react ^19.0.0`) + Tailwind CSS v4 (`^4.1.14` + `@tailwindcss/vite` + `@theme` + tokens `OKLCH` + `light-dark()` + `--shadow-elevation-1..3`).
 - Diretrizes médicas atualizadas (SSC 2021 para Sepse/qSOFA/SOFA, GOLD ABE 2024/2025 para DPOC, ABA 2 mL/kg/% SCQ para queimaduras, CKD-EPI 2021 sem raça, MELD-Na / MELD 3.0 e 39 ferramentas neurocirúrgicas/neurocríticas no Bloco 03).
 - **Vitest**: `14/14` suítes aprovadas (`423/423` testes `PASS`, schemas Zod `.strict()` alinhados em `src/types/clinical.ts` e contrato + casos adversariais para o motor WCAG 2.1 `componente_tokens_frontcraft.ts`).
