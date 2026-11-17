@@ -7,6 +7,12 @@
 - **State Triad:** [`.context/context.md`](file:///C:/Users/melki/dev/repos/scoreboard/.context/context.md) | [`.context/spec.md`](file:///C:/Users/melki/dev/repos/scoreboard/.context/spec.md)
 - **Zero-Monolith Lazy Blocks:** Organize the **98 clinical scores** across 9 lazy-loaded JSON blocks (`src/data/blocks/block_01.json` through `block_09.json`) backed by a lightweight search manifest (`~30KB`, `<100ms` mobile boot).
 - **Pure Calculation Engines:** Keep `calculationEngine.ts`, `infusionEngine.ts`, `radarEngine.ts`, and `pepExportEngine.ts` in `src/engines/` as pure UI-independent TypeScript functions with 100% Vitest unit test coverage.
+- **Commands (`Command-First`):**
+  ```powershell
+  npm run typecheck
+  npm test
+  npm run build
+  ```
 
 ## 1. Non-Negotiable Clinical & Privacy Invariants
 
